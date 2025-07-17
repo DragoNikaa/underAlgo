@@ -1,67 +1,24 @@
 {% extends "index.html" %}
-
+{% load static %}
+{% block styles %}
+<link rel="stylesheet" href="{% static 'algorithms/styles/visualization.css' %}">
+{% endblock styles %}
 {% block content %}
-
-<style>
-    #visualization {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-    }
-</style>
-
 <h1>{{ name }}</h1>
-
 <div id="visualization">
-    <div>
-        <div id="kwargs"></div>
-        <div id="variables"></div>
-        <div id="result"></div>
-        <button id="step-button">start</button>
-    </div>
-    <div id="lines">
-        {% for line in code %}
-        <pre id="line_{{ forloop.counter }}">{{ forloop.counter }}&#9;{{ line }}</pre>
-        {% endfor %}
-    </div>
+	<div>
+		<div id="kwargs"></div>
+		<div id="variables"></div>
+		<div id="result"></div>
+		<button id="step-button">start</button>
+	</div>
+	<div id="lines">
+		{% for line in code %}
+		<pre id="line_{{ forloop.counter }}">{{ forloop.counter }}&#9;{{ line }}</pre>
+		{% endfor %}
+	</div>
 </div>
-
-<script>
-    document.getElementById("step-button").addEventListener("click", function () {
-        fetch(window.location.href, {
-                headers: {
-                    "X-Requested-With": "XMLHttpRequest",
-                }
-            })
-            .then(response => response.json())
-            .then(data => {
-                const kwargsContainer = document.getElementById("kwargs");
-                kwargsContainer.innerHTML = "";
-                for (const [name, value] of Object.entries(data.kwargs)) {
-                    const child = document.createElement("div");
-                    child.textContent = `${name} = ${value}`
-                    kwargsContainer.appendChild(child);
-                }
-                const variablesContainer = document.getElementById("variables");
-                variablesContainer.innerHTML = "";
-                for (const [name, value] of Object.entries(data.step.variables)) {
-                    const child = document.createElement("div");
-                    child.textContent = `${name} = ${value}`
-                    variablesContainer.appendChild(child);
-                }
-                if (data.step.result) {
-                    document.getElementById("result").textContent = `result = ${data.step.result}`;
-                    document.getElementById("step-button").textContent = "restart";
-                } else {
-                    document.getElementById("result").textContent = "";
-                    document.getElementById("step-button").textContent = "next";
-                }
-                const lines = document.getElementById("lines").querySelectorAll("*");
-                lines.forEach(line => {
-                    line.style.background = "none";
-                });
-                document.getElementById(`line_${data.step.line}`).style.background = "yellow";
-            });
-    });
-</script>
-
 {% endblock content %}
+{% block scripts %}
+<script src="{% static 'algorithms/scripts/visualization.js' %}"></script>
+{% endblock scripts %}

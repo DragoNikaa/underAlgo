@@ -1,0 +1,14 @@
+nav h1,
+nav ul,
+nav li {
+	display: inline;
+}
+
+nav a {
+	text-decoration: none;
+	color: inherit;
+}
+
+nav ul {
+	list-style: none;
+}

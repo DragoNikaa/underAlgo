@@ -30,26 +30,26 @@ class VisualizationView(View):
         return request.headers.get("X-Requested-With") == "XMLHttpRequest"
 
     def _handle_next_algorithm_step(self, request: HttpRequest, algorithm_name: str) -> HttpResponse:
-        kwargs, steps = self._get_algorithm_kwargs_and_steps(request, algorithm_name)
+        algorithm_input, steps = self._get_algorithm_input_and_steps(request, algorithm_name)
         next_step = steps.pop(0)
-        self._update_algorithm_session(request, algorithm_name, kwargs, steps)
-        return JsonResponse({"kwargs": kwargs, "step": next_step})
+        self._update_algorithm_session(request, algorithm_name, algorithm_input, steps)
+        return JsonResponse({"input": algorithm_input, "step": next_step})
 
     @staticmethod
-    def _get_algorithm_kwargs_and_steps(request: HttpRequest, algorithm_name: str) -> tuple[
+    def _get_algorithm_input_and_steps(request: HttpRequest, algorithm_name: str) -> tuple[
         dict[str, Any], list[dict[str, Any]]]:
         try:
             algorithm_data = request.session[algorithm_name]
-            kwargs, steps = algorithm_data["kwargs"], algorithm_data["steps"]
+            algorithm_input, steps = algorithm_data["input"], algorithm_data["steps"]
         except KeyError:
-            kwargs = {"numbers": [-2, 1, 3, 5, 6, 8, 13, 14], "target": 1}
-            steps = algorithms_steps.BinarySearch(**kwargs).get_steps()
-        return kwargs, steps
+            algorithm_input = {"numbers": [-2, 1, 3, 5, 6, 8, 13, 14], "target": 1}
+            steps = algorithms_steps.BinarySearch(**algorithm_input).get_steps()
+        return algorithm_input, steps
 
-    def _update_algorithm_session(self, request: HttpRequest, algorithm_name: str, kwargs: dict[str, Any],
+    def _update_algorithm_session(self, request: HttpRequest, algorithm_name: str, algorithm_input: dict[str, Any],
                                   steps: list[dict[str, Any]]) -> None:
         if steps:
-            request.session[algorithm_name] = {"kwargs": kwargs, "steps": steps}
+            request.session[algorithm_name] = {"input": algorithm_input, "steps": steps}
         else:
             self._delete_algorithm_session(request, algorithm_name)
 

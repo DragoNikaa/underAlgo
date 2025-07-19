@@ -9,7 +9,7 @@ document.getElementById("step-button").addEventListener("click", function () {
 			updateKeyValuePairs("kwargs", data.kwargs);
 			updateKeyValuePairs("variables", data.step.variables);
 			updateResultAndButton(data.step.result);
-			updateHighlightedLine(data.step.line);
+			updateActiveLine(data.step.line);
 		});
 });
 
@@ -42,15 +42,15 @@ function updateResultAndButton(result) {
 	}
 }
 
-function updateHighlightedLine(lineNumber) {
-	clearHighlightedLines();
-	const targetLine = document.getElementById(`line_${lineNumber}`);
-	targetLine.style.background = "yellow";
+function updateActiveLine(lineNumber) {
+	removeActiveLine();
+	const line = document.getElementById(`line_${lineNumber}`);
+	line.classList.add("active-line");
 }
 
-function clearHighlightedLines() {
-	const lines = document.getElementById("lines").querySelectorAll("*");
-	lines.forEach(line => {
-		line.style.background = "none";
-	});
+function removeActiveLine() {
+	const activeLine = document.querySelector("#lines .active-line");
+	if (activeLine) {
+		activeLine.classList.remove("active-line");
+	}
 }

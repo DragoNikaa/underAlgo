@@ -2,3 +2,72 @@
 	display: grid;
 	grid-template-columns: 1fr 1fr;
 }
+
+pre {
+	margin: 0;
+}
+
+#lines {
+	font-size: 1rem;
+	border: 1px solid var(--line-number-color);
+}
+
+.line {
+	display: flex;
+}
+
+.line:first-child * {
+	padding-top: 0.5em;
+}
+
+.line:last-child * {
+	padding-bottom: 0.5em;
+}
+
+.line-number {
+	width: 1em;
+	padding: 0.15em 0.8em;
+	text-align: right;
+	border-right: 1px solid var(--line-number-color);
+}
+
+.line-number * {
+	color: var(--line-number-color) !important;
+}
+
+.line-code {
+	flex: 1;
+	padding: 0.15em 0.6em;
+}
+
+.hljs {
+	color: var(--code-color);
+	background-color: var(--code-background-color);
+}
+
+.hljs-keyword {
+	color: var(--keyword-color);
+}
+
+.hljs-title {
+	color: var(--title-color);
+}
+
+.hljs-params {
+	color: var(--code-color);
+}
+
+.hljs-built_in {
+	color: var(--built-in-color);
+}
+
+.hljs-number {
+	color: var(--number-color);
+}
+
+.active-line * {
+	font-weight: bold;
+	color: var(--code-background-color) !important;
+	background-color: var(--title-color);
+	border-color: var(--code-background-color);
+}

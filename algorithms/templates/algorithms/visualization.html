@@ -14,11 +14,16 @@
 	</div>
 	<div id="lines">
 		{% for line in code %}
-		<pre id="line_{{ forloop.counter }}">{{ forloop.counter }}&#9;{{ line }}</pre>
+		<pre id="line_{{ forloop.counter }}" class="line">
+			<code class="language-python line-number">{{ forloop.counter }}</code>
+			<code class="language-python line-code">{{ line }}</code>
+		</pre>
 		{% endfor %}
 	</div>
 </div>
 {% endblock content %}
 {% block scripts %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
+<script>hljs.highlightAll();</script>
 <script src="{% static 'algorithms/scripts/visualization.js' %}"></script>
 {% endblock scripts %}

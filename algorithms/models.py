@@ -21,7 +21,7 @@ class Category(models.Model):
 class Algorithm(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField(blank=True, null=True)
-    code = models.TextField()
+    code = models.JSONField()
 
     difficulty = models.ForeignKey(Difficulty, on_delete=models.PROTECT)
     categories = models.ManyToManyField(Category)
@@ -37,8 +37,11 @@ class Algorithm(models.Model):
 
 
 class TestCase(models.Model):
-    body = models.TextField()
+    body = models.JSONField()
     algorithm = models.ForeignKey(Algorithm, on_delete=models.CASCADE)
 
+    class Meta:
+        ordering = ["-algorithm__created", "id"]
+
     def __str__(self) -> str:
-        return self.body
+        return f"{self.algorithm.name} test case {self.id}"

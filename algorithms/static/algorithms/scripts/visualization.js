@@ -6,10 +6,10 @@ document.getElementById("step-button").addEventListener("click", function () {
 		})
 		.then(response => response.json())
 		.then(data => {
-			updateKeyValuePairs("kwargs", data.kwargs);
+			updateKeyValuePairs("input", data.input);
 			updateKeyValuePairs("variables", data.step.variables);
-			updateResultAndButton(data.step.result);
-			updateHighlightedLine(data.step.line);
+			updateOutputAndButton(data.step.output);
+			updateActiveLine(data.step.line);
 		});
 });
 
@@ -29,28 +29,28 @@ function createKeyValueElement(key, value) {
 	return element;
 }
 
-function updateResultAndButton(result) {
-	const resultElement = document.getElementById("result");
+function updateOutputAndButton(output) {
+	const outputElement = document.getElementById("output");
 	const stepButton = document.getElementById("step-button");
 
-	if (result) {
-		resultElement.textContent = `result = ${result}`;
+	if (output) {
+		outputElement.textContent = `output = ${output}`;
 		stepButton.textContent = "restart";
 	} else {
-		resultElement.textContent = "";
+		outputElement.textContent = "";
 		stepButton.textContent = "next";
 	}
 }
 
-function updateHighlightedLine(lineNumber) {
-	clearHighlightedLines();
-	const targetLine = document.getElementById(`line_${lineNumber}`);
-	targetLine.style.background = "yellow";
+function updateActiveLine(lineNumber) {
+	removeActiveLine();
+	const line = document.getElementById(`line_${lineNumber}`);
+	line.classList.add("active-line");
 }
 
-function clearHighlightedLines() {
-	const lines = document.getElementById("lines").querySelectorAll("*");
-	lines.forEach(line => {
-		line.style.background = "none";
-	});
+function removeActiveLine() {
+	const activeLine = document.querySelector("#lines .active-line");
+	if (activeLine) {
+		activeLine.classList.remove("active-line");
+	}
 }

@@ -32,7 +32,7 @@ class BinarySearch:
             if self._numbers[self._middle] == self._target:  # 8
                 self._save_step(8)
 
-                self._save_step(9, result=self._middle)
+                self._save_step(9, output=self._middle)
                 return self._middle  # 9
 
             elif self._numbers[self._middle] < self._target:  # 10
@@ -51,7 +51,7 @@ class BinarySearch:
 
         self._save_step(5)
 
-        self._save_step(15, result=-1)
+        self._save_step(15, output=-1)
         return -1  # 15
 
     def _save_step(self, line: int, **kwargs: Any) -> None:

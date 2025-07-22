@@ -7,3 +7,7 @@
 	--line-number-color: #828282;
 	--code-background-color: #303030;
 }
+
+.hidden {
+	display: none;
+}

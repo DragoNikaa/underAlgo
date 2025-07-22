@@ -7,10 +7,23 @@
 <h1>{{ name }}</h1>
 <div id="visualization">
 	<div>
+		<div id="test-cases">
+			{% for test_case in test_cases %}
+			<input type="radio" id="test-case-{{ test_case.id }}" name="test-case" value="{{ test_case.id }}">
+			<label for="test-case-{{ test_case.id }}">
+			{% for key, value in test_case.body.items %}
+			{{ key }} = {{ value }}
+			{% endfor %}
+			</label><br>
+			{% endfor %}
+		</div>
+		{% csrf_token %}
+		<button id="start-button">start</button>
 		<div id="input"></div>
 		<div id="variables"></div>
 		<div id="output"></div>
-		<button id="step-button">start</button>
+		<button id="next-step-button" class="hidden">next</button>
+		<button id="restart-button" class="hidden" onclick="location.reload()">restart</button>
 	</div>
 	<div id="lines">
 		{% for line in code %}

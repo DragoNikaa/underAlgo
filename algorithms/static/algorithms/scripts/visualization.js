@@ -1,52 +1,77 @@
-document.getElementById("start-button").addEventListener("click", function () {
-	const selectedTestCase = document.querySelector("input[name=test-case]:checked");
-	if (!selectedTestCase) {
+document.getElementById("start-button").addEventListener("click", handleStartButtonClick);
+document.getElementById("next-step-button").addEventListener("click", handleNextStepButtonClick);
+
+async function handleStartButtonClick() {
+	const testCaseId = getSelectedTestCaseId();
+	if (!testCaseId) {
 		alert("Choose a test case!");
 		return;
 	}
-	fetch(getFetchUrl("start"), {
-			method: "POST",
-			headers: {
-				"X-CSRFToken": getCSRFToken(),
-			},
-			body: JSON.stringify({
-				test_case_id: selectedTestCase.value,
-			})
-		})
-		.then(response => response.json())
-		.then(data => {
-			updateKeyValuePairs("input", data.input);
-			updateKeyValuePairs("variables", data.step.variables);
-			hideElements("test-cases", "start-button");
-			showElements("next-step-button", "restart-button");
-			updateActiveLine(data.step.line);
-		});
-});
+	try {
+		const data = await sendStartRequest(testCaseId);
+		hideElements("test-cases", "start-button");
+		showElements("next-step-button", "restart-button");
+		updateKeyValuePairs("input", data.input);
+		updateKeyValuePairs("variables", data.step.variables);
+		updateActiveLine(data.step.line);
+	} catch (error) {
+		alert("Something went wrong. Please try again.");
+	}
+}
 
-document.getElementById("next-step-button").addEventListener("click", function () {
-	fetch(getFetchUrl("next-step"), {
-			method: "POST",
-			headers: {
-				"X-CSRFToken": getCSRFToken(),
-			},
-		})
-		.then(response => response.json())
-		.then(data => {
-			updateKeyValuePairs("variables", data.step.variables);
-			const output = data.step.output;
-			if (output) {
-				updateOutput(output);
-				disableButton("next-step-button");
-			}
-			updateActiveLine(data.step.line);
-		});
-});
+async function handleNextStepButtonClick() {
+	try {
+		const data = await sendNextStepRequest();
+		updateKeyValuePairs("variables", data.step.variables);
+		const output = data.step.output;
+		if (output) {
+			updateOutput(output);
+			disableButton("next-step-button");
+		}
+		updateActiveLine(data.step.line);
+	} catch (error) {
+		alert("Something went wrong. Please try again.");
+	}
+}
+
+function sendStartRequest(testCaseId) {
+	const endpoint = getEndpoint("start");
+	const bodyData = {
+		test_case_id: testCaseId,
+	};
+	return sendRequest(endpoint, bodyData);
+}
+
+function sendNextStepRequest() {
+	const endpoint = getEndpoint("next-step");
+	return sendRequest(endpoint);
+}
+
+async function sendRequest(endpoint, bodyData = null) {
+	const options = {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json",
+			"X-CSRFToken": getCSRFToken(),
+		},
+	};
+	if (bodyData !== null) {
+		options.body = JSON.stringify(bodyData);
+	}
+	const response = await fetch(endpoint, options);
+	return response.json();
+}
+
+function getSelectedTestCaseId() {
+	const selectedTestCase = document.querySelector("input[name=test-case]:checked");
+	return selectedTestCase ? selectedTestCase.value : null;
+}
 
 function getCSRFToken() {
 	return document.querySelector("[name=csrfmiddlewaretoken]").value;
 }
 
-function getFetchUrl(pathSegment) {
+function getEndpoint(pathSegment) {
 	return window.location.href + pathSegment;
 }
 

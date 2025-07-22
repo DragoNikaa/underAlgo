@@ -20,9 +20,14 @@ class VisualizationView(View):
     TEMPLATE_NAME = "algorithms/visualization.html"
 
     def get(self, request: HttpRequest, algorithm_name: str) -> HttpResponse:
+        self._delete_previous_algorithm_session(request, algorithm_name)
         algorithm = self._get_algorithm_from_db(algorithm_name)
         context = self._get_algorithm_data(algorithm)
         return render(request, self.TEMPLATE_NAME, context)
+
+    @staticmethod
+    def _delete_previous_algorithm_session(request: HttpRequest, algorithm_name: str) -> None:
+        request.session.pop(algorithm_name, None)
 
     @staticmethod
     def _get_algorithm_from_db(algorithm_name: str) -> Algorithm:

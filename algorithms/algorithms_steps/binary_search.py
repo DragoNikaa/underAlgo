@@ -1,5 +1,7 @@
 from typing import Any
 
+from pydantic import BaseModel, field_validator
+
 
 class BinarySearch:
     def __init__(self, numbers: list[int], target: int):
@@ -64,3 +66,22 @@ class BinarySearch:
     @property
     def _declared_variables(self) -> dict[str, Any]:
         return {"left": self._left, "right": self._right, "middle": self._middle}
+
+
+class BinarySearchInput(BaseModel):
+    numbers: list[int]
+    target: int
+
+    @field_validator("numbers")
+    @classmethod
+    def numbers_cannot_be_empty(cls, numbers: list[int]) -> list[int]:
+        if not numbers:
+            raise ValueError("Input should be a list with at least one element")
+        return numbers
+
+    @field_validator("numbers")
+    @classmethod
+    def numbers_must_be_sorted(cls, numbers: list[int]) -> list[int]:
+        if numbers != sorted(numbers):
+            raise ValueError("Input should be a sorted list")
+        return numbers

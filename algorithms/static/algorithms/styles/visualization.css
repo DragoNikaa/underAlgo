@@ -3,6 +3,35 @@
 	grid-template-columns: 1fr 1fr;
 }
 
+#test-cases {
+	display: flex;
+	flex-direction: column;
+	gap: 1em;
+}
+
+.test-case {
+	display: flex;
+	gap: 0.5em;
+}
+
+td:first-child {
+	white-space: nowrap;
+	text-align: right;
+}
+
+.invalid-input {
+	border: 2px solid var(--error-color);
+}
+
+.invalid-input:focus {
+	outline: none;
+	box-shadow: 0 0 5px var(--error-color);
+}
+
+.error-message {
+	color: var(--error-color);
+}
+
 pre {
 	margin: 0;
 }

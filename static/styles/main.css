@@ -6,8 +6,9 @@
 	--number-color: #fb8b50;
 	--line-number-color: #828282;
 	--code-background-color: #303030;
+	--error-color: red;
 }
 
 .hidden {
-	display: none;
+	display: none !important;
 }

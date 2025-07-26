@@ -12,8 +12,8 @@ async function handleStartButtonClick() {
 		if (!data) return;
 		hideElements("test-cases", "start-button");
 		showElements("next-step-button", "restart-button");
-		updateKeyValuePairs("input", data.input);
-		updateKeyValuePairs("variables", data.step.variables);
+		prepareAnimationDisplay(data.input);
+		animateAlgorithmStep(data.step.variables);
 		updateActiveLine(data.step.line);
 	} catch (error) {
 		console.error(error);
@@ -24,7 +24,7 @@ async function handleStartButtonClick() {
 async function handleNextStepButtonClick() {
 	try {
 		const data = await sendNextStepRequest();
-		updateKeyValuePairs("variables", data.step.variables);
+		animateAlgorithmStep(data.step.variables);
 		const output = data.step.output;
 		if (output !== undefined) {
 			updateOutput(output);
@@ -78,10 +78,11 @@ function getEndpoint(pathSegment) {
 
 function handleResponseErrors(errors) {
 	errors.forEach(error => {
-		const inputId = error.field;
+		const fieldName = error.field;
+		const inputId = `${fieldName}-input`;
 		const userMessage = error.message;
 		const inputValue = error.input;
-		const devMessage = `Invalid value in input "${inputId}": ${inputValue}. Reason: ${userMessage}`;
+		const devMessage = `Invalid value in input "${fieldName}": ${inputValue}. Reason: ${userMessage}`;
 		handleValidationError(inputId, userMessage, devMessage);
 	});
 }
@@ -116,8 +117,9 @@ function getCustomTestCaseBody() {
 	let isInputValid = true;
 	const customInputs = document.querySelectorAll(".custom-input");
 	customInputs.forEach(input => {
+		const fieldName = input.id.replace("-input", "");
 		try {
-			body[input.id] = JSON.parse(input.value);
+			body[fieldName] = JSON.parse(input.value);
 			clearValidationError(input.id);
 		} catch (error) {
 			handleValidationError(input.id, "Invalid format. Algorithm confused.", error);
@@ -129,13 +131,13 @@ function getCustomTestCaseBody() {
 
 function handleValidationError(inputId, userMessage, devMessage) {
 	highlightInvalidInput(inputId);
-	displayMessageInElement(`${inputId}-error-message`, userMessage);
+	displayMessageInElement(getMessageElementId(inputId), userMessage);
 	console.error(devMessage);
 }
 
 function clearValidationError(inputId) {
 	unhighlightInput(inputId);
-	displayMessageInElement(`${inputId}-error-message`, "");
+	displayMessageInElement(getMessageElementId(inputId), "");
 }
 
 function highlightInvalidInput(inputId) {
@@ -153,6 +155,10 @@ function displayMessageInElement(elementId, message) {
 	element.textContent = message;
 }
 
+function getMessageElementId(inputId) {
+	return inputId.replace("input", "error-message");
+}
+
 function hideElements(...elementIds) {
 	for (const elementId of elementIds) {
 		const element = document.getElementById(elementId);
@@ -167,24 +173,8 @@ function showElements(...elementIds) {
 	}
 }
 
-function updateKeyValuePairs(containerId, keyValueMap) {
-	const container = document.getElementById(containerId);
-	container.innerHTML = "";
-
-	for (const [key, value] of Object.entries(keyValueMap)) {
-		const keyValueElement = createKeyValueElement(key, value);
-		container.appendChild(keyValueElement);
-	}
-}
-
-function createKeyValueElement(key, value) {
-	const element = document.createElement("div");
-	element.textContent = `${key} = ${value}`;
-	return element;
-}
-
 function updateOutput(output) {
-	const outputElement = document.getElementById("output");
+	const outputElement = document.getElementById("output-container");
 	outputElement.textContent = `output = ${output}`;
 }
 
@@ -196,12 +186,10 @@ function disableButton(buttonId) {
 function updateActiveLine(lineNumber) {
 	removeActiveLine();
 	const line = document.getElementById(`line_${lineNumber}`);
-	line.classList.add("active-line");
+	if (line) line.classList.add("active-line");
 }
 
 function removeActiveLine() {
-	const activeLine = document.querySelector("#lines .active-line");
-	if (activeLine) {
-		activeLine.classList.remove("active-line");
-	}
+	const activeLine = document.querySelector("#lines > .active-line");
+	if (activeLine) activeLine.classList.remove("active-line");
 }

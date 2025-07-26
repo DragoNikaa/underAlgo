@@ -2,6 +2,7 @@
 {% load static %}
 {% block styles %}
 <link rel="stylesheet" href="{% static 'algorithms/styles/visualization.css' %}">
+{% block animation_styles %}{% endblock animation_styles %}
 {% endblock styles %}
 {% block content %}
 <h1>{{ name }}</h1>
@@ -28,7 +29,7 @@
 					{% for key in test_cases.0.body %}
 					<tr>
 						<td><label for="test-case-custom">{{ key }} =</label></td>
-						<td><input id="{{ key }}" class="custom-input"></td>
+						<td><input id="{{ key }}-input" class="custom-input"></td>
 					</tr>
 					<tr>
 						<td></td>
@@ -40,9 +41,10 @@
 		</div>
 		<div id="radio-error-message" class="error-message"></div>
 		<button id="start-button">start</button>
-		<div id="input"></div>
-		<div id="variables"></div>
-		<div id="output"></div>
+		<div id="animation-container">
+			{% block animation %}{% endblock animation %}
+		</div>
+		<div id="output-container"></div>
 		<button id="next-step-button" class="hidden">next</button>
 		<button id="restart-button" class="hidden">restart</button>
 	</div>
@@ -60,4 +62,5 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
 <script>hljs.highlightAll();</script>
 <script src="{% static 'algorithms/scripts/visualization.js' %}"></script>
+{% block animation_scripts %}{% endblock animation_scripts %}
 {% endblock scripts %}

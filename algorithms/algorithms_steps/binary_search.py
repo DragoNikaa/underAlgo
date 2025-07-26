@@ -19,44 +19,46 @@ class BinarySearch:
         return self._steps
 
     def _run_algorithm_and_save_steps(self) -> int:
-        self._left = 0  # 2
         self._save_step(2)
+        self._left = 0  # 2
 
-        self._right = len(self._numbers) - 1  # 3
         self._save_step(3)
+        self._right = len(self._numbers) - 1  # 3
 
         while self._left <= self._right:  # 5
             self._save_step(5)
 
-            self._middle = (self._left + self._right) // 2  # 6
             self._save_step(6)
+            self._middle = (self._left + self._right) // 2  # 6
 
             if self._numbers[self._middle] == self._target:  # 8
                 self._save_step(8)
 
-                self._save_step(9, output=self._middle)
+                self._save_step(9)
+                self._save_step(output=self._middle)
                 return self._middle  # 9
 
             elif self._numbers[self._middle] < self._target:  # 10
                 for line in (8, 10):
                     self._save_step(line)
 
-                self._left = self._middle + 1  # 11
                 self._save_step(11)
+                self._left = self._middle + 1  # 11
 
             else:  # 12
                 for line in (8, 10, 12):
                     self._save_step(line)
 
-                self._right = self._middle - 1  # 13
                 self._save_step(13)
+                self._right = self._middle - 1  # 13
 
         self._save_step(5)
 
-        self._save_step(15, output=-1)
+        self._save_step(15)
+        self._save_step(output=-1)
         return -1  # 15
 
-    def _save_step(self, line: int, **kwargs: Any) -> None:
+    def _save_step(self, line: int | None = None, **kwargs: Any) -> None:
         self._steps.append({"line": line, "variables": self._defined_variables, **kwargs})
 
     @property

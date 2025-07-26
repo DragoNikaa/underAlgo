@@ -1,0 +1,15 @@
+{% extends "algorithms/visualization.html" %}
+{% load static %}
+{% block animation_styles %}
+<link rel="stylesheet" href="{% static 'algorithms/styles/animations/binary_search.css' %}">
+{% endblock animation_styles %}
+{% block animation %}
+<div id="target-container"></div>
+<div id="numbers-container" class="row-container"></div>
+<div id="left-container" class="row-container"></div>
+<div id="right-container" class="row-container"></div>
+<div id="middle-container" class="row-container"></div>
+{% endblock animation %}
+{% block animation_scripts %}
+<script src="{% static 'algorithms/scripts/animations/binary_search.js' %}"></script>
+{% endblock animation_scripts %}

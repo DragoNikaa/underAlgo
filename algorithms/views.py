@@ -19,7 +19,7 @@ class AlgorithmsView(View):
 
 
 class VisualizationView(View):
-    TEMPLATE_NAME = "algorithms/visualization.html"
+    TEMPLATE_NAME = "algorithms/animations/binary_search.html"
 
     def get(self, request: HttpRequest, algorithm_name: str) -> HttpResponse:
         algorithm = self._get_algorithm_from_db(algorithm_name)

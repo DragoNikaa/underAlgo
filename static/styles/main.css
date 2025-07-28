@@ -5,8 +5,23 @@
 	--built-in-color: #c8dc14;
 	--number-color: #fb8b50;
 	--line-number-color: #828282;
+	--disabled-input-color: #a1a1a1;
 	--code-background-color: #303030;
+	--background-color: #161316;
 	--error-color: red;
+}
+
+body {
+	font-family: monospace;
+	color: var(--code-color);
+	background-color: var(--background-color);
+}
+
+input,
+textarea,
+select,
+button {
+	font-family: monospace;
 }
 
 .hidden {

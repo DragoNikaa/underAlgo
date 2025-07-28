@@ -2,11 +2,12 @@
 {% load static %}
 {% block styles %}
 <link rel="stylesheet" href="{% static 'algorithms/styles/visualization.css' %}">
+{% block animation_styles %}{% endblock animation_styles %}
 {% endblock styles %}
 {% block content %}
 <h1>{{ name }}</h1>
 <div id="visualization">
-	<div>
+	<div id="steps-container" class="visualization-segment">
 		{% csrf_token %}
 		<div id="test-cases">
 			{% for test_case in test_cases %}
@@ -15,8 +16,8 @@
 				<table>
 					{% for key, value in test_case.body.items %}
 					<tr>
-						<td><label for="test-case-{{ test_case.id }}">{{ key }} =</label></td>
-						<td><input value="{{ value }}" disabled></td>
+						<td><label for="test-case-{{ test_case.id }}">{{ key }} =&nbsp;</label></td>
+						<td><input type="text" value="{{ value }}" disabled></td>
 					</tr>
 					{% endfor %}
 				</table>
@@ -27,8 +28,8 @@
 				<table>
 					{% for key in test_cases.0.body %}
 					<tr>
-						<td><label for="test-case-custom">{{ key }} =</label></td>
-						<td><input id="{{ key }}" class="custom-input"></td>
+						<td><label for="test-case-custom">{{ key }} =&nbsp;</label></td>
+						<td><input type="text" id="{{ key }}-input" class="custom-input"></td>
 					</tr>
 					<tr>
 						<td></td>
@@ -40,13 +41,14 @@
 		</div>
 		<div id="radio-error-message" class="error-message"></div>
 		<button id="start-button">start</button>
-		<div id="input"></div>
-		<div id="variables"></div>
-		<div id="output"></div>
+		<div id="animation-container">
+			{% block animation %}{% endblock animation %}
+		</div>
+		<div id="output-container"></div>
 		<button id="next-step-button" class="hidden">next</button>
 		<button id="restart-button" class="hidden">restart</button>
 	</div>
-	<div id="lines">
+	<div id="lines" class="visualization-segment">
 		{% for line in code %}
 		<pre id="line_{{ forloop.counter }}" class="line">
 			<code class="language-python line-number">{{ forloop.counter }}</code>
@@ -60,4 +62,5 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
 <script>hljs.highlightAll();</script>
 <script src="{% static 'algorithms/scripts/visualization.js' %}"></script>
+{% block animation_scripts %}{% endblock animation_scripts %}
 {% endblock scripts %}

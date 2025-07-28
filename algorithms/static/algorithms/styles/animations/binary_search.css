@@ -1,0 +1,20 @@
+.row-container {
+	display: flex;
+	flex-wrap: nowrap;
+	justify-content: center;
+}
+
+.row-segment {
+	display: flex;
+	width: 3em;
+	height: 3em;
+	justify-content: center;
+	align-items: center;
+	white-space: nowrap;
+}
+
+.number-segment {
+	box-sizing: border-box;
+	background-color: var(--keyword-color);
+	border: 1px solid black;
+}

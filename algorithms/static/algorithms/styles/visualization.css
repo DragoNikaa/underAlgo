@@ -1,6 +1,16 @@
 #visualization {
 	display: grid;
 	grid-template-columns: 1fr 1fr;
+	gap: 2rem;
+}
+
+.visualization-segment {
+	font-size: 1rem;
+	border: 1px solid var(--line-number-color);
+}
+
+#steps-container {
+	background-color: var(--code-background-color);
 }
 
 #test-cases {
@@ -19,13 +29,33 @@ td:first-child {
 	text-align: right;
 }
 
+input[type="radio"] {
+	accent-color: var(--title-color);
+}
+
+input[type="text"] {
+	font-size: 1em;
+	font-weight: bold;
+	width: 20em;
+	color: var(--background-color);
+	background-color: var(--code-color);
+}
+
+input[type="text"]:disabled {
+	background-color: var(--disabled-input-color);
+}
+
+input[type="text"]:focus {
+	outline: 1px solid var(--line-number-color);
+	outline-offset: 1px;
+}
+
 .invalid-input {
 	border: 2px solid var(--error-color);
 }
 
 .invalid-input:focus {
-	outline: none;
-	box-shadow: 0 0 5px var(--error-color);
+	outline-color: var(--error-color) !important;
 }
 
 .error-message {
@@ -34,11 +64,6 @@ td:first-child {
 
 pre {
 	margin: 0;
-}
-
-#lines {
-	font-size: 1rem;
-	border: 1px solid var(--line-number-color);
 }
 
 .line {

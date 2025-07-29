@@ -15,6 +15,52 @@
 
 .number-segment {
 	box-sizing: border-box;
+	border: 1px solid var(--line-number-color);
+	border-radius: 5px;
+}
+
+#left-container {
+	color: var(--keyword-color);
+}
+
+#right-container {
+	color: var(--title-color);
+}
+
+#middle-container {
+	color: var(--built-in-color);
+}
+
+.left-number-style {
+	font-weight: bold;
+	color: var(--code-background-color);
 	background-color: var(--keyword-color);
-	border: 1px solid black;
+}
+
+.right-number-style {
+	font-weight: bold;
+	color: var(--code-background-color);
+	background-color: var(--title-color);
+}
+
+.middle-number-style {
+	font-weight: bold;
+	color: var(--code-background-color);
+	background-color: var(--built-in-color);
+}
+
+.left-number-style.right-number-style {
+	background: linear-gradient(45deg, var(--keyword-color) 37%, var(--title-color) 63%);
+}
+
+.left-number-style.middle-number-style {
+	background: linear-gradient(45deg, var(--keyword-color) 37%, var(--built-in-color) 63%);
+}
+
+.right-number-style.middle-number-style {
+	background: linear-gradient(45deg, var(--title-color) 37%, var(--built-in-color) 63%);
+}
+
+.left-number-style.right-number-style.middle-number-style {
+	background: linear-gradient(45deg, var(--keyword-color) 25%, var(--title-color) 45%, var(--title-color) 55%, var(--built-in-color) 75%);
 }

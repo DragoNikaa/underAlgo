@@ -13,7 +13,7 @@ async function handleStartButtonClick() {
 		hideElements("test-cases", "start-button");
 		showElements("next-step-button", "restart-button");
 		prepareAnimationDisplay(data.input);
-		animateAlgorithmStep(data.step.variables);
+		await handleAnimationStep(data.step.variables);
 		updateActiveLine(data.step.line);
 	} catch (error) {
 		console.error(error);
@@ -24,7 +24,7 @@ async function handleStartButtonClick() {
 async function handleNextStepButtonClick() {
 	try {
 		const data = await sendNextStepRequest();
-		animateAlgorithmStep(data.step.variables);
+		await handleAnimationStep(data.step.variables);
 		const output = data.step.output;
 		if (output !== undefined) {
 			updateOutput(output);
@@ -160,27 +160,54 @@ function getMessageElementId(inputId) {
 }
 
 function hideElements(...elementIds) {
-	for (const elementId of elementIds) {
-		const element = document.getElementById(elementId);
-		element.classList.add("hidden");
-	}
+	addClassToElements("hidden", ...elementIds);
 }
 
 function showElements(...elementIds) {
-	for (const elementId of elementIds) {
-		const element = document.getElementById(elementId);
-		element.classList.remove("hidden");
-	}
+	removeClassFromElements("hidden", ...elementIds);
 }
 
-function updateOutput(output) {
-	const outputElement = document.getElementById("output-container");
-	outputElement.textContent = `output = ${output}`;
+function makeElementsInvisible(...elementIds) {
+	addClassToElements("invisible", ...elementIds);
+}
+
+function makeElementsVisible(...elementIds) {
+	removeClassFromElements("invisible", ...elementIds);
+}
+
+function addClassToElements(className, ...elementIds) {
+	elementIds.forEach(elementId => {
+		const element = document.getElementById(elementId);
+		element.classList.add(className);
+	});
+}
+
+function removeClassFromElements(className, ...elementIds) {
+	elementIds.forEach(elementId => {
+		const element = document.getElementById(elementId);
+		element.classList.remove(className);
+	});
+}
+
+async function handleAnimationStep(variables) {
+	disableButton("next-step-button");
+	await animateAlgorithmStep(variables);
+	enableButton("next-step-button");
 }
 
 function disableButton(buttonId) {
 	const button = document.getElementById(buttonId);
 	button.disabled = true;
+}
+
+function enableButton(buttonId) {
+	const button = document.getElementById(buttonId);
+	button.disabled = false;
+}
+
+function updateOutput(output) {
+	const outputElement = document.getElementById("output-container");
+	outputElement.textContent = `output = ${output}`;
 }
 
 function updateActiveLine(lineNumber) {
@@ -192,4 +219,8 @@ function updateActiveLine(lineNumber) {
 function removeActiveLine() {
 	const activeLine = document.querySelector("#lines > .active-line");
 	if (activeLine) activeLine.classList.remove("active-line");
+}
+
+function sleep(ms) {
+	return new Promise(resolve => setTimeout(resolve, ms));
 }

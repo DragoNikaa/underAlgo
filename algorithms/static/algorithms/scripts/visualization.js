@@ -26,7 +26,7 @@ async function handleNextStepButtonClick() {
 		const data = await sendNextStepRequest();
 		await handleAnimationStep(data.step.variables);
 		const output = data.step.output;
-		if (output !== undefined) {
+		if (output !== null) {
 			updateOutput(output);
 			disableButton("next-step-button");
 		}

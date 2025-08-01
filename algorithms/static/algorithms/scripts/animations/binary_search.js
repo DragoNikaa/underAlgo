@@ -5,9 +5,8 @@ function prepareAnimationDisplay(input) {
 }
 
 async function animateAlgorithmStep(variables) {
-	for (const [name, value] of Object.entries(variables)) {
-		await updateVariableDisplay(name, value);
-	}
+	await handleChangedVariables(variables.changed);
+	handleToChangeVariables(variables.to_change);
 }
 
 function displayTarget(target) {
@@ -46,6 +45,21 @@ function reserveSpaceForVariables() {
 	containers.forEach(container => {
 		container.classList.add("invisible");
 		container.classList.remove("hidden");
+	});
+}
+
+async function handleChangedVariables(changed) {
+	if (!changed) return;
+	for (const [name, value] of Object.entries(changed)) {
+		removeClassFromElements("blink", `${name}-container`);
+		await updateVariableDisplay(name, value);
+	}
+}
+
+function handleToChangeVariables(toChange) {
+	if (!toChange) return;
+	toChange.forEach(name => {
+		addClassToElements("blink", `${name}-container`);
 	});
 }
 

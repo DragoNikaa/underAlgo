@@ -1,71 +1,135 @@
 function prepareAnimationDisplay(input) {
 	displayTarget(input.target);
 	displayNumbers(input.numbers);
-	createVariablesSegments(["left", "right", "middle"], -1, input.numbers.length);
+	reserveSpaceForVariables();
 }
 
-function animateAlgorithmStep(variables) {
-	Object.entries(variables).forEach(([variableName, variableValue]) => {
-		updateActiveVariableSegment(variableName, variableValue);
-	});
+async function animateAlgorithmStep(variables) {
+	await handleChangedVariables(variables.changed);
+	handleToChangeVariables(variables.to_change);
 }
 
 function displayTarget(target) {
-	const container = document.getElementById("target-container");
-	container.textContent = `target = ${target}`;
+	const valueElement = document.getElementById("target-value");
+	valueElement.textContent = target;
+	showElements("target-container");
 }
 
 function displayNumbers(numbers) {
 	const container = document.getElementById("numbers-container");
+	const firstSegment = createInvisibleNumberSegment(-1);
+	container.appendChild(firstSegment);
 	numbers.forEach((number, index) => {
 		const segment = createNumberSegment(number, index);
 		container.appendChild(segment);
 	});
-}
-
-function createVariablesSegments(variableNames, firstIndex, lastIndex) {
-	variableNames.forEach(variableName => {
-		const container = document.getElementById(`${variableName}-container`);
-		for (let index = firstIndex; index <= lastIndex; index++) {
-			const segment = createVariableSegment(variableName, index);
-			container.appendChild(segment);
-		}
-	});
+	const lastSegment = createInvisibleNumberSegment(numbers.length);
+	container.appendChild(lastSegment);
 }
 
 function createNumberSegment(number, index) {
-	const segment = createVariableSegment(number, index);
-	segment.textContent = number;
-	segment.classList.add("number-segment");
-	return segment;
-}
-
-function createVariableSegment(variableName, index) {
 	const segment = document.createElement("div");
-	segment.id = getSegmentId(variableName, index);
-	segment.classList.add("row-segment");
+	segment.textContent = number;
+	segment.id = `number${index}`;
 	return segment;
 }
 
-function updateActiveVariableSegment(variableName, variableValue) {
-	clearVariableSegments(variableName);
-	displayVariableInSegment(variableName, variableValue);
+function createInvisibleNumberSegment(index) {
+	const segment = createNumberSegment("\u00A0", index);
+	segment.classList.add("invisible");
+	return segment;
 }
 
-function clearVariableSegments(variableName) {
-	const containerId = `${variableName}-container`;
-	const segments = document.querySelectorAll(`#${containerId} > *`);
-	segments.forEach(segment => {
-		segment.textContent = "";
+function reserveSpaceForVariables() {
+	const containers = document.querySelectorAll(".variable-container");
+	containers.forEach(container => {
+		container.classList.add("invisible");
+		container.classList.remove("hidden");
 	});
 }
 
-function displayVariableInSegment(variableName, variableValue) {
-	const segmentId = getSegmentId(variableName, variableValue);
-	const segment = document.getElementById(segmentId);
-	segment.textContent = `${variableName} = ${variableValue}`;
+async function handleChangedVariables(changed) {
+	if (!changed) return;
+	for (const [name, value] of Object.entries(changed)) {
+		removeClassFromElements("blink", `${name}-container`);
+		await updateVariableDisplay(name, value);
+	}
 }
 
-function getSegmentId(name, index) {
-	return `${name}${index}`;
+function handleToChangeVariables(toChange) {
+	if (!toChange) return;
+	toChange.forEach(name => {
+		addClassToElements("blink", `${name}-container`);
+	});
+}
+
+async function updateVariableDisplay(name, value) {
+	const variableContainer = document.getElementById(`${name}-container`);
+	if (variableContainer.classList.contains("invisible")) {
+		displayVariableAtStartPosition(name, value, variableContainer);
+	} else {
+		await slideVariableToNextPosition(name, value, variableContainer);
+	}
+}
+
+function displayVariableAtStartPosition(name, value, variableContainer) {
+	updateVariableValue(name, value);
+	moveVariableToStartPosition(name, value, variableContainer);
+	makeElementsVisible(`${name}-container`);
+	addClassToElements(`${name}-number-style`, `number${value}`);
+}
+
+function updateVariableValue(name, value) {
+	const valueElement = document.getElementById(`${name}-value`);
+	valueElement.textContent = value;
+}
+
+function moveVariableToStartPosition(name, value, variableContainer) {
+	const numberSegment = document.getElementById(`number${value}`);
+	const numberSegmentRect = numberSegment.getBoundingClientRect();
+	const parentRect = variableContainer.parentElement.getBoundingClientRect();
+	const offset = numberSegmentRect.left + numberSegmentRect.width / 2 - variableContainer.offsetWidth / 2 - parentRect.left;
+	variableContainer.style.left = `${offset}px`;
+}
+
+async function slideVariableToNextPosition(name, value, variableContainer) {
+	const valueElement = document.getElementById(`${name}-value`);
+	const previousValue = parseFloat(valueElement.textContent);
+	const step = previousValue < value ? 1 : -1;
+	const styleClass = `${name}-number-style`;
+
+	for (let index = previousValue + step; index !== value + step; index += step) {
+		await slideVariableToNextIndex(index, step, variableContainer, valueElement, styleClass);
+	}
+}
+
+async function slideVariableToNextIndex(index, step, variableContainer, valueElement, styleClass) {
+	const previousNumberSegment = document.getElementById(`number${index - step}`);
+	const nextNumberSegment = document.getElementById(`number${index}`);
+	const offset = calculateOffset(previousNumberSegment, nextNumberSegment, step);
+	updateContainer(variableContainer, offset, valueElement, index);
+	updateNumberSegment(previousNumberSegment, nextNumberSegment, styleClass);
+	await sleep(800);
+}
+
+function calculateOffset(previousNumberSegment, nextNumberSegment, step) {
+	const previousHalfWidth = previousNumberSegment.offsetWidth / 2;
+	const nextHalfWidth = nextNumberSegment.offsetWidth / 2;
+	const offset = previousHalfWidth + nextHalfWidth;
+	return step === 1 ? offset : -offset;
+}
+
+function updateContainer(container, offset, valueElement, value) {
+	updateContainerPosition(container, offset);
+	valueElement.textContent = value;
+}
+
+function updateContainerPosition(container, offset) {
+	const currentLeftPosition = parseFloat(container.style.left);
+	container.style.left = (currentLeftPosition + offset) + "px";
+}
+
+function updateNumberSegment(previousSegment, nextSegment, styleClass) {
+	previousSegment.classList.remove(styleClass);
+	nextSegment.classList.add(styleClass);
 }

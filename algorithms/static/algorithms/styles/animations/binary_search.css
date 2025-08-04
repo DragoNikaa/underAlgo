@@ -1,20 +1,65 @@
-.row-container {
+#numbers-container {
 	display: flex;
 	flex-wrap: nowrap;
 	justify-content: center;
 }
 
-.row-segment {
-	display: flex;
-	width: 3em;
-	height: 3em;
-	justify-content: center;
-	align-items: center;
-	white-space: nowrap;
+#numbers-container>* {
+	padding: 1em 1.3em;
+	border: 1px solid var(--line-number-color);
+	border-radius: 5px;
+	transition: all 0.25s ease;
 }
 
-.number-segment {
-	box-sizing: border-box;
+.variable-container {
+	position: relative;
+	width: fit-content;
+	padding: 1em;
+	transition: all 0.6s ease;
+}
+
+#left-container {
+	color: var(--keyword-color);
+}
+
+#right-container {
+	color: var(--title-color);
+}
+
+#middle-container {
+	color: var(--built-in-color);
+}
+
+.left-number-style {
+	font-weight: bold;
+	color: var(--code-background-color);
 	background-color: var(--keyword-color);
-	border: 1px solid black;
+}
+
+.right-number-style {
+	font-weight: bold;
+	color: var(--code-background-color);
+	background-color: var(--title-color);
+}
+
+.middle-number-style {
+	font-weight: bold;
+	color: var(--code-background-color);
+	background-color: var(--built-in-color);
+}
+
+.left-number-style.right-number-style {
+	background: linear-gradient(45deg, var(--keyword-color) 37%, var(--title-color) 63%);
+}
+
+.left-number-style.middle-number-style {
+	background: linear-gradient(45deg, var(--keyword-color) 37%, var(--built-in-color) 63%);
+}
+
+.right-number-style.middle-number-style {
+	background: linear-gradient(45deg, var(--title-color) 37%, var(--built-in-color) 63%);
+}
+
+.left-number-style.right-number-style.middle-number-style {
+	background: linear-gradient(45deg, var(--keyword-color) 25%, var(--title-color) 45%, var(--title-color) 55%, var(--built-in-color) 75%);
 }

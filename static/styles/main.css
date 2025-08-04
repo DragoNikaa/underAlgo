@@ -31,3 +31,19 @@ button {
 .invisible {
 	visibility: hidden !important;
 }
+
+.bold {
+	font-weight: bold;
+}
+
+.keyword-color {
+	color: var(--keyword-color);
+}
+
+.title-color {
+	color: var(--title-color);
+}
+
+.built-in-color {
+	color: var(--built-in-color);
+}

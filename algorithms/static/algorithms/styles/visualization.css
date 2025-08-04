@@ -6,11 +6,12 @@
 
 .visualization-segment {
 	font-size: 1rem;
+	background-color: var(--code-background-color);
 	border: 1px solid var(--line-number-color);
 }
 
 #steps-container {
-	background-color: var(--code-background-color);
+	grid-row: span 2;
 }
 
 #test-cases {
@@ -110,11 +111,6 @@ pre {
 .line-code {
 	flex: 1;
 	padding: 0.15em 0.6em;
-}
-
-.hljs {
-	color: var(--code-color);
-	background-color: var(--code-background-color);
 }
 
 .hljs-keyword {

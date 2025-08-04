@@ -13,7 +13,7 @@ async function handleStartButtonClick() {
 		hideElements("test-cases", "start-button");
 		showElements("next-step-button", "restart-button");
 		prepareAnimationDisplay(data.input);
-		await handleAnimationStep(data.step.variables);
+		await handleAnimationStep(data.step);
 		updateActiveLine(data.step.line);
 	} catch (error) {
 		console.error(error);
@@ -24,7 +24,7 @@ async function handleStartButtonClick() {
 async function handleNextStepButtonClick() {
 	try {
 		const data = await sendNextStepRequest();
-		await handleAnimationStep(data.step.variables);
+		await handleAnimationStep(data.step);
 		const output = data.step.output;
 		if (output !== null) {
 			updateOutput(output);
@@ -189,10 +189,22 @@ function removeClassFromElements(className, ...elementIds) {
 	});
 }
 
-async function handleAnimationStep(variables) {
+async function handleAnimationStep(step) {
 	disableButton("next-step-button");
-	await animateAlgorithmStep(variables);
+	await animateAlgorithmStep(step.variables);
+	displayStepExplanation(step.explanation);
 	enableButton("next-step-button");
+}
+
+function displayStepExplanation(explanation) {
+	if (!explanation) return;
+	const container = document.getElementById("explanation-container");
+	container.innerHTML = parseStyledText(explanation);
+}
+
+function parseStyledText(text) {
+    const regex = /\[\[(.+?):(.+?)\]\]/g;
+	return text.replace(regex, (match, styleClass, content) => `<span class="${styleClass}">${content}</span>`);
 }
 
 function disableButton(buttonId) {

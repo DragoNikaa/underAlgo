@@ -1,11 +1,16 @@
 #visualization {
 	display: grid;
 	grid-template-columns: 1fr 1fr;
-	gap: 2rem;
+	gap: 1.5em;
+}
+
+#visualization>* {
+	display: flex;
+	flex-direction: column;
+	gap: 1.5em;
 }
 
 .visualization-segment {
-	font-size: 1rem;
 	background-color: var(--code-background-color);
 	border: 1px solid var(--line-number-color);
 }

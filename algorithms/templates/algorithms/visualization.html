@@ -1,6 +1,7 @@
 {% extends "index.html" %}
 {% load static %}
 {% block styles %}
+<link rel="stylesheet" href="{% static 'algorithms/styles/main.css' %}">
 <link rel="stylesheet" href="{% static 'algorithms/styles/visualization.css' %}">
 {% block animation_styles %}{% endblock animation_styles %}
 {% endblock styles %}
@@ -60,6 +61,7 @@
 			<h2>output</h2>
 			<p>{{ algorithm.output_description}}</p>
 		</div>
+		{% include "algorithms/details.html" %}
 	</div>
 	<div>
 		<div id="lines" class="visualization-segment">

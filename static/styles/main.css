@@ -11,8 +11,8 @@
 	--error-color: red;
 }
 
-body {
-	font-family: monospace;
+html {
+	font: 16px monospace;
 	color: var(--code-color);
 	background-color: var(--background-color);
 }

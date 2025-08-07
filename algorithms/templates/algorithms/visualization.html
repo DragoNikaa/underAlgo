@@ -5,58 +5,73 @@
 {% block animation_styles %}{% endblock animation_styles %}
 {% endblock styles %}
 {% block content %}
-<h1>{{ name }}</h1>
+<h1>{{ algorithm.name }}</h1>
 <div id="visualization">
-	<div id="steps-container" class="visualization-segment">
-		{% csrf_token %}
-		<div id="test-cases">
-			{% for test_case in test_cases %}
-			<div class="test-case">
-				<input type="radio" id="test-case-{{ test_case.id }}" name="test-case" value="{{ test_case.id }}">
-				<table>
-					{% for key, value in test_case.body.items %}
-					<tr>
-						<td><label for="test-case-{{ test_case.id }}">{{ key }} =&nbsp;</label></td>
-						<td><input type="text" value="{{ value }}" disabled></td>
-					</tr>
-					{% endfor %}
-				</table>
+	<div>
+		<div id="steps-container" class="visualization-segment">
+			{% csrf_token %}
+			<div id="test-cases">
+				<h2>test cases</h2>
+				{% for test_case in test_cases %}
+				<div class="test-case">
+					<input type="radio" id="test-case-{{ test_case.id }}" name="test-case" value="{{ test_case.id }}">
+					<table>
+						{% for key, value in test_case.body.items %}
+						<tr>
+							<td><label for="test-case-{{ test_case.id }}">{{ key }} =&nbsp;</label></td>
+							<td><input type="text" value="{{ value }}" disabled></td>
+						</tr>
+						{% endfor %}
+					</table>
+				</div>
+				{% endfor %}
+				<div class="test-case">
+					<input type="radio" id="test-case-custom" name="test-case" value="custom">
+					<table>
+						{% for key in test_cases.0.body %}
+						<tr>
+							<td><label for="test-case-custom">{{ key }} =&nbsp;</label></td>
+							<td><input type="text" id="{{ key }}-input" class="custom-input"></td>
+						</tr>
+						<tr>
+							<td></td>
+							<td><span id="{{ key }}-error-message" class="error-message"></span></td>
+						</tr>
+						{% endfor %}
+					</table>
+				</div>
 			</div>
+			<div id="radio-error-message" class="error-message"></div>
+			<button id="start-button">start</button>
+			<div id="animation-container">
+				{% block animation %}{% endblock animation %}
+			</div>
+			<div id="output-container"></div>
+			<button id="next-step-button" class="hidden">next</button>
+			<button id="restart-button" class="hidden">restart</button>
+		</div>
+		<div class="visualization-segment">
+			<h2>description</h2>
+			<p>{{ algorithm.general_description }}</p>
+			<h2>input</h2>
+			{% for parameter, description in algorithm.input_description.items %}
+			<p><b>{{ parameter }}:</b> {{ description }}</p>
 			{% endfor %}
-			<div class="test-case">
-				<input type="radio" id="test-case-custom" name="test-case" value="custom">
-				<table>
-					{% for key in test_cases.0.body %}
-					<tr>
-						<td><label for="test-case-custom">{{ key }} =&nbsp;</label></td>
-						<td><input type="text" id="{{ key }}-input" class="custom-input"></td>
-					</tr>
-					<tr>
-						<td></td>
-						<td><span id="{{ key }}-error-message" class="error-message"></span></td>
-					</tr>
-					{% endfor %}
-				</table>
-			</div>
+			<h2>output</h2>
+			<p>{{ algorithm.output_description}}</p>
 		</div>
-		<div id="radio-error-message" class="error-message"></div>
-		<button id="start-button">start</button>
-		<div id="animation-container">
-			{% block animation %}{% endblock animation %}
+	</div>
+	<div>
+		<div id="lines" class="visualization-segment">
+			{% for line in algorithm.code %}
+			<pre id="line_{{ forloop.counter }}" class="line">
+				<code class="language-python line-number">{{ forloop.counter }}</code>
+				<code class="language-python line-code">{{ line }}</code>
+			</pre>
+			{% endfor %}
 		</div>
-		<div id="output-container"></div>
-		<button id="next-step-button" class="hidden">next</button>
-		<button id="restart-button" class="hidden">restart</button>
+		<div id="explanation-container" class="visualization-segment"></div>
 	</div>
-	<div id="lines" class="visualization-segment">
-		{% for line in code %}
-		<pre id="line_{{ forloop.counter }}" class="line">
-			<code class="language-python line-number">{{ forloop.counter }}</code>
-			<code class="language-python line-code">{{ line }}</code>
-		</pre>
-		{% endfor %}
-	</div>
-	<div id="explanation-container" class="visualization-segment"></div>
 </div>
 {% endblock content %}
 {% block scripts %}

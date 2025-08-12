@@ -1,9 +1,9 @@
-<div class="details-container">
-	<div class="oval-container {{ algorithm.difficulty }}">
+<div class="flex-row flex-wrap medium-gap">
+	<div class="oval {{ algorithm.difficulty }}">
 		{{ algorithm.difficulty }}
 	</div>
 	{% for category in algorithm.categories.all %}
-	<div class="oval-container category">
+	<div class="oval">
 		{{ category.name }}
 	</div>
 	{% endfor %}

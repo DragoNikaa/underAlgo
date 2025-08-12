@@ -5,23 +5,105 @@
 	--built-in-color: #c8dc14;
 	--number-color: #fb8b50;
 	--line-number-color: #828282;
-	--disabled-input-color: #a1a1a1;
-	--code-background-color: #303030;
-	--background-color: #161316;
-	--error-color: red;
+	--code-background: #303030;
+	--background: #161316;
 }
 
 html {
 	font: 16px monospace;
 	color: var(--code-color);
-	background-color: var(--background-color);
+	background: var(--background);
 }
 
-input,
-textarea,
-select,
-button {
-	font-family: monospace;
+h1 {
+	width: fit-content;
+	font-size: 2.5rem;
+	background: linear-gradient(to right,
+			var(--title-color),
+			var(--keyword-color),
+			var(--built-in-color));
+	-webkit-text-fill-color: transparent;
+	-webkit-background-clip: text;
+	background-size: 200% 100%;
+	background-position: left;
+	margin: 1rem 1.5rem;
+	transition: all 1s ease;
+	cursor: default;
+}
+
+h2 {
+	position: relative;
+	display: inline-block;
+	font-size: 1.5rem;
+	padding-bottom: 0.4em;
+	margin: 0 0 0.5em 0;
+	cursor: default;
+}
+
+h2::after {
+	content: "";
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	height: 0.25em;
+	background: linear-gradient(to right,
+			var(--title-color),
+			var(--keyword-color),
+			var(--built-in-color));
+	background-size: 200% 100%;
+	background-position: left;
+	border-radius: 1em;
+	transition: all 1s ease;
+}
+
+h1:hover,
+h2:hover::after {
+	background-position: right;
+}
+
+p {
+	margin: 0;
+}
+
+.flex-row {
+	display: flex;
+}
+
+.flex-column {
+	display: flex;
+	flex-direction: column;
+}
+
+.grid-two-columns {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+}
+
+.flex-wrap {
+	flex-wrap: wrap;
+}
+
+.align-items-center {
+	align-items: center;
+}
+
+.small-gap {
+	gap: 0.5em;
+}
+
+.medium-gap {
+	gap: 1em;
+}
+
+.large-gap {
+	gap: 1.5em;
+}
+
+.tile {
+	background: var(--code-background);
+	padding: 1.2em 1.5em;
+	border: 1px solid var(--line-number-color);
 }
 
 .hidden {

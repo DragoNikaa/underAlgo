@@ -1,121 +1,39 @@
-#visualization {
-	display: grid;
-	grid-template-columns: 1fr 1fr;
-	gap: 1.5em;
-}
-
-#visualization>* {
-	display: flex;
-	flex-direction: column;
-	gap: 1.5em;
-}
-
-.visualization-segment {
-	background-color: var(--code-background-color);
-	border: 1px solid var(--line-number-color);
-}
-
-#steps-container {
-	grid-row: span 2;
-}
-
-#test-cases {
-	display: flex;
-	flex-direction: column;
-	gap: 1em;
-}
-
-.test-case {
-	display: flex;
-	gap: 0.5em;
-}
-
 td:first-child {
 	white-space: nowrap;
 	text-align: right;
-}
-
-input[type="radio"] {
-	accent-color: var(--title-color);
-}
-
-input[type="text"] {
-	font-size: 1em;
-	font-weight: bold;
-	width: 20em;
-	color: var(--background-color);
-	background-color: var(--code-color);
-}
-
-input[type="text"]:disabled {
-	background-color: var(--disabled-input-color);
-}
-
-input[type="text"]:focus {
-	outline: 1px solid var(--line-number-color);
-	outline-offset: 1px;
-}
-
-.invalid-input {
-	border: 2px solid var(--error-color);
-}
-
-.invalid-input:focus {
-	outline-color: var(--error-color) !important;
-}
-
-.error-message {
-	color: var(--error-color);
-}
-
-.blink {
-	animation: blink 2s cubic-bezier(0.68, -0.55, 0.27, 1.55) 0s infinite normal forwards;
-}
-
-@keyframes blink {
-
-	0%,
-	50%,
-	100% {
-		opacity: 1;
-	}
-
-	25%,
-	75% {
-		opacity: 0;
-	}
 }
 
 pre {
 	margin: 0;
 }
 
-.line {
-	display: flex;
+#code-lines {
+	padding: 0;
 }
 
-.line:first-child * {
+#code-lines>:first-child * {
 	padding-top: 0.5em;
 }
 
-.line:last-child * {
+#code-lines>:last-child * {
 	padding-bottom: 0.5em;
 }
 
-.line-number {
+.code-line-number {
 	width: 1em;
-	padding: 0.15em 0.8em;
 	text-align: right;
-	border-right: 1px solid var(--line-number-color);
+	color: var(--line-number-color);
+	padding: 0.15em 0.8em;
+	border-right: 1px solid;
 }
 
-.line-number * {
+.code-line-number * {
 	color: var(--line-number-color) !important;
 }
 
-.line-code {
+.code-line-content {
 	flex: 1;
-	padding: 0.15em 0.6em;
+	padding: 0.15em 0.8em;
 }
 
 .hljs-keyword {
@@ -140,7 +58,6 @@ pre {
 
 .active-line * {
 	font-weight: bold;
-	color: var(--code-background-color) !important;
-	background-color: var(--title-color);
-	border-color: var(--code-background-color);
+	color: var(--code-background) !important;
+	background: var(--title-color);
 }

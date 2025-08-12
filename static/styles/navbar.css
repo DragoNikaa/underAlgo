@@ -1,7 +1,9 @@
-nav h1,
-nav ul,
-nav li {
-	display: inline;
+nav {
+	border-bottom: 0.15em solid var(--line-number-color);
+}
+
+nav h1 {
+	cursor: pointer;
 }
 
 nav a {
@@ -11,4 +13,5 @@ nav a {
 
 nav ul {
 	list-style: none;
+	padding: 0;
 }

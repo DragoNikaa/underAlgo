@@ -1,65 +1,56 @@
-#numbers-container {
-	display: flex;
-	flex-wrap: nowrap;
-	justify-content: center;
-}
-
-#numbers-container>* {
-	padding: 1em 1.3em;
-	border: 1px solid var(--line-number-color);
-	border-radius: 5px;
-	transition: all 0.25s ease;
-}
-
-.variable-container {
-	position: relative;
-	width: fit-content;
-	padding: 1em;
-	transition: all 0.6s ease;
-}
-
-#left-container {
+#left {
 	color: var(--keyword-color);
 }
 
-#right-container {
+#right {
 	color: var(--title-color);
 }
 
-#middle-container {
+#middle {
 	color: var(--built-in-color);
 }
 
-.left-number-style {
+.left-number,
+.right-number,
+.middle-number {
 	font-weight: bold;
-	color: var(--code-background-color);
-	background-color: var(--keyword-color);
+	color: var(--code-background);
 }
 
-.right-number-style {
-	font-weight: bold;
-	color: var(--code-background-color);
-	background-color: var(--title-color);
+.left-number {
+	background: var(--keyword-color);
 }
 
-.middle-number-style {
-	font-weight: bold;
-	color: var(--code-background-color);
-	background-color: var(--built-in-color);
+.right-number {
+	background: var(--title-color);
 }
 
-.left-number-style.right-number-style {
-	background: linear-gradient(45deg, var(--keyword-color) 37%, var(--title-color) 63%);
+.middle-number {
+	background: var(--built-in-color);
 }
 
-.left-number-style.middle-number-style {
-	background: linear-gradient(45deg, var(--keyword-color) 37%, var(--built-in-color) 63%);
+.left-number.right-number {
+	background: linear-gradient(45deg,
+			var(--keyword-color) 37%,
+			var(--title-color) 63%);
 }
 
-.right-number-style.middle-number-style {
-	background: linear-gradient(45deg, var(--title-color) 37%, var(--built-in-color) 63%);
+.left-number.middle-number {
+	background: linear-gradient(45deg,
+			var(--keyword-color) 37%,
+			var(--built-in-color) 63%);
 }
 
-.left-number-style.right-number-style.middle-number-style {
-	background: linear-gradient(45deg, var(--keyword-color) 25%, var(--title-color) 45%, var(--title-color) 55%, var(--built-in-color) 75%);
+.right-number.middle-number {
+	background: linear-gradient(45deg,
+			var(--title-color) 37%,
+			var(--built-in-color) 63%);
+}
+
+.left-number.right-number.middle-number {
+	background: linear-gradient(45deg,
+			var(--keyword-color) 25%,
+			var(--title-color) 45%,
+			var(--title-color) 55%,
+			var(--built-in-color) 75%);
 }

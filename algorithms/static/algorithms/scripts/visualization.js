@@ -1,8 +1,6 @@
 document.getElementById("start-button").addEventListener("click", handleStartButtonClick);
 document.getElementById("next-step-button").addEventListener("click", handleNextStepButtonClick);
-document.getElementById("restart-button").addEventListener("click", () => {
-	window.location.reload();
-});
+document.getElementById("restart-button").addEventListener("click", () => window.location.reload());
 
 async function handleStartButtonClick() {
 	const testCaseData = getSelectedTestCaseData();
@@ -10,8 +8,8 @@ async function handleStartButtonClick() {
 	try {
 		const data = await sendStartRequest(testCaseData);
 		if (!data) return;
-		hideElements("test-cases", "start-button");
-		showElements("next-step-button", "restart-button");
+		hideElements("test-cases");
+		showElements("animation", "explanation");
 		prepareAnimationDisplay(data.input);
 		await handleAnimationStep(data.step);
 		updateActiveLine(data.step.line);
@@ -61,11 +59,9 @@ async function sendRequest(endpoint, bodyData = null) {
 	if (bodyData) options.body = JSON.stringify(bodyData);
 	const response = await fetch(endpoint, options);
 	const data = await response.json();
-	if (response.status === 422) {
-		handleResponseErrors(data.errors)
-		return;
-	}
-	return data;
+	if (response.status === 422)
+		data.errors.forEach(error => handleValidationError(error.field, error.input, error.message));
+	else return data;
 }
 
 function getCSRFToken() {
@@ -74,17 +70,6 @@ function getCSRFToken() {
 
 function getEndpoint(pathSegment) {
 	return window.location.href + pathSegment;
-}
-
-function handleResponseErrors(errors) {
-	errors.forEach(error => {
-		const fieldName = error.field;
-		const inputId = `${fieldName}-input`;
-		const userMessage = error.message;
-		const inputValue = error.input;
-		const devMessage = `Invalid value in input "${fieldName}": ${inputValue}. Reason: ${userMessage}`;
-		handleValidationError(inputId, userMessage, devMessage);
-	});
 }
 
 function getSelectedTestCaseData() {
@@ -104,11 +89,11 @@ function getSelectedTestCaseData() {
 function getSelectedTestCase() {
 	const selectedTestCase = document.querySelector("input[name=test-case]:checked");
 	if (!selectedTestCase) {
-		displayMessageInElement("radio-error-message", "Even algorithms need directions – pick a test case to continue.");
+		showElements("radio-error-message");
 		console.warn("No test case selected.");
 		return;
 	}
-	displayMessageInElement("radio-error-message", "");
+	hideElements("radio-error-message");
 	return selectedTestCase;
 }
 
@@ -120,43 +105,31 @@ function getCustomTestCaseBody() {
 		const fieldName = input.id.replace("-input", "");
 		try {
 			body[fieldName] = JSON.parse(input.value);
-			clearValidationError(input.id);
+			clearValidationError(fieldName);
 		} catch (error) {
-			handleValidationError(input.id, "Invalid format. Algorithm confused.", error);
+			handleValidationError(fieldName, input.value, "Invalid format. Algorithm confused.", error);
 			isInputValid = false;
 		}
 	});
 	return isInputValid ? body : null;
 }
 
-function handleValidationError(inputId, userMessage, devMessage) {
-	highlightInvalidInput(inputId);
-	displayMessageInElement(getMessageElementId(inputId), userMessage);
-	console.error(devMessage);
+function handleValidationError(fieldName, inputValue, userMessage, devMessage = null) {
+	if (!devMessage) devMessage = userMessage;
+	addClassToElements("invalid-input", `${fieldName}-input`);
+	displayTextInElement(`${fieldName}-error-message`, userMessage);
+	showElements(`${fieldName}-error-row`);
+	console.error(`Invalid value in input "${fieldName}": "${inputValue}".\nReason: "${devMessage}".`);
 }
 
-function clearValidationError(inputId) {
-	unhighlightInput(inputId);
-	displayMessageInElement(getMessageElementId(inputId), "");
+function clearValidationError(fieldName) {
+	removeClassFromElements("invalid-input", `${fieldName}-input`);
+	hideElements(`${fieldName}-error-row`);
 }
 
-function highlightInvalidInput(inputId) {
-	const inputElement = document.getElementById(inputId);
-	inputElement.classList.add("invalid-input");
-}
-
-function unhighlightInput(inputId) {
-	const inputElement = document.getElementById(inputId);
-	inputElement.classList.remove("invalid-input");
-}
-
-function displayMessageInElement(elementId, message) {
+function displayTextInElement(elementId, message) {
 	const element = document.getElementById(elementId);
 	element.textContent = message;
-}
-
-function getMessageElementId(inputId) {
-	return inputId.replace("input", "error-message");
 }
 
 function hideElements(...elementIds) {
@@ -178,14 +151,16 @@ function makeElementsVisible(...elementIds) {
 function addClassToElements(className, ...elementIds) {
 	elementIds.forEach(elementId => {
 		const element = document.getElementById(elementId);
-		element.classList.add(className);
+		if (element) element.classList.add(className);
+		else console.error(`Cannot add class "${className}" because element with ID "${elementId}" does not exist.`);
 	});
 }
 
 function removeClassFromElements(className, ...elementIds) {
 	elementIds.forEach(elementId => {
 		const element = document.getElementById(elementId);
-		element.classList.remove(className);
+		if (element) element.classList.remove(className);
+		else console.error(`Cannot remove class "${className}" because element with ID "${elementId}" does not exist.`);
 	});
 }
 
@@ -198,12 +173,12 @@ async function handleAnimationStep(step) {
 
 function displayStepExplanation(explanation) {
 	if (!explanation) return;
-	const container = document.getElementById("explanation-container");
+	const container = document.getElementById("explanation-content");
 	container.innerHTML = parseStyledText(explanation);
 }
 
 function parseStyledText(text) {
-    const regex = /\[\[(.+?):(.+?)\]\]/g;
+	const regex = /\[\[(.+?):(.+?)\]\]/g;
 	return text.replace(regex, (match, styleClass, content) => `<span class="${styleClass}">${content}</span>`);
 }
 
@@ -218,18 +193,18 @@ function enableButton(buttonId) {
 }
 
 function updateOutput(output) {
-	const outputElement = document.getElementById("output-container");
-	outputElement.textContent = `output = ${output}`;
+	const outputElement = document.getElementById("output");
+	outputElement.textContent += output;
+	showElements("output");
 }
 
 function updateActiveLine(lineNumber) {
-	removeActiveLine();
-	const line = document.getElementById(`line_${lineNumber}`);
-	if (line) line.classList.add("active-line");
+	unhighlightActiveLine();
+	if (lineNumber) addClassToElements("active-line", `code-line_${lineNumber}`);
 }
 
-function removeActiveLine() {
-	const activeLine = document.querySelector("#lines > .active-line");
+function unhighlightActiveLine() {
+	const activeLine = document.querySelector("#code-lines > .active-line");
 	if (activeLine) activeLine.classList.remove("active-line");
 }
 

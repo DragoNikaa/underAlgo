@@ -2,20 +2,14 @@
 	--easy-color: #3cd122;
 	--medium-color: #ffc500;
 	--hard-color: #ff0000;
-	--easy-background-color: #285620;
-	--medium-background-color: #a05d0b;
-	--hard-background-color: #650b0b;
+	--easy-background: #285620;
+	--medium-background: #a05d0b;
+	--hard-background: #650b0b;
 }
 
-.details-container {
-	display: flex;
-	flex-wrap: wrap;
-	gap: 0.8em 1em;
-}
-
-.oval-container {
-	display: inline-block;
+.oval {
 	font-weight: bold;
+	background: var(--code-background);
 	padding: 0.5em 1em;
 	border: 0.2em solid;
 	border-radius: 2em;
@@ -23,22 +17,15 @@
 
 .easy {
 	color: var(--easy-color);
-	background-color: var(--easy-background-color);
-	border-color: var(--easy-color);
+	background: var(--easy-background);
 }
 
 .medium {
 	color: var(--medium-color);
-	background-color: var(--medium-background-color);
-	border-color: var(--medium-color);
+	background: var(--medium-background);
 }
 
 .hard {
 	color: var(--hard-color);
-	background-color: var(--hard-background-color);
-	border-color: var(--hard-color);
-}
-
-.category {
-	background-color: var(--code-background-color);
+	background: var(--hard-background);
 }

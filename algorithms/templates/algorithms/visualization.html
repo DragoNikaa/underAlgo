@@ -1,62 +1,100 @@
 {% extends "index.html" %}
 {% load static %}
 {% block styles %}
+<link rel="stylesheet" href="{% static 'algorithms/styles/main.css' %}">
 <link rel="stylesheet" href="{% static 'algorithms/styles/visualization.css' %}">
+<link rel="stylesheet" href="{% static 'algorithms/styles/animations/main.css' %}">
 {% block animation_styles %}{% endblock animation_styles %}
 {% endblock styles %}
 {% block content %}
-<h1>{{ name }}</h1>
-<div id="visualization">
-	<div id="steps-container" class="visualization-segment">
-		{% csrf_token %}
-		<div id="test-cases">
-			{% for test_case in test_cases %}
-			<div class="test-case">
-				<input type="radio" id="test-case-{{ test_case.id }}" name="test-case" value="{{ test_case.id }}">
-				<table>
-					{% for key, value in test_case.body.items %}
-					<tr>
-						<td><label for="test-case-{{ test_case.id }}">{{ key }} =&nbsp;</label></td>
-						<td><input type="text" value="{{ value }}" disabled></td>
-					</tr>
+<h1>{{ algorithm.name }}</h1>
+<div class="grid-two-columns large-gap">
+	<div class="flex-column large-gap">
+		<div id="test-cases" class="tile flex-column medium-gap">
+			{% csrf_token %}
+			<div>
+				<h2>test cases</h2>
+				<div class="flex-column medium-gap">
+					{% for test_case in test_cases %}
+					<div class="flex-row align-items-center medium-gap">
+						<input type="radio" id="test-case-{{ test_case.id }}" name="test-case" value="{{ test_case.id }}">
+						<table>
+							{% for key, value in test_case.body.items %}
+							<tr>
+								<td><label for="test-case-{{ test_case.id }}">{{ key }} =&nbsp;</label></td>
+								<td><input type="text" value="{{ value }}" disabled></td>
+							</tr>
+							{% endfor %}
+						</table>
+					</div>
 					{% endfor %}
-				</table>
+					<div class="flex-row align-items-center medium-gap">
+						<input type="radio" id="test-case-custom" name="test-case" value="custom">
+						<table>
+							{% for key in test_cases.0.body %}
+							<tr>
+								<td><label for="test-case-custom">{{ key }} =&nbsp;</label></td>
+								<td><input type="text" id="{{ key }}-input" class="custom-input"></td>
+							</tr>
+							<tr id="{{ key }}-error-row" class="hidden">
+								<td></td>
+								<td id="{{ key }}-error-message" class="error-message"></td>
+							</tr>
+							{% endfor %}
+						</table>
+					</div>
+				</div>
 			</div>
+			<p id="radio-error-message" class="error-message hidden">
+				Even algorithms need directions – pick a test case to continue.
+			</p>
+			<button id="start-button">start</button>
+		</div>
+		<div id="animation" class="tile flex-column medium-gap hidden">
+			<div>
+				<h2>animation</h2>
+				{% block animation %}{% endblock animation %}
+			</div>
+			<div id="output" class="hidden">output = </div>
+			<div class="flex-row medium-gap">
+				<button id="next-step-button">next</button>
+				<button id="restart-button">restart</button>
+			</div>
+		</div>
+		<div class="tile flex-column medium-gap">
+			<div>
+				<h2>description</h2>
+				<p>{{ algorithm.general_description }}</p>
+			</div>
+			<div>
+				<h2>input</h2>
+				<div class="flex-column small-gap">
+					{% for parameter, description in algorithm.input_description.items %}
+					<p><span class="bold">{{ parameter }}:</span> {{ description }}</p>
+					{% endfor %}
+				</div>
+			</div>
+			<div>
+				<h2>output</h2>
+				<p>{{ algorithm.output_description}}</p>
+			</div>
+		</div>
+		{% include "algorithms/details.html" %}
+	</div>
+	<div class="flex-column large-gap">
+		<div id="code-lines" class="tile flex-column">
+			{% for code_line in algorithm.code %}
+			<pre id="code-line_{{ forloop.counter }}" class="flex-row">
+				<code class="language-python code-line-number">{{ forloop.counter }}</code>
+				<code class="language-python code-line-content">{{ code_line }}</code>
+			</pre>
 			{% endfor %}
-			<div class="test-case">
-				<input type="radio" id="test-case-custom" name="test-case" value="custom">
-				<table>
-					{% for key in test_cases.0.body %}
-					<tr>
-						<td><label for="test-case-custom">{{ key }} =&nbsp;</label></td>
-						<td><input type="text" id="{{ key }}-input" class="custom-input"></td>
-					</tr>
-					<tr>
-						<td></td>
-						<td><span id="{{ key }}-error-message" class="error-message"></span></td>
-					</tr>
-					{% endfor %}
-				</table>
-			</div>
 		</div>
-		<div id="radio-error-message" class="error-message"></div>
-		<button id="start-button">start</button>
-		<div id="animation-container">
-			{% block animation %}{% endblock animation %}
+		<div id="explanation" class="tile hidden">
+			<h2>explanation</h2>
+			<p id="explanation-content"></p>
 		</div>
-		<div id="output-container"></div>
-		<button id="next-step-button" class="hidden">next</button>
-		<button id="restart-button" class="hidden">restart</button>
 	</div>
-	<div id="lines" class="visualization-segment">
-		{% for line in code %}
-		<pre id="line_{{ forloop.counter }}" class="line">
-			<code class="language-python line-number">{{ forloop.counter }}</code>
-			<code class="language-python line-code">{{ line }}</code>
-		</pre>
-		{% endfor %}
-	</div>
-	<div id="explanation-container" class="visualization-segment"></div>
 </div>
 {% endblock content %}
 {% block scripts %}

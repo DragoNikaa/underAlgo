@@ -4,22 +4,24 @@
 <link rel="stylesheet" href="{% static 'algorithms/styles/animations/binary_search.css' %}">
 {% endblock animation_styles %}
 {% block animation %}
-<div id="target-container" class="hidden">
-	<span id="target-name">target =</span>
-	<span id="target-value"></span>
-</div>
-<div id="numbers-container"></div>
-<div id="left-container" class="variable-container hidden">
-	<span id="left-name">left =</span>
-	<span id="left-value"></span>
-</div>
-<div id="right-container" class="variable-container hidden">
-	<span id="right-name">right =</span>
-	<span id="right-value"></span>
-</div>
-<div id="middle-container" class="variable-container hidden">
-	<span id="middle-name">middle =</span>
-	<span id="middle-value"></span>
+<div class="flex-column medium-gap">
+	<div>
+		<span id="target-name">target =</span>
+		<span id="target-value"></span>
+	</div>
+	<div id="numbers" class="list"></div>
+	<div id="left" class="variable invisible">
+		<span id="left-name">left =</span>
+		<span id="left-value"></span>
+	</div>
+	<div id="right" class="variable invisible">
+		<span id="right-name">right =</span>
+		<span id="right-value"></span>
+	</div>
+	<div id="middle" class="variable invisible">
+		<span id="middle-name">middle =</span>
+		<span id="middle-value"></span>
+	</div>
 </div>
 {% endblock animation %}
 {% block animation_scripts %}

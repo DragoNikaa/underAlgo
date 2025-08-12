@@ -34,7 +34,7 @@ class VisualizationView(View):
     @staticmethod
     def _get_algorithm_data(algorithm: Algorithm) -> dict[str, Any]:
         test_cases = algorithm.testcase_set.all()
-        return {"name": algorithm.name, "code": algorithm.code, "test_cases": test_cases}
+        return {"algorithm": algorithm, "test_cases": test_cases}
 
 
 class VisualizationStartView(View):

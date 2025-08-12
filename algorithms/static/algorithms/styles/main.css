@@ -1,0 +1,31 @@
+:root {
+	--easy-color: #3cd122;
+	--medium-color: #ffc500;
+	--hard-color: #ff0000;
+	--easy-background: #285620;
+	--medium-background: #a05d0b;
+	--hard-background: #650b0b;
+}
+
+.oval {
+	font-weight: bold;
+	background: var(--code-background);
+	padding: 0.5em 1em;
+	border: 0.2em solid;
+	border-radius: 2em;
+}
+
+.easy {
+	color: var(--easy-color);
+	background: var(--easy-background);
+}
+
+.medium {
+	color: var(--medium-color);
+	background: var(--medium-background);
+}
+
+.hard {
+	color: var(--hard-color);
+	background: var(--hard-background);
+}

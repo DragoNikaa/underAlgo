@@ -12,9 +12,9 @@ class BinarySearch:
 
     _NUMBERS_STYLED = f"[[bold:numbers]]"
     _TARGET_STYLED = f"[[bold:target]]"
-    _LEFT_STYLED = f"[[bold keyword-color:{_LEFT}]]"
-    _RIGHT_STYLED = f"[[bold title-color:{_RIGHT}]]"
-    _MIDDLE_STYLED = f"[[bold built-in-color:{_MIDDLE}]]"
+    _LEFT_STYLED = f"[[keyword-color:{_LEFT}]]"
+    _RIGHT_STYLED = f"[[title-color:{_RIGHT}]]"
+    _MIDDLE_STYLED = f"[[built-in-color:{_MIDDLE}]]"
 
     def __init__(self, numbers: list[int], target: int):
         self._numbers = numbers
@@ -59,7 +59,7 @@ class BinarySearch:
                 self._save_step(line=8,
                                 explanation=f"The element at index {self._MIDDLE_STYLED} is not equal to {self._TARGET_STYLED}, so we move on.")
                 self._save_step(line=10,
-                                explanation=f"The element at index {self._MIDDLE_STYLED} is less than {self._TARGET_STYLED}. Since {self._NUMBERS_STYLED} are sorted in ascending order, we know that if {self._TARGET_STYLED} is present in {self._NUMBERS_STYLED}, it must be somewhere between {self._MIDDLE_STYLED} (exclusive) and {self._RIGHT_STYLED} (inclusive).")
+                                explanation=f"The element at index {self._MIDDLE_STYLED} is less than {self._TARGET_STYLED}. Since {self._NUMBERS_STYLED} are sorted in non-decreasing order, we know that if {self._TARGET_STYLED} is present in {self._NUMBERS_STYLED}, it must be somewhere between {self._MIDDLE_STYLED} (exclusive) and {self._RIGHT_STYLED} (inclusive).")
 
                 self._save_step(line=11, to_change=[self._LEFT],
                                 explanation=f"We adjust {self._LEFT_STYLED} to narrow the search range accordingly.")
@@ -71,7 +71,7 @@ class BinarySearch:
                 self._save_step(line=10,
                                 explanation=f"The element at index {self._MIDDLE_STYLED} is not less than {self._TARGET_STYLED}, so we move on.")
                 self._save_step(line=12,
-                                explanation=f"The element at index {self._MIDDLE_STYLED} is greater than {self._TARGET_STYLED}. Since {self._NUMBERS_STYLED} are sorted in ascending order, we know that if {self._TARGET_STYLED} is present in {self._NUMBERS_STYLED}, it must be somewhere between {self._LEFT_STYLED} (inclusive) and {self._MIDDLE_STYLED} (exclusive).")
+                                explanation=f"The element at index {self._MIDDLE_STYLED} is greater than {self._TARGET_STYLED}. Since {self._NUMBERS_STYLED} are sorted in non-decreasing order, we know that if {self._TARGET_STYLED} is present in {self._NUMBERS_STYLED}, it must be somewhere between {self._LEFT_STYLED} (inclusive) and {self._MIDDLE_STYLED} (exclusive).")
 
                 self._save_step(line=13, to_change=[self._RIGHT],
                                 explanation=f"We adjust {self._RIGHT_STYLED} to narrow the search range accordingly.")
@@ -121,5 +121,5 @@ class BinarySearchInput(BaseModel):
     @classmethod
     def numbers_must_be_sorted(cls, numbers: list[int]) -> list[int]:
         if numbers != sorted(numbers):
-            raise ValueError("Input should be a sorted list")
+            raise ValueError("Input should be a list sorted in non-decreasing order")
         return numbers

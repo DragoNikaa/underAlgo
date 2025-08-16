@@ -1,14 +1,14 @@
-<nav class="flex-row large-gap">
-	<a href="{% url 'algorithms' %}">
-		<h1>underAlgo</h1>
-	</a>
-	<ul class="flex-row align-items-center large-gap">
-		<li><a href="{% url 'algorithms' %}">Algorithms</a></li>
-		|
-		<li><a href="#">About</a></li>
-		|
-		<li><a href="#">Contact</a></li>
-		|
-		<li><a href="#">Log in</a></li>
-	</ul>
+<nav class="flex-row align-items-center">
+	<a href="{% url 'algorithms' %}">{% include "logo.html" %}</a>
+	<div class="flex-row extra-large-gap">
+		<ul class="flex-row large-gap">
+			<li><a href="{% url 'algorithms' %}" class="link">algorithms</a></li>
+			<li><a href="#" class="link">about</a></li>
+			<li><a href="#" class="link">contact</a></li>
+		</ul>
+		<ul class="flex-row large-gap">
+			<li><a href="#" id="log-in-link" class="link">log in</a></li>
+			<li><a href="#" id="sign-up-link" class="link">sign up</a></li>
+		</ul>
+	</div>
 </nav>

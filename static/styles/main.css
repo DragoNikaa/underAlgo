@@ -15,9 +15,17 @@ html {
 	background: var(--background);
 }
 
-h1 {
+body {
+	margin: 0;
+}
+
+#content {
+	margin: 0 1.5em 1em 1.5em;
+}
+
+h1,
+.logo {
 	width: fit-content;
-	font-size: 2.5rem;
 	background: linear-gradient(to right,
 			var(--title-color),
 			var(--keyword-color),
@@ -26,9 +34,21 @@ h1 {
 	-webkit-background-clip: text;
 	background-size: 200% 100%;
 	background-position: left;
-	margin: 1rem 1.5rem;
 	transition: all 1s ease;
 	cursor: default;
+}
+
+h1 {
+	font-size: 2.5rem;
+	margin: 1rem 1.5rem;
+}
+
+.logo {
+	font-size: 1.8rem;
+	font-weight: bold;
+	text-indent: 2ch;
+	line-height: 0.8;
+	margin: 0;
 }
 
 h2 {
@@ -58,7 +78,8 @@ h2::after {
 }
 
 h1:hover,
-h2:hover::after {
+h2:hover::after,
+.logo:hover {
 	background-position: right;
 }
 
@@ -98,6 +119,10 @@ p {
 
 .large-gap {
 	gap: 1.5em;
+}
+
+.extra-large-gap {
+	gap: 5em;
 }
 
 .tile {

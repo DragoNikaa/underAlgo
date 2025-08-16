@@ -5,27 +5,37 @@
 	--easy-background: #285620;
 	--medium-background: #a05d0b;
 	--hard-background: #650b0b;
-}
-
-.oval {
-	font-weight: bold;
-	background: var(--code-background);
-	padding: 0.5em 1em;
-	border: 0.2em solid;
-	border-radius: 2em;
+	--easy-active-color: #2fa31a;
+	--medium-active-color: #cc9e00;
+	--hard-active-color: #cc0000;
 }
 
 .easy {
+	--hover-color: var(--easy-color);
 	color: var(--easy-color);
 	background: var(--easy-background);
 }
 
+.easy:active {
+	color: var(--easy-active-color);
+}
+
 .medium {
+	--hover-color: var(--medium-color);
 	color: var(--medium-color);
 	background: var(--medium-background);
 }
 
+.medium:active {
+	color: var(--medium-active-color);
+}
+
 .hard {
+	--hover-color: var(--hard-color);
 	color: var(--hard-color);
 	background: var(--hard-background);
+}
+
+.hard:active {
+	color: var(--hard-active-color);
 }

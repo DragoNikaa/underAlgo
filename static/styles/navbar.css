@@ -1,17 +1,55 @@
 nav {
-	border-bottom: 0.15em solid var(--line-number-color);
+	justify-content: space-between;
+	padding: 0.7em 3em;
+	border-bottom: 1px solid var(--line-number-color);
 }
 
-nav h1 {
+nav .logo {
 	cursor: pointer;
 }
 
 nav a {
 	text-decoration: none;
-	color: inherit;
+	font-size: 1.2rem;
 }
 
 nav ul {
 	list-style: none;
 	padding: 0;
+	margin: 0;
+}
+
+nav .link {
+	background: none;
+}
+
+#log-in-link {
+	--hover-color: var(--background);
+	color: var(--background);
+	background: var(--title-color);
+	border-color: transparent;
+}
+
+#log-in-link:active {
+	background: var(--auth-active-color);
+}
+
+#sign-up-link {
+	--hover-color: var(--title-color);
+	color: var(--title-color);
+}
+
+#sign-up-link:active {
+	color: var(--auth-active-color);
+}
+
+.active-link {
+	--hover-color: var(--background) !important;
+	color: var(--background) !important;
+	background: var(--code-color) !important;
+	border-color: transparent !important;
+}
+
+.active-link:active {
+	background: var(--disabled-input-background) !important;
 }

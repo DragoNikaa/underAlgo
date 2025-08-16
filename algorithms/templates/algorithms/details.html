@@ -1,10 +1,6 @@
 <div class="flex-row flex-wrap medium-gap">
-	<div class="oval {{ algorithm.difficulty }}">
-		{{ algorithm.difficulty }}
-	</div>
+	<a href="#" class="link {{ algorithm.difficulty }}">{{ algorithm.difficulty }}</a>
 	{% for category in algorithm.categories.all %}
-	<div class="oval">
-		{{ category.name }}
-	</div>
+	<a href="#" class="link">{{ category.name }}</a>
 	{% endfor %}
 </div>

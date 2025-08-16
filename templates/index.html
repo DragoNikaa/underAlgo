@@ -13,7 +13,10 @@
 	</head>
 	<body>
 		{% include "navbar.html" %}
-		{% block content %}{% endblock content %}
+		<div id="content">
+			{% block content %}{% endblock content %}
+		</div>
+		<script src="{% static 'scripts/main.js' %}"></script>
 		{% block scripts %}{% endblock scripts %}
 	</body>
 </html>

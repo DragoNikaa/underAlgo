@@ -96,17 +96,42 @@ p {
 	flex-direction: column;
 }
 
+.grid-column {
+	display: grid;
+}
+
 .grid-two-columns {
 	display: grid;
 	grid-template-columns: 1fr 1fr;
+}
+
+.grid-three-columns {
+	display: grid;
+	grid-template-columns: 1fr 2fr 1fr;
+}
+
+.flex-grow {
+	flex: 1;
 }
 
 .flex-wrap {
 	flex-wrap: wrap;
 }
 
+.nowrap {
+	white-space: nowrap;
+}
+
+.justify-content-right {
+	justify-content: right;
+}
+
 .align-items-center {
 	align-items: center;
+}
+
+.align-content-center {
+	align-content: center;
 }
 
 .small-gap {

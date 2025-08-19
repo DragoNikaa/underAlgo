@@ -1,0 +1,38 @@
+{% load static %}
+<div class="flex-row large-gap">
+	<div class="flex-grow flex-row justify-content-right medium-gap">
+		{% if page_obj.has_previous %}
+		<a href="?page=1" class="link align-items-center small-gap">
+			<svg height="1em" viewBox="0 0 12 10">
+				<use href="{% static 'icons/icons.svg' %}#arrow-left"></use>
+				<use href="{% static 'icons/icons.svg' %}#arrow-left" x="6"></use>
+			</svg>
+			first
+		</a>
+		<a href="?page={{ page_obj.previous_page_number }}" class="link align-items-center small-gap">
+			<svg height="1em" viewBox="0 0 6 10">
+				<use href="{% static 'icons/icons.svg' %}#arrow-left"></use>
+			</svg>
+			previous
+		</a>
+		{% endif %}
+	</div>
+	<span class="nowrap align-content-center">page {{ page_obj.number }} / {{ page_obj.paginator.num_pages }}</span>
+	<div class="flex-grow flex-row medium-gap">
+		{% if page_obj.has_next %}
+		<a href="?page={{ page_obj.next_page_number }}" class="link align-items-center small-gap">
+			next
+			<svg height="1em" viewBox="0 0 6 10">
+				<use href="{% static 'icons/icons.svg' %}#arrow-right"></use>
+			</svg>
+		</a>
+		<a href="?page={{ page_obj.paginator.num_pages }}" class="link align-items-center small-gap">
+			last
+			<svg height="1em" viewBox="0 0 12 10">
+				<use href="{% static 'icons/icons.svg' %}#arrow-right"></use>
+				<use href="{% static 'icons/icons.svg' %}#arrow-right" x="6"></use>
+			</svg>
+		</a>
+		{% endif %}
+	</div>
+</div>

@@ -1,3 +1,5 @@
+import re
+
 from django.db import models
 
 
@@ -37,6 +39,21 @@ class Algorithm(models.Model):
 
     class Meta:
         ordering = ["-created"]
+
+    def short_description(self, max_length: int = 250) -> str:
+        if len(self.general_description) <= max_length:
+            return self.general_description
+        return self._truncate_description_at_word_boundary(max_length)
+
+    def _truncate_description_at_word_boundary(self, max_length: int) -> str:
+        snippet = self.general_description[: max(0, max_length - 2)]
+        match = re.match(r"^(.+?)\W+(?:\w+)?$", snippet)
+        if match:
+            return match.group(1) + "..."
+        return "..."
+
+    def slugged_name(self) -> str:
+        return self.name.replace(" ", "-")
 
     def __str__(self) -> str:
         return self.name

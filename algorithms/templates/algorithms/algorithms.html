@@ -1,4 +1,18 @@
 {% extends "index.html" %}
+{% load static %}
+{% block styles %}
+<link rel="stylesheet" href="{% static 'algorithms/styles/main.css' %}">
+{% endblock styles %}
 {% block content %}
-<h1>Here will be algorithms...</h1>
+<div class="flex-column large-gap">
+	<div class="grid-three-columns large-gap">
+		<div></div>
+		<div>
+			<h1>algorithms</h1>
+			{% include "algorithms/list.html" %}
+		</div>
+		<div></div>
+	</div>
+	{% include "pagination.html"%}
+</div>
 {% endblock content %}

@@ -1,7 +1,17 @@
 :root {
-    --auth-active-color: #4c88bb;
+	--auth-active-color: #4c88bb;
 	--disabled-input-background: #a1a1a1;
 	--error-color: #eb0000;
+}
+
+a {
+	text-decoration: none;
+	color: inherit;
+}
+
+a *,
+label {
+	cursor: pointer;
 }
 
 input,
@@ -9,10 +19,6 @@ textarea,
 select,
 button {
 	font: inherit;
-}
-
-label {
-	cursor: pointer;
 }
 
 input[type="radio"] {
@@ -77,6 +83,7 @@ input[type="text"]:focus {
 }
 
 button,
+.link-button,
 .link {
 	--hover-color: var(--code-color);
 	position: relative;
@@ -88,7 +95,8 @@ button,
 	transition: all 0.25s ease;
 }
 
-button {
+button,
+.link-button {
 	width: fit-content;
 	color: var(--code-background);
 	background: var(--code-color);
@@ -98,13 +106,13 @@ button {
 
 .link {
 	display: flex;
-	text-decoration: none;
 	color: var(--code-color);
 	background: var(--code-background);
 	border-radius: 2em;
 }
 
 button::before,
+.link-button::before,
 .link::before {
 	content: "";
 	position: absolute;
@@ -115,7 +123,8 @@ button::before,
 	transition: all 0.5s ease;
 }
 
-button:hover {
+button:hover,
+.link-button:hover {
 	color: var(--code-color);
 	background: var(--code-background);
 }
@@ -125,6 +134,7 @@ button:hover {
 }
 
 button:hover:not(:disabled)::before,
+.link-button:hover::before,
 .link:hover::before {
 	left: 100%;
 	background: linear-gradient(120deg,
@@ -133,7 +143,8 @@ button:hover:not(:disabled)::before,
 			transparent);
 }
 
-button:not(:hover:not(:disabled))::before {
+button:not(:hover:not(:disabled))::before,
+.link-button:not(:hover)::before {
 	background: linear-gradient(120deg,
 			transparent,
 			var(--code-background),
@@ -141,12 +152,14 @@ button:not(:hover:not(:disabled))::before {
 }
 
 button:active,
+.link-button:active,
 .link:active {
 	color: var(--disabled-input-background);
 	transition: all 0.05s ease;
 }
 
-button:active {
+button:active,
+.link-button:active {
 	transform: scale(0.95);
 }
 

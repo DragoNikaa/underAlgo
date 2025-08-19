@@ -1,6 +1,7 @@
 import json
 from typing import Any
 
+from django.core.paginator import Paginator
 from django.http import HttpRequest, HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, render
 from django.views import View
@@ -15,16 +16,20 @@ class AlgorithmsView(View):
     template_name = "algorithms/algorithms.html"
 
     def get(self, request: HttpRequest) -> HttpResponse:
-        return render(request, self.template_name)
+        algorithm_list = Algorithm.objects.all()
+        paginator = Paginator(algorithm_list, 2)
+        page_number = request.GET.get("page")
+        page_obj = paginator.get_page(page_number)
+        return render(request, self.template_name, {"page_obj": page_obj})
 
 
 class VisualizationView(View):
-    TEMPLATE_NAME = "algorithms/animations/binary_search.html"
+    template_name = "algorithms/animations/binary_search.html"
 
     def get(self, request: HttpRequest, algorithm_name: str) -> HttpResponse:
         algorithm = self._get_algorithm_from_db(algorithm_name)
         context = self._get_algorithm_data(algorithm)
-        return render(request, self.TEMPLATE_NAME, context)
+        return render(request, self.template_name, context)
 
     @staticmethod
     def _get_algorithm_from_db(algorithm_name: str) -> Algorithm:

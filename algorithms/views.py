@@ -1,7 +1,8 @@
 import json
 from typing import Any
 
-from django.core.paginator import Paginator
+from django.core.paginator import Page, Paginator
+from django.db.models import QuerySet
 from django.http import HttpRequest, HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, render
 from django.views import View
@@ -16,25 +17,42 @@ class AlgorithmsView(View):
     template_name = "algorithms/algorithms.html"
 
     def get(self, request: HttpRequest) -> HttpResponse:
-        algorithm_list = Algorithm.objects.all()
-        paginator = Paginator(algorithm_list, 2)
-        page_number = request.GET.get("page")
-        page_obj = paginator.get_page(page_number)
-        return render(request, self.template_name, {"page_obj": page_obj})
+        algorithms = self._get_filtered_algorithms(request)
+        page_obj = self._get_page_obj(algorithms, request.GET.get("page"))
+        context = {"page_obj": page_obj}
+        return render(request, self.template_name, context)
+
+    def _get_filtered_algorithms(self, request: HttpRequest) -> QuerySet[Algorithm]:
+        algorithms = Algorithm.objects.all()
+        algorithms = self._filter_by_difficulty(algorithms, request.GET.get("difficulty"))
+        algorithms = self._filter_by_categories(algorithms, request.GET.getlist("category"))
+        return algorithms
+
+    @staticmethod
+    def _filter_by_difficulty(algorithms: QuerySet[Algorithm], difficulty_slug: str | None) -> QuerySet[Algorithm]:
+        if difficulty_slug:
+            algorithms = algorithms.filter(difficulty__slug=difficulty_slug)
+        return algorithms
+
+    @staticmethod
+    def _filter_by_categories(algorithms: QuerySet[Algorithm], category_slugs: list[str]) -> QuerySet[Algorithm]:
+        for slug in category_slugs:
+            algorithms = algorithms.filter(categories__slug=slug)
+        return algorithms
+
+    @staticmethod
+    def _get_page_obj(algorithms: QuerySet[Algorithm], page_number: str | None) -> Page[Algorithm]:
+        paginator = Paginator(algorithms, 2)
+        return paginator.get_page(page_number)
 
 
 class VisualizationView(View):
     template_name = "algorithms/animations/binary_search.html"
 
-    def get(self, request: HttpRequest, algorithm_name: str) -> HttpResponse:
-        algorithm = self._get_algorithm_from_db(algorithm_name)
+    def get(self, request: HttpRequest, algorithm_slug: str) -> HttpResponse:
+        algorithm = get_object_or_404(Algorithm, slug=algorithm_slug)
         context = self._get_algorithm_data(algorithm)
         return render(request, self.template_name, context)
-
-    @staticmethod
-    def _get_algorithm_from_db(algorithm_name: str) -> Algorithm:
-        unslugged_algorithm_name = algorithm_name.replace("-", " ")
-        return get_object_or_404(Algorithm, name=unslugged_algorithm_name)
 
     @staticmethod
     def _get_algorithm_data(algorithm: Algorithm) -> dict[str, Any]:
@@ -43,7 +61,7 @@ class VisualizationView(View):
 
 
 class VisualizationStartView(View):
-    def post(self, request: HttpRequest, algorithm_name: str) -> HttpResponse:
+    def post(self, request: HttpRequest, algorithm_slug: str) -> HttpResponse:
         try:
             algorithm_input = self._get_algorithm_input(request)
         except ValidationError as error:
@@ -51,7 +69,7 @@ class VisualizationStartView(View):
             return JsonResponse({"errors": errors_details}, status=422)
         steps = self._get_initial_algorithm_steps(algorithm_input)
         first_step = steps.pop(0)
-        self._create_algorithm_session(request, algorithm_name, algorithm_input, steps)
+        self._create_algorithm_session(request, algorithm_slug, algorithm_input, steps)
         return JsonResponse({"input": algorithm_input, "step": first_step})
 
     def _get_algorithm_input(self, request: HttpRequest) -> dict[str, Any]:
@@ -87,24 +105,24 @@ class VisualizationStartView(View):
         return algorithms_steps.BinarySearch(**algorithm_input).get_steps()
 
     @staticmethod
-    def _create_algorithm_session(request: HttpRequest, algorithm_name: str, algorithm_input: dict[str, Any],
+    def _create_algorithm_session(request: HttpRequest, algorithm_slug: str, algorithm_input: dict[str, Any],
                                   steps: list[dict[str, Any]]) -> None:
-        request.session[algorithm_name] = {"input": algorithm_input, "steps": steps}
+        request.session[algorithm_slug] = {"input": algorithm_input, "steps": steps}
 
 
 class VisualizationNextStepView(View):
-    def post(self, request: HttpRequest, algorithm_name: str) -> HttpResponse:
-        steps = self._get_algorithm_steps_from_session(request, algorithm_name)
+    def post(self, request: HttpRequest, algorithm_slug: str) -> HttpResponse:
+        steps = self._get_algorithm_steps_from_session(request, algorithm_slug)
         next_step = steps.pop(0)
-        self._update_algorithm_session(request, algorithm_name, steps)
+        self._update_algorithm_session(request, algorithm_slug, steps)
         return JsonResponse({"step": next_step})
 
     @staticmethod
-    def _get_algorithm_steps_from_session(request: HttpRequest, algorithm_name: str) -> list[dict[str, Any]]:
-        steps: list[dict[str, Any]] = request.session[algorithm_name]["steps"]
+    def _get_algorithm_steps_from_session(request: HttpRequest, algorithm_slug: str) -> list[dict[str, Any]]:
+        steps: list[dict[str, Any]] = request.session[algorithm_slug]["steps"]
         return steps
 
     @staticmethod
-    def _update_algorithm_session(request: HttpRequest, algorithm_name: str, steps: list[dict[str, Any]]) -> None:
-        algorithm_input = request.session[algorithm_name]["input"]
-        request.session[algorithm_name] = {"input": algorithm_input, "steps": steps}
+    def _update_algorithm_session(request: HttpRequest, algorithm_slug: str, steps: list[dict[str, Any]]) -> None:
+        algorithm_input = request.session[algorithm_slug]["input"]
+        request.session[algorithm_slug] = {"input": algorithm_input, "steps": steps}

@@ -1,13 +1,13 @@
 <div class="grid-column large-gap">
 	{% for algorithm in page_obj %}
 	<div class="tile">
-		<a href="{% url 'visualization' algorithm.slugged_name %}">
-			<h2>{{ algorithm.name }}</h2>
+		<a href="{% url 'visualization' algorithm.slug %}">
+			<h2>{{ algorithm }}</h2>
 		</a>
 		<div class="flex-column medium-gap">
 			<p>{{ algorithm.short_description }}</p>
 			{% include "algorithms/details.html" %}
-			<a href="{% url 'visualization' algorithm.slugged_name %}" class="link-button">explore</a>
+			<a href="{% url 'visualization' algorithm.slug %}" class="link-button">explore</a>
 		</div>
 	</div>
 	{% endfor %}

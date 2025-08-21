@@ -1,6 +1,6 @@
 <div class="flex-row flex-wrap medium-gap">
-	<a href="#" class="link {{ algorithm.difficulty }}">{{ algorithm.difficulty }}</a>
+	<a href="{% url 'algorithms' %}?difficulty={{ algorithm.difficulty.slug }}" class="link {{ algorithm.difficulty }}">{{ algorithm.difficulty }}</a>
 	{% for category in algorithm.categories.all %}
-	<a href="#" class="link">{{ category.name }}</a>
+	<a href="{% url 'algorithms' %}?category={{ category.slug }}" class="link">{{ category }}</a>
 	{% endfor %}
 </div>

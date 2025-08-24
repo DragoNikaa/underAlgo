@@ -2,30 +2,45 @@ import json
 from typing import Any
 
 from django.core.paginator import Page, Paginator
-from django.db.models import QuerySet
+from django.db.models import Count, QuerySet
 from django.http import HttpRequest, HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, render
+from django.utils.text import slugify
 from django.views import View
 from pydantic import ValidationError
 from pydantic_core import ErrorDetails
 
 from algorithms import algorithms_steps
-from algorithms.models import Algorithm, TestCase
+from algorithms.models import Algorithm, Category, Difficulty, TestCase
 
 
 class AlgorithmsView(View):
     template_name = "algorithms/algorithms.html"
 
     def get(self, request: HttpRequest) -> HttpResponse:
+        difficulties, categories = self._get_search_filters()
         algorithms = self._get_filtered_algorithms(request)
         page_obj = self._get_page_obj(algorithms, request.GET.get("page"))
-        context = {"page_obj": page_obj}
+        context = {"difficulties": difficulties, "categories": categories, "page_obj": page_obj}
         return render(request, self.template_name, context)
+
+    @staticmethod
+    def _get_search_filters() -> tuple[QuerySet[Difficulty], QuerySet[Category]]:
+        difficulties = Difficulty.objects.annotate(algorithm_count=Count("algorithm"))
+        categories = Category.objects.annotate(algorithm_count=Count("algorithm")).order_by("-algorithm_count")
+        return difficulties, categories
 
     def _get_filtered_algorithms(self, request: HttpRequest) -> QuerySet[Algorithm]:
         algorithms = Algorithm.objects.all()
+        algorithms = self._filter_by_name(algorithms, request.GET.get("name"))
         algorithms = self._filter_by_difficulty(algorithms, request.GET.get("difficulty"))
         algorithms = self._filter_by_categories(algorithms, request.GET.getlist("category"))
+        return algorithms
+
+    @staticmethod
+    def _filter_by_name(algorithms: QuerySet[Algorithm], name_input: str | None) -> QuerySet[Algorithm]:
+        if name_input:
+            algorithms = algorithms.filter(slug__contains=slugify(name_input))
         return algorithms
 
     @staticmethod

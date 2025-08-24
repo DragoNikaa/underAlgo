@@ -5,14 +5,49 @@
 {% endblock styles %}
 {% block content %}
 <div class="flex-column large-gap">
-	<div class="grid-three-columns large-gap">
-		<div></div>
+	<div class="grid-3-columns extra-large-gap no-row-gap">
+		<h1 class="grid-span-from-2-to-end">algorithms</h1>
+		<form id="search-form" class="flex-column large-gap">
+			<div>
+				<h2><label for="name-input">name</label></h2>
+				<input type="search" id="name-input" name="name" placeholder="amazing algorithm">
+			</div>
+			<div>
+				<h2>difficulty</h2>
+				<div class="tile flex-column position-relative medium-gap">
+					{% for difficulty in difficulties %}
+					<label class="flex-row align-items-center medium-gap">
+					<input type="radio" name="difficulty" value="{{ difficulty.slug }}">
+					<span class="link {{ difficulty }}">{{ difficulty }}</span>
+					{{ difficulty.algorithm_count }}
+					</label>
+					{% endfor %}
+					<button type="button" id="clear-difficulty-button" class="clear-button">clear</button>
+				</div>
+			</div>
+			<div>
+				<h2>categories</h2>
+				<div class="tile scroll-box flex-column position-relative medium-gap">
+					{% for category in categories %}
+					<label class="flex-row align-items-center medium-gap">
+					<input type="checkbox" name="category" value="{{ category.slug }}">
+					<span class="link">{{ category }}</span>
+					{{ category.algorithm_count }}
+					</label>
+					{% endfor %}
+					<button type="button" id="clear-categories-button" class="clear-button">clear</button>
+				</div>
+			</div>
+			<button>search</button>
+		</form>
 		<div>
-			<h1>algorithms</h1>
 			{% include "algorithms/list.html" %}
 		</div>
 		<div></div>
 	</div>
-	{% include "pagination.html"%}
+	{% include "pagination.html" %}
 </div>
 {% endblock content %}
+{% block scripts %}
+<script src="{% static 'algorithms/scripts/search.js' %}"></script>
+{% endblock scripts %}

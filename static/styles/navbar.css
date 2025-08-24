@@ -43,5 +43,5 @@ nav .link {
 }
 
 .active-link:active {
-	background: var(--disabled-input-background) !important;
+	background: var(--readonly-input-background) !important;
 }

@@ -1,6 +1,6 @@
 :root {
 	--auth-active-color: #4c88bb;
-	--disabled-input-background: #a1a1a1;
+	--readonly-input-background: #a1a1a1;
 	--error-color: #eb0000;
 }
 
@@ -53,20 +53,32 @@ input[type="radio"]:checked {
 	transform: scale(1.1);
 }
 
-input[type="text"] {
+input[type="text"],
+input[type="search"] {
 	font-weight: bold;
-	width: 25em;
 	color: var(--background);
 	background: var(--code-color);
 }
 
-input[type="text"]:disabled {
-	background: var(--disabled-input-background);
+input[type="text"] {
+	width: 25em;
+	padding: 0.1em 0.3em;
 }
 
-input[type="text"]:focus {
+input[type="search"] {
+	display: block;
+	width: 100%;
+	padding: 0.4em 0.8em;
+}
+
+input[type="text"]:focus,
+input[type="search"]:focus {
 	outline: 0.2em solid var(--line-number-color);
 	outline-offset: 0.1em;
+}
+
+input[type="text"]:read-only {
+	background: var(--readonly-input-background);
 }
 
 .invalid-input {
@@ -154,7 +166,7 @@ button:not(:hover:not(:disabled))::before,
 button:active,
 .link-button:active,
 .link:active {
-	color: var(--disabled-input-background);
+	color: var(--readonly-input-background);
 	transition: all 0.05s ease;
 }
 

@@ -39,3 +39,9 @@
 .hard:active {
 	color: var(--hard-active-color);
 }
+
+.clear-button {
+	position: absolute;
+	top: 1.2em;
+	right: 1.5em;
+}

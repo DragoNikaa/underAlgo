@@ -7,8 +7,8 @@
 {% block animation_styles %}{% endblock animation_styles %}
 {% endblock styles %}
 {% block content %}
-<h1>{{ algorithm.name }}</h1>
-<div class="grid-two-columns large-gap">
+<h1>{{ algorithm }}</h1>
+<div class="grid-2-columns large-gap">
 	<div class="flex-column large-gap">
 		<div id="test-cases" class="tile flex-column medium-gap">
 			{% csrf_token %}
@@ -22,7 +22,7 @@
 							{% for key, value in test_case.body.items %}
 							<tr>
 								<td><label for="test-case-{{ test_case.id }}">{{ key }} =&nbsp;</label></td>
-								<td><input type="text" value="{{ value }}" disabled></td>
+								<td><input type="text" value="{{ value }}" readonly></td>
 							</tr>
 							{% endfor %}
 						</table>

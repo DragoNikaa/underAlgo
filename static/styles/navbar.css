@@ -4,15 +4,6 @@ nav {
 	border-bottom: 1px solid var(--line-number-color);
 }
 
-nav .logo {
-	cursor: pointer;
-}
-
-nav a {
-	text-decoration: none;
-	font-size: 1.2rem;
-}
-
 nav ul {
 	list-style: none;
 	padding: 0;
@@ -20,6 +11,7 @@ nav ul {
 }
 
 nav .link {
+	font-size: 1.2rem;
 	background: none;
 }
 
@@ -51,5 +43,5 @@ nav .link {
 }
 
 .active-link:active {
-	background: var(--disabled-input-background) !important;
+	background: var(--readonly-input-background) !important;
 }

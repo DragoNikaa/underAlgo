@@ -22,7 +22,7 @@ function fillFormWithUrlParams(form) {
 }
 
 function getUrlParams() {
-	const params = new URLSearchParams(location.search);
+	const params = new URLSearchParams(window.location.search);
 	params.delete("page");
 	return params;
 }

@@ -188,7 +188,7 @@ function updateOutput(output) {
 
 function updateActiveLine(lineNumber) {
 	unhighlightActiveLine();
-	if (lineNumber) addClassToElements("active-line", `code-line_${lineNumber}`);
+	if (lineNumber) addClassToElements("active-line", `code-line-${lineNumber}`);
 }
 
 function unhighlightActiveLine() {

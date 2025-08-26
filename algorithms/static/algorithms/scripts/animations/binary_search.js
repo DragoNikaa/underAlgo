@@ -28,7 +28,7 @@ function displayNumbers(numbers) {
 function createNumberSegment(number, index) {
 	const segment = document.createElement("div");
 	segment.textContent = number;
-	segment.id = `number_${index}`;
+	segment.id = `number-${index}`;
 	return segment;
 }
 
@@ -63,7 +63,7 @@ function displayVariableAtStartPosition(name, value, variableContainer) {
 	updateVariableValue(name, value);
 	moveVariableToStartPosition(name, value, variableContainer);
 	makeElementsVisible(name);
-	addClassToElements(`${name}-number`, `number_${value}`);
+	addClassToElements(`${name}-number`, `number-${value}`);
 }
 
 function updateVariableValue(name, value) {
@@ -72,7 +72,7 @@ function updateVariableValue(name, value) {
 }
 
 function moveVariableToStartPosition(name, value, variableContainer) {
-	const numberSegment = document.getElementById(`number_${value}`);
+	const numberSegment = document.getElementById(`number-${value}`);
 	const numberSegmentRect = numberSegment.getBoundingClientRect();
 	const parentRect = variableContainer.parentElement.getBoundingClientRect();
 	const offset = numberSegmentRect.left + numberSegmentRect.width / 2 - variableContainer.offsetWidth / 2 - parentRect.left;
@@ -90,8 +90,8 @@ async function slideVariableToNextPosition(name, value, variableContainer) {
 }
 
 async function slideVariableToNextIndex(index, step, variableContainer, valueElement, styleClass) {
-	const previousNumberSegment = document.getElementById(`number_${index - step}`);
-	const nextNumberSegment = document.getElementById(`number_${index}`);
+	const previousNumberSegment = document.getElementById(`number-${index - step}`);
+	const nextNumberSegment = document.getElementById(`number-${index}`);
 	const offset = calculateOffset(previousNumberSegment, nextNumberSegment, step);
 	updateContainer(variableContainer, offset, valueElement, index);
 	updateNumberSegment(previousNumberSegment, nextNumberSegment, styleClass);

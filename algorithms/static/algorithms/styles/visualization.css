@@ -4,6 +4,7 @@ td:first-child {
 }
 
 pre {
+    tab-size: 4;
 	margin: 0;
 }
 

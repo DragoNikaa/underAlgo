@@ -82,7 +82,7 @@
 	<div class="flex-column large-gap">
 		<div id="code-lines" class="tile flex-column">
 			{% for code_line in algorithm.code %}
-			<pre id="code-line_{{ forloop.counter }}" class="flex-row">
+			<pre id="code-line-{{ forloop.counter }}" class="flex-row">
 				<code class="language-python code-line-number">{{ forloop.counter }}</code>
 				<code class="language-python code-line-content">{{ code_line }}</code>
 			</pre>

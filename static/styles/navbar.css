@@ -15,26 +15,6 @@ nav .link {
 	background: none;
 }
 
-#log-in-link {
-	--hover-color: var(--background);
-	color: var(--background);
-	background: var(--title-color);
-	border-color: transparent;
-}
-
-#log-in-link:active {
-	background: var(--auth-active-color);
-}
-
-#sign-up-link {
-	--hover-color: var(--title-color);
-	color: var(--title-color);
-}
-
-#sign-up-link:active {
-	color: var(--auth-active-color);
-}
-
 .active-link {
 	--hover-color: var(--background) !important;
 	color: var(--background) !important;

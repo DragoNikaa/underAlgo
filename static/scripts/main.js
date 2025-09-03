@@ -2,7 +2,7 @@ highlightActiveNavLink();
 
 function highlightActiveNavLink() {
 	const currentPath = window.location.pathname;
-	const navLinks = document.querySelectorAll("nav .link");
+	const navLinks = document.querySelectorAll("#nav-main .link");
 	navLinks.forEach(link => {
 		if (isLinkActive(link, currentPath)) {
 			link.classList.add("active-link");

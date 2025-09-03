@@ -1,0 +1,35 @@
+{% extends "index.html" %}
+{% load static %}
+{% block styles %}
+<link rel="stylesheet" href="{% static 'users/styles/main.css' %}">
+{% endblock styles %}
+{% block content %}
+<div id="auth-tile" class="tile fixed-center flex-column large-gap">
+	<h1>sign up</h1>
+	<div class="flex-column extra-large-gap">
+		<form method="post" class="flex-column large-gap">
+			{% csrf_token %}
+			{% for field in form %}
+			<div>
+				<h2><label for="{{ field.id_for_label }}">{{ field.label|lower }}</label></h2>
+				<input type="{{ field.field.widget.input_type }}"
+                       id="{{ field.auto_id }}"
+                       name="{{ field.html_name }}"
+                       {% if field.value and field.field.widget.input_type != "password" %}value="{{ field.value }}"{% endif %}
+                       autocomplete="{{ field.field.widget.attrs.autocomplete }}"
+                       {% if field.field.widget.attrs.autofocus %}autofocus{% endif %}
+                       {% if field.errors %}class="invalid-input"{% endif %}>
+				{% for error in field.errors %}
+				<p class="error-message">{{ error }}</p>
+				{% endfor %}
+			</div>
+			{% endfor %}
+			<button class="link sign-up-link margin-auto">sign up</button>
+		</form>
+		<div class="flex-column align-items-center large-gap">
+			<p>Already initialized?</p>
+			<a href="#" class="link log-in-link">log in</a>
+		</div>
+	</div>
+</div>
+{% endblock content %}

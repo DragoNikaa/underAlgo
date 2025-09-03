@@ -1,0 +1,16 @@
+.fixed-center {
+	position: fixed;
+	top: 54%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	align-items: center;
+}
+
+#auth-tile .log-in-link {
+	--hover-color: var(--code-background);
+	color: var(--code-background) !important;
+}
+
+#auth-tile .sign-up-link {
+	color: var(--title-color);
+}

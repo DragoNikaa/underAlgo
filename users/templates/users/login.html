@@ -5,7 +5,7 @@
 {% endblock styles %}
 {% block content %}
 <div id="auth-tile" class="tile fixed-center flex-column large-gap">
-	<h1>sign up</h1>
+	<h1>log in</h1>
 	<div class="flex-column extra-large-gap">
 		<form method="post" class="flex-column large-gap">
 			{% csrf_token %}
@@ -18,17 +18,20 @@
                        {% if field.value and field.field.widget.input_type != "password" %}value="{{ field.value }}"{% endif %}
                        autocomplete="{{ field.field.widget.attrs.autocomplete }}"
                        {% if field.field.widget.attrs.autofocus %}autofocus{% endif %}
-                       {% if field.errors %}class="invalid-input"{% endif %}>
-				{% for error in field.errors %}
+                       {% if field.errors or form.non_field_errors %}class="invalid-input"{% endif %}>
+                {% for error in field.errors %}
 				<p class="error-message">{{ error }}</p>
 				{% endfor %}
 			</div>
 			{% endfor %}
-			<button class="link sign-up-link margin-auto">sign up</button>
+			{% for error in form.non_field_errors %}
+			<p class="error-message">{{ error }}</p>
+			{% endfor %}
+			<button class="link log-in-link margin-auto">log in</button>
 		</form>
 		<div class="flex-column align-items-center large-gap">
-			<p>Already initialized?</p>
-			<a href="{% url 'login' %}" class="link log-in-link">log in</a>
+			<p>Haven't initialized yet?</p>
+			<a href="{% url 'registration' %}" class="link sign-up-link">sign up</a>
 		</div>
 	</div>
 </div>

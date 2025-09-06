@@ -7,7 +7,7 @@
 <div id="auth-tile" class="tile fixed-center flex-column large-gap">
 	<h1>sign up</h1>
 	<div class="flex-column extra-large-gap">
-		<form method="post" class="flex-column large-gap">
+		<form method="post" class="flex-column large-gap" novalidate>
 			{% csrf_token %}
 			{% for field in form %}
 			<div>
@@ -16,7 +16,7 @@
                        id="{{ field.auto_id }}"
                        name="{{ field.html_name }}"
                        {% if field.value and field.field.widget.input_type != "password" %}value="{{ field.value }}"{% endif %}
-                       autocomplete="{{ field.field.widget.attrs.autocomplete }}"
+                       autocomplete="{{ field.field.widget.attrs.autocomplete|default:field.html_name }}"
                        {% if field.field.widget.attrs.autofocus %}autofocus{% endif %}
                        {% if field.errors %}class="invalid-input"{% endif %}>
 				{% for error in field.errors %}

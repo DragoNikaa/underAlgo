@@ -104,14 +104,14 @@ function getCustomTestCaseBody() {
 
 function handleValidationError(fieldName, inputValue, userMessage, devMessage = null) {
 	if (!devMessage) devMessage = userMessage;
-	addClassToElements("invalid-input", `${fieldName}-custom`);
+	addClassToElements("field-error", `${fieldName}-custom`);
 	displayTextInElement(`${fieldName}-error-message`, userMessage);
 	showElements(`${fieldName}-error-row`);
 	console.error(`Invalid value in input "${fieldName}": "${inputValue}".\nReason: "${devMessage}".`);
 }
 
 function clearValidationError(fieldName) {
-	removeClassFromElements("invalid-input", `${fieldName}-custom`);
+	removeClassFromElements("field-error", `${fieldName}-custom`);
 	hideElements(`${fieldName}-error-row`);
 }
 

@@ -18,9 +18,9 @@
                        {% if field.value and field.field.widget.input_type != "password" %}value="{{ field.value }}"{% endif %}
                        autocomplete="{{ field.field.widget.attrs.autocomplete|default:field.html_name }}"
                        {% if field.field.widget.attrs.autofocus %}autofocus{% endif %}
-                       {% if field.errors %}class="invalid-input"{% endif %}>
+                       {% if field.errors %}class="field-error"{% endif %}>
 				{% for error in field.errors %}
-				<p class="error-message">{{ error }}</p>
+				<p class="field-error-message">{{ error }}</p>
 				{% endfor %}
 			</div>
 			{% endfor %}

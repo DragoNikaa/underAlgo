@@ -65,7 +65,7 @@ input[type="search"] {
 input[type="text"],
 input[type="email"],
 input[type="password"],
-.error-message {
+.field-error-message {
 	width: 25em;
 }
 
@@ -97,15 +97,16 @@ input[type="text"]:read-only {
 	background: var(--readonly-input-background);
 }
 
-.invalid-input {
+.field-error {
 	border: 0.2em solid var(--error-color);
 }
 
-.invalid-input:focus {
+.field-error:focus {
 	outline: 0.15em solid var(--error-color) !important;
 }
 
-.error-message {
+.error-message,
+.field-error-message {
 	color: var(--error-color);
 	text-shadow: 0.08em 0.08em 0.05em var(--background);
 	padding: 0.2em 0;
@@ -229,5 +230,5 @@ button:disabled {
 }
 
 .sign-up-link:active {
-	color: var(--auth-active-color);
+	color: var(--auth-active-color) !important;
 }

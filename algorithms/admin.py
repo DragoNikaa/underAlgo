@@ -8,5 +8,7 @@ admin.site.register(
         models.Category,
         models.Algorithm,
         models.TestCase,
+        models.Comment,
+        models.Like,
     ]
 )

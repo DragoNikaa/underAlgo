@@ -70,7 +70,7 @@ class Migration(migrations.Migration):
                 (
                     "input_description",
                     models.JSONField(
-                        default=algorithms.models.default_input_description
+                        default=algorithms.models._default_input_description
                     ),
                 ),
                 (

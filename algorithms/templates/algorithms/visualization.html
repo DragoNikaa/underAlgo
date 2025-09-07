@@ -68,7 +68,7 @@
 				<h2>input</h2>
 				<div class="flex-column small-gap">
 					{% for parameter, description in algorithm.input_description.items %}
-					<p><span class="bold">{{ parameter }}:</span> {{ description }}</p>
+					<p><b>{{ parameter }}:</b> {{ description }}</p>
 					{% endfor %}
 				</div>
 			</div>
@@ -91,6 +91,9 @@
 		<div id="explanation" class="tile hidden">
 			<h2>explanation</h2>
 			<p id="explanation-content"></p>
+		</div>
+		<div class="flex-row medium-gap">
+			<a href="{% url 'discussion' algorithm.slug %}" class="link-button">discussion</a>
 		</div>
 	</div>
 </div>

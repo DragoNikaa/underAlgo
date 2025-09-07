@@ -1,0 +1,21 @@
+{% extends "index.html" %}
+{% load static %}
+{% block styles %}
+<link rel="stylesheet" href="{% static 'algorithms/styles/main.css' %}">
+{% endblock styles %}
+{% block content %}
+<h1>{{ algorithm_name }}</h1>
+<div class="flex-column large-gap">
+	{% for comment in page_obj %}
+	<div class="tile flex-column medium-gap">
+		<a href="#"><b>{{ comment.user }}</b></a>
+		<p>{{ comment }}</p>
+		{{ comment.like_count }} likes
+	</div>
+	{% endfor %}
+	{% include "pagination.html" %}
+</div>
+{% endblock content %}
+{% block scripts %}
+<script src="{% static 'algorithms/scripts/search.js' %}"></script>
+{% endblock scripts %}

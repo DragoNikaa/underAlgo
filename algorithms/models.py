@@ -4,6 +4,8 @@ from typing import Any
 from django.db import models
 from django.template.defaultfilters import slugify
 
+from users.models import User
+
 
 class Slugged(models.Model):
     slug = models.SlugField(blank=True, max_length=100)
@@ -34,14 +36,14 @@ class Category(Slugged):
         return self.name
 
 
-def default_input_description() -> dict[str, str]:
+def _default_input_description() -> dict[str, str]:
     return {"parameter": "Input description will be added soon."}
 
 
 class Algorithm(Slugged):
     name = models.CharField(max_length=100)
     general_description = models.TextField(default="General description will be added soon.")
-    input_description = models.JSONField(default=default_input_description)
+    input_description = models.JSONField(default=_default_input_description)
     output_description = models.TextField(default="Output description will be added soon.")
     code = models.JSONField()
 
@@ -79,3 +81,28 @@ class TestCase(models.Model):
 
     def __str__(self) -> str:
         return f"{self.algorithm} test case {self.id}"
+
+
+class Comment(models.Model):
+    body = models.TextField(max_length=1000)
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    algorithm = models.ForeignKey(Algorithm, on_delete=models.CASCADE)
+    reply_to = models.ForeignKey("self", blank=True, null=True, on_delete=models.CASCADE)
+
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ["-created"]
+
+    def __str__(self) -> str:
+        return self.body
+
+
+class Like(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    comment = models.ForeignKey(Comment, on_delete=models.CASCADE)
+
+    def __str__(self) -> str:
+        return f"{self.user} - {self.comment}"

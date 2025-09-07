@@ -11,7 +11,7 @@ from pydantic import ValidationError
 from pydantic_core import ErrorDetails
 
 from algorithms import algorithms_steps
-from algorithms.models import Algorithm, Category, Difficulty, TestCase
+from algorithms.models import Algorithm, Category, Comment, Difficulty, TestCase
 
 
 class AlgorithmsView(View):
@@ -141,3 +141,19 @@ class VisualizationNextStepView(View):
     def _update_algorithm_session(request: HttpRequest, algorithm_slug: str, steps: list[dict[str, Any]]) -> None:
         algorithm_input = request.session[algorithm_slug]["input"]
         request.session[algorithm_slug] = {"input": algorithm_input, "steps": steps}
+
+
+class DiscussionView(View):
+    template_name = "algorithms/discussion.html"
+
+    def get(self, request: HttpRequest, algorithm_slug: str) -> HttpResponse:
+        algorithm = get_object_or_404(Algorithm, slug=algorithm_slug)
+        comments = algorithm.comment_set.filter(reply_to=None).annotate(like_count=Count("like"))
+        page_obj = self._get_page_obj(comments, request.GET.get("page"))
+        context = {"algorithm_name": algorithm.name, "page_obj": page_obj}
+        return render(request, self.template_name, context)
+
+    @staticmethod
+    def _get_page_obj(comments: QuerySet[Comment], page_number: str | None) -> Page[Comment]:
+        paginator = Paginator(comments, 2)
+        return paginator.get_page(page_number)

@@ -56,7 +56,8 @@ input[type="radio"]:checked {
 input[type="text"],
 input[type="email"],
 input[type="password"],
-input[type="search"] {
+input[type="search"],
+textarea {
 	font-weight: bold;
 	color: var(--background);
 	background: var(--code-color);
@@ -69,7 +70,8 @@ input[type="password"],
 	width: 25em;
 }
 
-input[type="search"] {
+input[type="search"],
+textarea {
 	width: 100%;
 }
 
@@ -80,6 +82,7 @@ input[type="text"] {
 input[type="email"],
 input[type="password"],
 input[type="search"],
+textarea,
 #username-input {
 	display: block;
 	padding: 0.4em 0.8em;
@@ -88,7 +91,8 @@ input[type="search"],
 input[type="text"]:focus,
 input[type="email"]:focus,
 input[type="password"]:focus,
-input[type="search"]:focus {
+input[type="search"]:focus,
+textarea:focus {
 	outline: 0.2em solid var(--line-number-color);
 	outline-offset: 0.1em;
 }

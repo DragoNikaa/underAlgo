@@ -13,9 +13,20 @@
 		{{ comment.like_count }} likes
 	</div>
 	{% endfor %}
+	<form method="post">
+		{% csrf_token %}
+		<div class="flex-row medium-gap">
+			<textarea id="{{ form.body.auto_id }}"
+					  name="{{ form.body.html_name }}"
+					  placeholder="write your comment here..."
+					  rows="5"
+					  {% if form.body.errors %}class="field-error"{% endif %}>{% if form.body.value %}{{ form.body.value }}{% endif %}</textarea>
+			<button>comment</button>
+		</div>
+		{% for error in form.body.errors %}
+		<p class="error-message">{{ error }}</p>
+		{% endfor %}
+	</form>
 	{% include "pagination.html" %}
 </div>
 {% endblock content %}
-{% block scripts %}
-<script src="{% static 'algorithms/scripts/search.js' %}"></script>
-{% endblock scripts %}

@@ -1,7 +1,8 @@
 from typing import TYPE_CHECKING
 
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 
+from common.utils import CustomAutoIdBaseForm
 from users.models import User
 
 if TYPE_CHECKING:
@@ -10,7 +11,11 @@ else:
     _BaseUserCreationForm = UserCreationForm
 
 
-class CustomUserCreationForm(_BaseUserCreationForm):
+class RegistrationForm(_BaseUserCreationForm, CustomAutoIdBaseForm):
     class Meta:
         model = User
         fields = _BaseUserCreationForm.Meta.fields + ("email",)  # type: ignore
+
+
+class LoginForm(AuthenticationForm, CustomAutoIdBaseForm):
+    ...

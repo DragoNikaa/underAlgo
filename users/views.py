@@ -2,18 +2,16 @@ from abc import ABC, abstractmethod
 from typing import Any
 
 from django.contrib.auth import login, logout
-from django.contrib.auth.forms import AuthenticationForm
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import redirect, render
 from django.views import View
 
-from users.forms import CustomUserCreationForm
+from users.forms import LoginForm, RegistrationForm
 from users.models import User
 
 
 class _RegistrationLoginBaseView(View, ABC):
-    _UserForm = CustomUserCreationForm | AuthenticationForm
-    FORM_FIELD_ID = "%s-input"
+    _UserForm = RegistrationForm | LoginForm
 
     @property
     @abstractmethod
@@ -47,15 +45,15 @@ class RegistrationView(_RegistrationLoginBaseView):
     template_name = "users/registration.html"
 
     def get(self, request: HttpRequest) -> HttpResponse:
-        form = CustomUserCreationForm(auto_id=self.FORM_FIELD_ID)
+        form = RegistrationForm()
         return self.base_get(request, form)
 
     def post(self, request: HttpRequest) -> HttpResponse:
-        form = CustomUserCreationForm(request.POST, auto_id=self.FORM_FIELD_ID)
+        form = RegistrationForm(request.POST)
         return self.base_post(request, form)
 
     @staticmethod
-    def _get_authenticated_user(request: HttpRequest, form: CustomUserCreationForm) -> User:
+    def _get_authenticated_user(request: HttpRequest, form: RegistrationForm) -> User:
         return form.save()
 
 
@@ -63,15 +61,15 @@ class LoginView(_RegistrationLoginBaseView):
     template_name = "users/login.html"
 
     def get(self, request: HttpRequest) -> HttpResponse:
-        form = AuthenticationForm(auto_id=self.FORM_FIELD_ID)
+        form = LoginForm()
         return self.base_get(request, form)
 
     def post(self, request: HttpRequest) -> HttpResponse:
-        form = AuthenticationForm(data=request.POST, auto_id=self.FORM_FIELD_ID)
+        form = LoginForm(data=request.POST)
         return self.base_post(request, form)
 
     @staticmethod
-    def _get_authenticated_user(request: HttpRequest, form: AuthenticationForm) -> User:
+    def _get_authenticated_user(request: HttpRequest, form: LoginForm) -> User:
         return form.get_user()
 
 

@@ -146,19 +146,18 @@ class VisualizationNextStepView(View):
 
 class DiscussionView(View):
     template_name = "algorithms/discussion.html"
-    FORM_FIELD_ID = "%s-input"
 
     def get(self, request: HttpRequest, algorithm_slug: str) -> HttpResponse:
         algorithm = Algorithm.objects.get(slug=algorithm_slug)
         comments = algorithm.comment_set.filter(reply_to=None).order_by("-created").annotate(like_count=Count("like"))
         page_obj = self._get_page_obj(comments, request.GET.get("page"))
-        form = CommentForm(auto_id=self.FORM_FIELD_ID)
+        form = CommentForm()
         context = {"algorithm_name": algorithm.name, "page_obj": page_obj, "form": form}
         return render(request, self.template_name, context)
 
     def post(self, request: HttpRequest, algorithm_slug: str) -> HttpResponse:
         algorithm = Algorithm.objects.get(slug=algorithm_slug)
-        form = CommentForm(request.POST, auto_id=self.FORM_FIELD_ID)
+        form = CommentForm(request.POST)
         if form.is_valid():
             comment = form.save(commit=False)
             comment.user = request.user

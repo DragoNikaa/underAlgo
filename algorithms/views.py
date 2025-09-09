@@ -4,14 +4,15 @@ from typing import Any
 from django.core.paginator import Page, Paginator
 from django.db.models import Count, QuerySet
 from django.http import HttpRequest, HttpResponse, JsonResponse
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.utils.text import slugify
 from django.views import View
 from pydantic import ValidationError
 from pydantic_core import ErrorDetails
 
 from algorithms import algorithms_steps
-from algorithms.models import Algorithm, Category, Difficulty, TestCase
+from algorithms.forms import CommentForm
+from algorithms.models import Algorithm, Category, Comment, Difficulty, TestCase
 
 
 class AlgorithmsView(View):
@@ -141,3 +142,35 @@ class VisualizationNextStepView(View):
     def _update_algorithm_session(request: HttpRequest, algorithm_slug: str, steps: list[dict[str, Any]]) -> None:
         algorithm_input = request.session[algorithm_slug]["input"]
         request.session[algorithm_slug] = {"input": algorithm_input, "steps": steps}
+
+
+class DiscussionView(View):
+    template_name = "algorithms/discussion.html"
+    FORM_FIELD_ID = "%s-input"
+
+    def get(self, request: HttpRequest, algorithm_slug: str) -> HttpResponse:
+        algorithm = Algorithm.objects.get(slug=algorithm_slug)
+        comments = algorithm.comment_set.filter(reply_to=None).order_by("-created").annotate(like_count=Count("like"))
+        page_obj = self._get_page_obj(comments, request.GET.get("page"))
+        form = CommentForm(auto_id=self.FORM_FIELD_ID)
+        context = {"algorithm_name": algorithm.name, "page_obj": page_obj, "form": form}
+        return render(request, self.template_name, context)
+
+    def post(self, request: HttpRequest, algorithm_slug: str) -> HttpResponse:
+        algorithm = Algorithm.objects.get(slug=algorithm_slug)
+        form = CommentForm(request.POST, auto_id=self.FORM_FIELD_ID)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.user = request.user
+            comment.algorithm = algorithm
+            comment.save()
+            return redirect("discussion", algorithm_slug=algorithm_slug)
+        comments = algorithm.comment_set.filter(reply_to=None).order_by("-created").annotate(like_count=Count("like"))
+        page_obj = self._get_page_obj(comments, request.GET.get("page"))
+        context = {"algorithm_name": algorithm.name, "page_obj": page_obj, "form": form}
+        return render(request, self.template_name, context)
+
+    @staticmethod
+    def _get_page_obj(comments: QuerySet[Comment], page_number: str | None) -> Page[Comment]:
+        paginator = Paginator(comments, 2)
+        return paginator.get_page(page_number)

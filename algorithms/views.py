@@ -1,9 +1,11 @@
 import json
 from typing import Any
 
+from django.contrib.auth.decorators import login_required
 from django.db.models import Count, QuerySet
 from django.http import HttpRequest, HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
+from django.utils.decorators import method_decorator
 from django.utils.text import slugify
 from django.views import View
 from pydantic import ValidationError
@@ -150,6 +152,7 @@ class DiscussionView(PaginationBaseView):
         context = {"algorithm_name": algorithm.name, "page_obj": page_obj, "form": form}
         return render(request, self.template_name, context)
 
+    @method_decorator(login_required)
     def post(self, request: HttpRequest, algorithm_slug: str) -> HttpResponse:
         algorithm = Algorithm.objects.get(slug=algorithm_slug)
         form = CommentForm(request.POST)

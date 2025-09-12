@@ -5,4 +5,8 @@
 	<symbol id="arrow-right">
 		<path d="M0.293 0.293a1 1 0 0 1 1.414 0L5.707 4.293a1 1 0 0 1 0 1.414L1.707 9.707a1 1 0 0 1-1.414-1.414L3.586 5 0.293 1.707a1 1 0 0 1 0-1.414z" fill="currentColor"/>
 	</symbol>
+	<symbol id="cross">
+		<use href="#arrow-right"/>
+		<use href="#arrow-left" x="4"/>
+	</symbol>
 </svg>

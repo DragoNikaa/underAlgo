@@ -149,7 +149,7 @@ class DiscussionView(PaginationBaseView):
         comments = algorithm.comment_set.filter(reply_to=None).order_by("-created").annotate(like_count=Count("like"))
         page_obj = self._get_page_obj(comments, request.GET.get("page"))
         form = CommentForm()
-        context = {"algorithm_name": algorithm.name, "page_obj": page_obj, "form": form}
+        context = {"algorithm": algorithm, "page_obj": page_obj, "form": form}
         return render(request, self.template_name, context)
 
     @method_decorator(login_required)
@@ -164,5 +164,5 @@ class DiscussionView(PaginationBaseView):
             return redirect("discussion", algorithm_slug=algorithm_slug)
         comments = algorithm.comment_set.filter(reply_to=None).order_by("-created").annotate(like_count=Count("like"))
         page_obj = self._get_page_obj(comments, request.GET.get("page"))
-        context = {"algorithm_name": algorithm.name, "page_obj": page_obj, "form": form}
+        context = {"algorithm": algorithm, "page_obj": page_obj, "form": form}
         return render(request, self.template_name, context)

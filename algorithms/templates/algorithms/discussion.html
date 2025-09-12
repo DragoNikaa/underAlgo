@@ -4,29 +4,38 @@
 <link rel="stylesheet" href="{% static 'algorithms/styles/main.css' %}">
 {% endblock styles %}
 {% block content %}
-<h1>{{ algorithm_name }}</h1>
-<div class="flex-column large-gap">
-	{% for comment in page_obj %}
-	<div class="tile flex-column medium-gap">
-		<a href="#"><b>{{ comment.user }}</b></a>
-		<p>{{ comment }}</p>
-		{{ comment.like_count }} likes
-	</div>
-	{% endfor %}
-	<form method="post">
-		{% csrf_token %}
-		<div class="flex-row medium-gap">
-			<textarea id="{{ form.body.auto_id }}"
-					  name="{{ form.body.html_name }}"
-					  placeholder="write your comment here..."
-					  rows="5"
-					  {% if form.body.errors %}class="field-error"{% endif %}>{% if form.body.value %}{{ form.body.value }}{% endif %}</textarea>
-			<button>comment</button>
+<h1>{{ algorithm.name }}</h1>
+<div class="flex-row large-gap">
+	<div class="flex-grow flex-column large-gap">
+		{% for comment in page_obj %}
+		<div class="tile flex-column medium-gap">
+			<a href="#"><b>{{ comment.user }}</b></a>
+			<p>{{ comment }}</p>
+			{{ comment.like_count }} likes
 		</div>
-		{% for error in form.body.errors %}
-		<p class="error-message">{{ error }}</p>
 		{% endfor %}
-	</form>
-	{% include "pagination.html" %}
+		<form method="post">
+			{% csrf_token %}
+			<div class="flex-row medium-gap">
+				<textarea id="{{ form.body.auto_id }}"
+				name="{{ form.body.html_name }}"
+				placeholder="write your comment here..."
+				rows="5"
+				{% if form.body.errors %}class="field-error"{% endif %}>{% if form.body.value %}{{ form.body.value }}{% endif %}</textarea>
+				<button>comment</button>
+			</div>
+			{% for error in form.body.errors %}
+			<p class="error-message">{{ error }}</p>
+			{% endfor %}
+		</form>
+		{% include "pagination.html" %}
+	</div>
+	<div class="flex-column">
+		<a href="{% url 'visualization' algorithm.slug %}" class="link hard">
+			<svg height="1em" viewBox="0 0 10 10">
+				<use href="{% static 'icons/icons.svg' %}#cross"></use>
+			</svg>
+		</a>
+	</div>
 </div>
 {% endblock content %}

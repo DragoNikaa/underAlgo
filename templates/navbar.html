@@ -8,10 +8,10 @@
 		</ul>
 		<ul class="flex-row large-gap">
 			{% if request.user.is_authenticated %}
-			<li><a href="#" class="link log-in-link">{{ request.user }}</a></li>
+			<li><a href="#" class="link log-in-link-dark">{{ request.user }}</a></li>
 			<li><a href="{% url 'logout' %}" class="link sign-up-link">log out</a></li>
 			{% else %}
-			<li><a href="{% url 'login' %}" class="link log-in-link">log in</a></li>
+			<li><a href="{% url 'login' %}" class="link log-in-link-dark">log in</a></li>
 			<li><a href="{% url 'registration' %}" class="link sign-up-link">sign up</a></li>
 			{% endif %}
 		</ul>

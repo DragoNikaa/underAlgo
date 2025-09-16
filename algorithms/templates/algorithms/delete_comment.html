@@ -1,0 +1,18 @@
+{% extends "algorithms/discussion.html" %}
+{% block discussion_content %}
+<div class="tile flex-grow">
+	<h2>delete comment</h2>
+	<div class="flex-column medium-gap">
+		<p>Are you sure you want to delete the comment:</p>
+		<i>{{ comment }}</i>
+		<p>posted {{ comment.created|timesince }} ago?</p>
+		<form method="post">
+			{% csrf_token %}
+			<div class="flex-row medium-gap">
+				<button>delete</button>
+				<a href="{% url 'discussion' algorithm.slug %}" class="link-button">cancel</a>
+			</div>
+		</form>
+	</div>
+</div>
+{% endblock discussion_content %}

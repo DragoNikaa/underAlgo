@@ -70,8 +70,7 @@ input[type="password"],
 	width: 25em;
 }
 
-input[type="search"],
-textarea {
+input[type="search"] {
 	width: 100%;
 }
 
@@ -212,27 +211,47 @@ button:disabled {
 	cursor: not-allowed;
 }
 
-.log-in-link,
+.log-in-link-light,
+.log-in-link-dark,
 .sign-up-link {
 	font-size: 1.2rem;
 }
 
-.log-in-link {
-	--hover-color: var(--background);
-	color: var(--background) !important;
+.log-in-link-light,
+.log-in-link-dark,
+.liked {
 	background: var(--title-color) !important;
 	border-color: transparent;
 }
 
-.log-in-link:active {
+.log-in-link-light,
+.liked {
+	--hover-color: var(--code-background);
+	color: var(--code-background) !important;
+}
+
+.log-in-link-dark {
+	--hover-color: var(--background);
+	color: var(--background) !important;
+}
+
+.log-in-link-light:active,
+.log-in-link-dark:active,
+.liked:active {
 	background: var(--auth-active-color) !important;
 }
 
-.sign-up-link {
+.sign-up-link,
+.like {
 	--hover-color: var(--title-color);
-	color: var(--title-color);
+	color: var(--title-color) !important;
 }
 
-.sign-up-link:active {
+.sign-up-link:active,
+.like:active {
 	color: var(--auth-active-color) !important;
+}
+
+.readonly-input-background {
+	color: var(--readonly-input-background);
 }

@@ -4,7 +4,7 @@
 <link rel="stylesheet" href="{% static 'users/styles/main.css' %}">
 {% endblock styles %}
 {% block content %}
-<div id="auth-tile" class="tile fixed-center flex-column large-gap">
+<div class="tile fixed-center flex-column large-gap">
 	<h1>log in</h1>
 	<div class="flex-column extra-large-gap">
 		<form method="post" class="flex-column large-gap">
@@ -27,7 +27,7 @@
 			{% for error in form.non_field_errors %}
 			<p class="field-error-message">{{ error }}</p>
 			{% endfor %}
-			<button class="link log-in-link margin-auto">log in</button>
+			<button class="link log-in-link-light margin-auto">log in</button>
 		</form>
 		<div class="flex-column align-items-center large-gap">
 			<p>Haven't initialized yet?</p>

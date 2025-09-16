@@ -8,6 +8,7 @@ from django.core.exceptions import PermissionDenied
 from django.db.models import Count, QuerySet
 from django.http import HttpRequest, HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
+from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.utils.text import slugify
 from django.views import View
@@ -17,7 +18,7 @@ from pydantic_core import ErrorDetails
 from algorithms import algorithms_steps
 from algorithms.forms import CommentForm
 from algorithms.models import Algorithm, Category, Comment, Difficulty, TestCase
-from common.utils import PaginationBaseView
+from common.utils import AuthenticatedHttpRequest, PaginationBaseView
 from users.models import User
 
 
@@ -150,7 +151,7 @@ class DiscussionView(PaginationBaseView):
 
     def get(self, request: HttpRequest, algorithm_slug: str) -> HttpResponse:
         algorithm = get_object_or_404(Algorithm, slug=algorithm_slug)
-        comments = algorithm.comment_set.filter(reply_to=None).order_by("-created").annotate(like_count=Count("like"))
+        comments = algorithm.comment_set.filter(reply_to=None).order_by("-created")
         page_obj = self._get_page_obj(comments, request.GET.get("page"))
         form = CommentForm()
         context = {"algorithm": algorithm, "page_obj": page_obj, "form": form}
@@ -166,7 +167,7 @@ class DiscussionView(PaginationBaseView):
             comment.algorithm = algorithm
             comment.save()
             return redirect("discussion", algorithm_slug=algorithm_slug)
-        comments = algorithm.comment_set.filter(reply_to=None).order_by("-created").annotate(like_count=Count("like"))
+        comments = algorithm.comment_set.filter(reply_to=None).order_by("-created")
         page_obj = self._get_page_obj(comments, request.GET.get("page"))
         context = {"algorithm": algorithm, "page_obj": page_obj, "form": form}
         return render(request, self.template_name, context)
@@ -234,3 +235,27 @@ class DeleteCommentView(_EditDeleteCommentBaseView):
     def _delete_comment(comment_id: int) -> None:
         comment = Comment.objects.get(id=comment_id)
         comment.delete()
+
+
+class LikeCommentView(LoginRequiredMixin, View):
+    def get(self, request: HttpRequest, algorithm_slug: str, comment_id: int) -> HttpResponse:
+        return self._redirect_to_discussion(request, algorithm_slug)
+
+    def post(self, request: AuthenticatedHttpRequest, algorithm_slug: str, comment_id: int) -> HttpResponse:
+        self._toggle_like(request.user, comment_id)
+        return self._redirect_to_discussion(request, algorithm_slug)
+
+    @staticmethod
+    def _toggle_like(user: User, comment_id: int) -> None:
+        likes = Comment.objects.get(id=comment_id).likes
+        if likes.filter(id=user.id).exists():
+            likes.remove(user)
+        else:
+            likes.add(user)
+
+    @staticmethod
+    def _redirect_to_discussion(request: HttpRequest, algorithm_slug: str) -> HttpResponse:
+        kwargs = {"algorithm_slug": algorithm_slug}
+        query = {"page": request.GET.get("page") or 1}
+        url = reverse("discussion", kwargs=kwargs, query=query)
+        return redirect(url)

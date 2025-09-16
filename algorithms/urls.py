@@ -11,4 +11,5 @@ urlpatterns = [
     path("<str:algorithm_slug>/discussion/edit/<int:comment_id>", views.EditCommentView.as_view(), name="edit-comment"),
     path("<str:algorithm_slug>/discussion/delete/<int:comment_id>", views.DeleteCommentView.as_view(),
          name="delete-comment"),
+    path("<str:algorithm_slug>/discussion/like/<int:comment_id>", views.LikeCommentView.as_view(), name="like-comment"),
 ]

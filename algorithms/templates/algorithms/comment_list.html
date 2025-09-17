@@ -12,20 +12,22 @@
 		<div class="flex-row align-items-center large-gap">
 			{{ comment.likes.count }} like{% if comment.likes.count != 1 %}s{% endif %}
 			{% if comment.user == request.user %}
-			<a href="{% url 'edit-comment' algorithm.slug comment.id %}" class="edit link align-items-center small-gap">
+			<a href="{% url 'edit-comment' algorithm.slug comment.id %}{% querystring %}"
+			   class="edit link align-items-center small-gap">
 				<svg height="1em" viewBox="0 0 17.99 17.58">
 					<use href="{% static 'icons/icons.svg' %}#edit"></use>
 				</svg>
 				edit
 			</a>
-			<a href="{% url 'delete-comment' algorithm.slug comment.id %}" class="delete link align-items-center small-gap">
+			<a href="{% url 'delete-comment' algorithm.slug comment.id %}{% querystring %}"
+			   class="delete link align-items-center small-gap">
 				<svg height="1em" viewBox="0 0 17.99 19.99">
 					<use href="{% static 'icons/icons.svg' %}#delete"></use>
 				</svg>
 				delete
 			</a>
 			{% else %}
-			<form action="{% url 'like-comment' algorithm.slug comment.id %}?page={{ request.GET.page }}" method="post">
+			<form action="{% url 'like-comment' algorithm.slug comment.id %}{% querystring %}" method="post">
 				{% csrf_token %}
 				{% if request.user in comment.likes.all %}
 				<button class="liked link align-items-center small-gap">

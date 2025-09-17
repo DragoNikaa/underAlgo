@@ -173,7 +173,14 @@ class DiscussionView(PaginationBaseView):
         return render(request, self.template_name, context)
 
 
-class _EditDeleteCommentBaseView(LoginRequiredMixin, View, ABC):
+class _EditDeleteLikeCommentBaseView(LoginRequiredMixin, View, ABC):
+    @staticmethod
+    def redirect_to_discussion(request: HttpRequest, algorithm_slug: str) -> HttpResponse:
+        url = reverse("discussion", args=[algorithm_slug], query=request.GET)
+        return redirect(url)
+
+
+class _EditDeleteCommentBaseView(_EditDeleteLikeCommentBaseView, ABC):
     @property
     @abstractmethod
     def template_name(self) -> str:
@@ -211,7 +218,7 @@ class EditCommentView(_EditDeleteCommentBaseView):
         form = CommentForm(request.POST, instance=comment)
         if form.is_valid():
             form.save()
-            return redirect("discussion", algorithm_slug=algorithm_slug)
+            return self.redirect_to_discussion(request, algorithm_slug)
         return self._render_invalid_form(request, algorithm_slug, comment, form)
 
     def _render_invalid_form(self, request: HttpRequest, algorithm_slug: str, comment: Comment,
@@ -229,7 +236,7 @@ class DeleteCommentView(_EditDeleteCommentBaseView):
 
     def post(self, request: HttpRequest, algorithm_slug: str, comment_id: int) -> HttpResponse:
         self._delete_comment(comment_id)
-        return redirect("discussion", algorithm_slug=algorithm_slug)
+        return self.redirect_to_discussion(request, algorithm_slug)
 
     @staticmethod
     def _delete_comment(comment_id: int) -> None:
@@ -237,13 +244,13 @@ class DeleteCommentView(_EditDeleteCommentBaseView):
         comment.delete()
 
 
-class LikeCommentView(LoginRequiredMixin, View):
+class LikeCommentView(_EditDeleteLikeCommentBaseView):
     def get(self, request: HttpRequest, algorithm_slug: str, comment_id: int) -> HttpResponse:
-        return self._redirect_to_discussion(request, algorithm_slug)
+        return self.redirect_to_discussion(request, algorithm_slug)
 
     def post(self, request: AuthenticatedHttpRequest, algorithm_slug: str, comment_id: int) -> HttpResponse:
         self._toggle_like(request.user, comment_id)
-        return self._redirect_to_discussion(request, algorithm_slug)
+        return self.redirect_to_discussion(request, algorithm_slug)
 
     @staticmethod
     def _toggle_like(user: User, comment_id: int) -> None:
@@ -252,10 +259,3 @@ class LikeCommentView(LoginRequiredMixin, View):
             likes.remove(user)
         else:
             likes.add(user)
-
-    @staticmethod
-    def _redirect_to_discussion(request: HttpRequest, algorithm_slug: str) -> HttpResponse:
-        kwargs = {"algorithm_slug": algorithm_slug}
-        query = {"page": request.GET.get("page") or 1}
-        url = reverse("discussion", kwargs=kwargs, query=query)
-        return redirect(url)

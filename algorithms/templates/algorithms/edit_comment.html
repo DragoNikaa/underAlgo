@@ -20,7 +20,7 @@
 				</div>
 				<div class="flex-row medium-gap">
 					<button>save</button>
-					<a href="{% url 'discussion' algorithm.slug %}" class="link-button">cancel</a>
+					<a href="{% url 'discussion' algorithm.slug %}{% querystring %}" class="link-button">cancel</a>
 				</div>
 			</div>
 		</form>

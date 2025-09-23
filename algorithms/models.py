@@ -88,7 +88,8 @@ class Comment(models.Model):
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     algorithm = models.ForeignKey(Algorithm, on_delete=models.CASCADE)
-    reply_to = models.ForeignKey("self", blank=True, null=True, on_delete=models.CASCADE)
+    reply_to = models.ForeignKey("self", related_name="replies", blank=True, null=True, on_delete=models.CASCADE)
+    likes = models.ManyToManyField(User, related_name="likes", blank=True)
 
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
@@ -98,11 +99,3 @@ class Comment(models.Model):
 
     def __str__(self) -> str:
         return self.body
-
-
-class Like(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    comment = models.ForeignKey(Comment, on_delete=models.CASCADE)
-
-    def __str__(self) -> str:
-        return f"{self.user} - {self.comment}"

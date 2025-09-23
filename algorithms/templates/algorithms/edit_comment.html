@@ -1,0 +1,29 @@
+{% extends "algorithms/discussion.html" %}
+{% block discussion_content %}
+<div class="tile flex-grow">
+	<h2>edit comment</h2>
+	<div class="flex-column medium-gap">
+		posted: {{ comment.created|timesince }} ago
+		<form method="post">
+			{% csrf_token %}
+			<div class="flex-column medium-gap">
+				<div class="flex-column">
+					<textarea id="{{ form.body.auto_id }}"
+							  name="{{ form.body.html_name }}"
+							  placeholder="Write your comment here..."
+							  rows="5"
+							  autofocus
+							  {% if form.body.errors %}class="field-error"{% endif %}>{{ form.body.value }}</textarea>
+					{% for error in form.body.errors %}
+					<p class="error-message">{{ error }}</p>
+					{% endfor %}
+				</div>
+				<div class="flex-row medium-gap">
+					<button>save</button>
+					<a href="{{ request.GET.next }}" class="link-button">cancel</a>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+{% endblock discussion_content %}

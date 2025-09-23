@@ -3,7 +3,14 @@ from typing import Any, TypeVar
 from django.core.paginator import Page, Paginator
 from django.db.models import Model, QuerySet
 from django.forms import Form
+from django.http import HttpRequest
 from django.views import View
+
+from users.models import User
+
+
+class AuthenticatedHttpRequest(HttpRequest):
+    user: User
 
 
 class CustomAutoIdBaseForm(Form):

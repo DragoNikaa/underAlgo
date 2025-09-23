@@ -20,23 +20,33 @@
 	color: var(--easy-active-color);
 }
 
-.medium {
+.medium,
+.edit {
 	--hover-color: var(--medium-color);
 	color: var(--medium-color);
+}
+
+.medium {
 	background: var(--medium-background);
 }
 
-.medium:active {
+.medium:active,
+.edit:active {
 	color: var(--medium-active-color);
 }
 
-.hard {
+.hard,
+.delete {
 	--hover-color: var(--hard-color);
 	color: var(--hard-color);
+}
+
+.hard {
 	background: var(--hard-background);
 }
 
-.hard:active {
+.hard:active,
+.delete:active {
 	color: var(--hard-active-color);
 }
 

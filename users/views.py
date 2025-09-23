@@ -32,7 +32,7 @@ class _RegistrationLoginBaseView(View, ABC):
     def base_post(self, request: HttpRequest, form: _UserForm) -> HttpResponse:
         if form.is_valid():
             self._get_and_login_user(request, form)
-            return redirect("algorithms")
+            return redirect(request.GET.get("next") or "algorithms")
         context = {"form": form}
         return render(request, self.template_name, context)
 

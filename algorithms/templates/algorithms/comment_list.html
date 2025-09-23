@@ -1,0 +1,42 @@
+{% extends "algorithms/discussion.html" %}
+{% load static %}
+{% block discussion_content %}
+<div class="flex-grow flex-column large-gap">
+	{% if is_replies_page %}
+	{% include "algorithms/comment.html" %}
+	<div class="flex-column margin-left large-gap">
+		{% for comment in page_obj %}
+		{% include "algorithms/comment.html" %}
+		{% empty %}
+		<div class="tile">
+			Reply queue is empty. Enqueue yours?
+		</div>
+		{% endfor %}
+	</div>
+	{% else %}
+	{% for comment in page_obj %}
+	{% include "algorithms/comment.html" %}
+	{% empty %}
+	<div class="tile">
+		Current discussion complexity: O(0). Add a comment to increase the runtime!
+	</div>
+	{% endfor %}
+	{% endif %}
+	<form method="post">
+		{% csrf_token %}
+		<input type="hidden" name="next" value="{{ request.path }}{% querystring page=1 %}">
+		<div class="flex-row medium-gap">
+			<textarea id="{{ form.body.auto_id }}"
+					  name="{{ form.body.html_name }}"
+					  placeholder="Write your {% if is_replies_page %}reply{% else %}comment{% endif %} here..."
+					  rows="5"
+					  class="flex-grow{% if form.body.errors %} field-error{% endif %}">{% if form.body.value %}{{ form.body.value }}{% endif %}</textarea>
+			<button>comment</button>
+		</div>
+		{% for error in form.body.errors %}
+		<p class="error-message">{{ error }}</p>
+		{% endfor %}
+	</form>
+	{% include "pagination.html" %}
+</div>
+{% endblock discussion_content %}

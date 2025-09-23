@@ -131,7 +131,11 @@ p {
 }
 
 .margin-auto {
-    margin: auto;
+	margin: auto;
+}
+
+.margin-left {
+	margin-left: 5em;
 }
 
 .justify-content-right {

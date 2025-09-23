@@ -7,12 +7,3 @@
 	overflow: auto;
 	align-items: center;
 }
-
-#auth-tile .log-in-link {
-	--hover-color: var(--code-background);
-	color: var(--code-background) !important;
-}
-
-#auth-tile .sign-up-link {
-	color: var(--title-color);
-}

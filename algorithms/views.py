@@ -8,7 +8,6 @@ from django.core.exceptions import PermissionDenied
 from django.db.models import Count, QuerySet
 from django.http import HttpRequest, HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
-from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.utils.text import slugify
 from django.views import View
@@ -146,51 +145,86 @@ class VisualizationNextStepView(View):
         request.session[algorithm_slug] = {"input": algorithm_input, "steps": steps}
 
 
-class DiscussionView(PaginationBaseView):
+class _DiscussionBaseView(View, ABC):
+    @staticmethod
+    def redirect_to_next_page(request: HttpRequest, algorithm_slug: str) -> HttpResponse:
+        next_page = request.POST.get("next") or request.GET.get("next")
+        return redirect(next_page or "discussion", algorithm_slug)
+
+
+class _CommentListBaseView(_DiscussionBaseView, PaginationBaseView, ABC):
     template_name = "algorithms/comment_list.html"
 
-    def get(self, request: HttpRequest, algorithm_slug: str) -> HttpResponse:
+    @abstractmethod
+    def _get_context(self, request: HttpRequest, algorithm: Algorithm, form: CommentForm,
+                     parent_comment_id: int | None) -> dict[str, Any]:
+        ...
+
+    def get(self, request: HttpRequest, algorithm_slug: str, parent_comment_id: int | None = None) -> HttpResponse:
         algorithm = get_object_or_404(Algorithm, slug=algorithm_slug)
-        comments = algorithm.comment_set.filter(reply_to=None).order_by("-created")
-        page_obj = self._get_page_obj(comments, request.GET.get("page"))
         form = CommentForm()
-        context = {"algorithm": algorithm, "page_obj": page_obj, "form": form}
-        return render(request, self.template_name, context)
+        return self._render_with_context(request, algorithm, form, parent_comment_id)
 
     @method_decorator(login_required)
-    def post(self, request: HttpRequest, algorithm_slug: str) -> HttpResponse:
+    def post(self, request: AuthenticatedHttpRequest, algorithm_slug: str,
+             parent_comment_id: int | None = None) -> HttpResponse:
         algorithm = Algorithm.objects.get(slug=algorithm_slug)
         form = CommentForm(request.POST)
         if form.is_valid():
-            comment = form.save(commit=False)
-            comment.user = request.user
-            comment.algorithm = algorithm
-            comment.save()
-            return redirect("discussion", algorithm_slug=algorithm_slug)
-        comments = algorithm.comment_set.filter(reply_to=None).order_by("-created")
-        page_obj = self._get_page_obj(comments, request.GET.get("page"))
-        context = {"algorithm": algorithm, "page_obj": page_obj, "form": form}
+            self._save_comment(request, form, algorithm, parent_comment_id)
+            return self.redirect_to_next_page(request, algorithm_slug)
+        return self._render_with_context(request, algorithm, form, parent_comment_id)
+
+    def _render_with_context(self, request: HttpRequest, algorithm: Algorithm, form: CommentForm,
+                             parent_comment_id: int | None) -> HttpResponse:
+        context = self._get_context(request, algorithm, form, parent_comment_id)
         return render(request, self.template_name, context)
 
-
-class _EditDeleteLikeCommentBaseView(LoginRequiredMixin, View, ABC):
     @staticmethod
-    def redirect_to_discussion(request: HttpRequest, algorithm_slug: str) -> HttpResponse:
-        url = reverse("discussion", args=[algorithm_slug], query=request.GET)
-        return redirect(url)
+    def _save_comment(request: AuthenticatedHttpRequest, form: CommentForm, algorithm: Algorithm,
+                      parent_comment_id: int | None = None) -> None:
+        comment = form.save(commit=False)
+        comment.user = request.user
+        comment.algorithm = algorithm
+        if parent_comment_id is not None:
+            comment.reply_to = Comment.objects.get(id=parent_comment_id)
+        comment.save()
 
 
-class _EditDeleteCommentBaseView(_EditDeleteLikeCommentBaseView, ABC):
+class DiscussionView(_CommentListBaseView):
+    def _get_context(self, request: HttpRequest, algorithm: Algorithm, form: CommentForm,
+                     parent_comment_id: int | None) -> dict[str, Any]:
+        comments = algorithm.comment_set.filter(reply_to=None)
+        page_obj = self._get_page_obj(comments, request.GET.get("page"))
+        return {"algorithm": algorithm, "page_obj": page_obj, "form": form}
+
+
+class CommentRepliesView(_CommentListBaseView):
+    def _get_context(self, request: HttpRequest, algorithm: Algorithm, form: CommentForm,
+                     parent_comment_id: int | None) -> dict[str, Any]:
+        parent_comment = get_object_or_404(Comment, id=parent_comment_id)
+        replies = parent_comment.replies.all()
+        page_obj = self._get_page_obj(replies, request.GET.get("page"))
+        return {"algorithm": algorithm, "comment": parent_comment, "page_obj": page_obj, "form": form,
+                "is_replies_page": True}
+
+
+class _EditDeleteCommentBaseView(_DiscussionBaseView, ABC):
     @property
     @abstractmethod
     def template_name(self) -> str:
         ...
 
-    def base_get(self, request: HttpRequest, algorithm_slug: str, comment_id: int,
-                 render_form: bool = False) -> HttpResponse:
+    @staticmethod
+    @abstractmethod
+    def _get_context(algorithm: Algorithm, comment: Comment) -> dict[str, Any]:
+        ...
+
+    def get(self, request: HttpRequest, algorithm_slug: str, comment_id: int) -> HttpResponse:
         comment = get_object_or_404(Comment, id=comment_id)
         self._check_user_permission(request, comment.user)
-        context = self._get_context(algorithm_slug, comment, render_form)
+        algorithm = get_object_or_404(Algorithm, slug=algorithm_slug)
+        context = self._get_context(algorithm, comment)
         return render(request, self.template_name, context)
 
     @staticmethod
@@ -198,27 +232,16 @@ class _EditDeleteCommentBaseView(_EditDeleteLikeCommentBaseView, ABC):
         if request.user != user:
             raise PermissionDenied
 
-    @staticmethod
-    def _get_context(algorithm_slug: str, comment: Comment, render_form: bool) -> dict[str, Any]:
-        algorithm = get_object_or_404(Algorithm, slug=algorithm_slug)
-        context: dict[str, Any] = {"algorithm": algorithm, "comment": comment}
-        if render_form:
-            context["form"] = CommentForm(instance=comment)
-        return context
-
 
 class EditCommentView(_EditDeleteCommentBaseView):
     template_name = "algorithms/edit_comment.html"
-
-    def get(self, request: HttpRequest, algorithm_slug: str, comment_id: int) -> HttpResponse:
-        return self.base_get(request, algorithm_slug, comment_id, True)
 
     def post(self, request: HttpRequest, algorithm_slug: str, comment_id: int) -> HttpResponse:
         comment = Comment.objects.get(id=comment_id)
         form = CommentForm(request.POST, instance=comment)
         if form.is_valid():
             form.save()
-            return self.redirect_to_discussion(request, algorithm_slug)
+            return self.redirect_to_next_page(request, algorithm_slug)
         return self._render_invalid_form(request, algorithm_slug, comment, form)
 
     def _render_invalid_form(self, request: HttpRequest, algorithm_slug: str, comment: Comment,
@@ -227,30 +250,36 @@ class EditCommentView(_EditDeleteCommentBaseView):
         context = {"algorithm": algorithm, "comment": comment, "form": form}
         return render(request, self.template_name, context)
 
+    @staticmethod
+    def _get_context(algorithm: Algorithm, comment: Comment) -> dict[str, Any]:
+        form = CommentForm(instance=comment)
+        return {"algorithm": algorithm, "comment": comment, "form": form}
+
 
 class DeleteCommentView(_EditDeleteCommentBaseView):
     template_name = "algorithms/delete_comment.html"
 
-    def get(self, request: HttpRequest, algorithm_slug: str, comment_id: int) -> HttpResponse:
-        return self.base_get(request, algorithm_slug, comment_id)
-
     def post(self, request: HttpRequest, algorithm_slug: str, comment_id: int) -> HttpResponse:
         self._delete_comment(comment_id)
-        return self.redirect_to_discussion(request, algorithm_slug)
+        return self.redirect_to_next_page(request, algorithm_slug)
 
     @staticmethod
     def _delete_comment(comment_id: int) -> None:
         comment = Comment.objects.get(id=comment_id)
         comment.delete()
 
+    @staticmethod
+    def _get_context(algorithm: Algorithm, comment: Comment) -> dict[str, Any]:
+        return {"algorithm": algorithm, "comment": comment}
 
-class LikeCommentView(_EditDeleteLikeCommentBaseView):
+
+class LikeCommentView(LoginRequiredMixin, _DiscussionBaseView):
     def get(self, request: HttpRequest, algorithm_slug: str, comment_id: int) -> HttpResponse:
-        return self.redirect_to_discussion(request, algorithm_slug)
+        return self.redirect_to_next_page(request, algorithm_slug)
 
     def post(self, request: AuthenticatedHttpRequest, algorithm_slug: str, comment_id: int) -> HttpResponse:
         self._toggle_like(request.user, comment_id)
-        return self.redirect_to_discussion(request, algorithm_slug)
+        return self.redirect_to_next_page(request, algorithm_slug)
 
     @staticmethod
     def _toggle_like(user: User, comment_id: int) -> None:

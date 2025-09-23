@@ -10,7 +10,7 @@
 				<div class="flex-column">
 					<textarea id="{{ form.body.auto_id }}"
 							  name="{{ form.body.html_name }}"
-							  placeholder="write your comment here..."
+							  placeholder="Write your comment here..."
 							  rows="5"
 							  autofocus
 							  {% if form.body.errors %}class="field-error"{% endif %}>{{ form.body.value }}</textarea>
@@ -20,7 +20,7 @@
 				</div>
 				<div class="flex-row medium-gap">
 					<button>save</button>
-					<a href="{% url 'discussion' algorithm.slug %}{% querystring %}" class="link-button">cancel</a>
+					<a href="{{ request.GET.next }}" class="link-button">cancel</a>
 				</div>
 			</div>
 		</form>

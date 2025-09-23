@@ -8,7 +8,8 @@
 <div class="flex-row large-gap">
 	{% block discussion_content %}{% endblock discussion_content %}
 	<div class="flex-column">
-		<a href="{% url 'visualization' algorithm.slug %}" class="link hard">
+		<a href="{% if is_replies_page %}{{ request.GET.next }}{% else %}{% url 'visualization' algorithm.slug %}{% endif %}"
+		   class="link hard">
 			<svg height="1em" viewBox="0 0 11.99 11.99">
 				<use href="{% static 'icons/icons.svg' %}#cross"></use>
 			</svg>

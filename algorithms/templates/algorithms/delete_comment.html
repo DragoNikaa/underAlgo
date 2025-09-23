@@ -10,7 +10,7 @@
 			{% csrf_token %}
 			<div class="flex-row medium-gap">
 				<button>delete</button>
-				<a href="{% url 'discussion' algorithm.slug %}{% querystring %}" class="link-button">cancel</a>
+				<a href="{{ request.GET.next }}" class="link-button">cancel</a>
 			</div>
 		</form>
 	</div>

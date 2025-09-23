@@ -93,7 +93,12 @@
 			<p id="explanation-content"></p>
 		</div>
 		<div class="flex-row medium-gap">
-			<a href="{% url 'discussion' algorithm.slug %}" class="link-button">discussion</a>
+			<a href="{% url 'discussion' algorithm.slug %}" class="flex-row link-button align-items-center small-gap">
+				<svg height="1em" viewBox="0 0 19.99 19.99">
+					<use href="{% static 'icons/icons.svg' %}#discussion"></use>
+				</svg>
+				discussion
+			</a>
 		</div>
 	</div>
 </div>

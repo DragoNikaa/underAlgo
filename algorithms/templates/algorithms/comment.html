@@ -29,7 +29,7 @@
 			</form>
 			{% endif %}
 			{% if not is_replies_page %}
-			<a href="{% url 'comment-replies' algorithm.slug comment.id %}{% querystring page=1 next=request.get_full_path %}"
+			<a href="{% url 'comment-replies' algorithm.slug comment.id %}{% querystring sortby=None page=1 next=request.get_full_path %}"
 				class="link align-items-center small-gap">
 				<svg height="1em" viewBox="0 0 19.99 19.99">
 					<use href="{% static 'icons/icons.svg' %}#discussion"></use>

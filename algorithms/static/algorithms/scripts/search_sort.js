@@ -1,6 +1,3 @@
-addClearButtonListeners();
-fillFormWithUrlParams(document.getElementById("search-form"));
-
 function addClearButtonListeners() {
 	clearSelectionsOnClick("clear-difficulty-button", "difficulty");
 	clearSelectionsOnClick("clear-categories-button", "category");

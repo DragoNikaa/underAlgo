@@ -33,8 +33,8 @@ class AlgorithmsView(PaginationBaseView):
 
     @staticmethod
     def _get_search_filters() -> tuple[QuerySet[Difficulty], QuerySet[Category]]:
-        difficulties = Difficulty.objects.annotate(algorithm_count=Count("algorithm"))
-        categories = Category.objects.annotate(algorithm_count=Count("algorithm")).order_by("-algorithm_count")
+        difficulties = Difficulty.objects.annotate(algorithms_count=Count("algorithm"))
+        categories = Category.objects.annotate(algorithms_count=Count("algorithm")).order_by("-algorithms_count")
         return difficulties, categories
 
     def _get_filtered_algorithms(self, request: HttpRequest) -> QuerySet[Algorithm]:
@@ -175,6 +175,16 @@ class _CommentListBaseView(_DiscussionBaseView, PaginationBaseView, ABC):
             return self.redirect_to_next_page(request, algorithm_slug)
         return self._render_with_context(request, algorithm, form, parent_comment_id)
 
+    @staticmethod
+    def sort_comments(comments: QuerySet[Comment], sort_by: str | None) -> QuerySet[Comment]:
+        match sort_by:
+            case "most-liked":
+                return comments.order_by('-likes')
+            case "most-replied":
+                return comments.annotate(replies_count=Count("replies")).order_by("-replies_count")
+            case _:
+                return comments.order_by('-created')
+
     def _render_with_context(self, request: HttpRequest, algorithm: Algorithm, form: CommentForm,
                              parent_comment_id: int | None) -> HttpResponse:
         context = self._get_context(request, algorithm, form, parent_comment_id)
@@ -195,7 +205,8 @@ class DiscussionView(_CommentListBaseView):
     def _get_context(self, request: HttpRequest, algorithm: Algorithm, form: CommentForm,
                      parent_comment_id: int | None) -> dict[str, Any]:
         comments = algorithm.comment_set.filter(reply_to=None)
-        page_obj = self._get_page_obj(comments, request.GET.get("page"))
+        sorted_comments = self.sort_comments(comments, request.GET.get("sortby"))
+        page_obj = self._get_page_obj(sorted_comments, request.GET.get("page"))
         return {"algorithm": algorithm, "page_obj": page_obj, "form": form}
 
 
@@ -204,7 +215,8 @@ class CommentRepliesView(_CommentListBaseView):
                      parent_comment_id: int | None) -> dict[str, Any]:
         parent_comment = get_object_or_404(Comment, id=parent_comment_id)
         replies = parent_comment.replies.all()
-        page_obj = self._get_page_obj(replies, request.GET.get("page"))
+        sorted_replies = self.sort_comments(replies, request.GET.get("sortby"))
+        page_obj = self._get_page_obj(sorted_replies, request.GET.get("page"))
         return {"algorithm": algorithm, "comment": parent_comment, "page_obj": page_obj, "form": form,
                 "is_replies_page": True}
 

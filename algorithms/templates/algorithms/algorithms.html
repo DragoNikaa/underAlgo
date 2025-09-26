@@ -19,7 +19,7 @@
 					<label class="flex-row align-items-center medium-gap">
 					<input type="radio" name="difficulty" value="{{ difficulty.slug }}">
 					<span class="link {{ difficulty }}">{{ difficulty }}</span>
-					{{ difficulty.algorithm_count }}
+					{{ difficulty.algorithms_count }}
 					</label>
 					{% endfor %}
 					<button type="button" id="clear-difficulty-button" class="clear-button">clear</button>
@@ -32,7 +32,7 @@
 					<label class="flex-row align-items-center medium-gap">
 					<input type="checkbox" name="category" value="{{ category.slug }}">
 					<span class="link">{{ category }}</span>
-					{{ category.algorithm_count }}
+					{{ category.algorithms_count }}
 					</label>
 					{% endfor %}
 					<button type="button" id="clear-categories-button" class="clear-button">clear</button>
@@ -49,5 +49,9 @@
 </div>
 {% endblock content %}
 {% block scripts %}
-<script src="{% static 'algorithms/scripts/search.js' %}"></script>
+<script src="{% static 'algorithms/scripts/search_sort.js' %}"></script>
+<script>
+	addClearButtonListeners();
+	fillFormWithUrlParams(document.getElementById("search-form"));
+</script>
 {% endblock scripts %}

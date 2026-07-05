@@ -1,0 +1,26 @@
+[
+  {
+    "pk": 1,
+    "model": "algorithms.category",
+    "fields": {
+      "name": "array",
+      "slug": "array"
+    }
+  },
+  {
+    "pk": 2,
+    "model": "algorithms.category",
+    "fields": {
+      "name": "divide and conquer",
+      "slug": "divide-and-conquer"
+    }
+  },
+  {
+    "pk": 3,
+    "model": "algorithms.category",
+    "fields": {
+      "name": "search",
+      "slug": "search"
+    }
+  }
+]

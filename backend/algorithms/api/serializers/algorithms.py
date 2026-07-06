@@ -1,4 +1,7 @@
+from typing import Any
+
 from rest_framework import serializers
+from rest_framework.reverse import reverse
 
 from algorithms.models import Algorithm
 from .categories import CategorySerializer
@@ -12,25 +15,36 @@ class _AlgorithmSerializer(serializers.ModelSerializer[Algorithm]):
 
 
 class AlgorithmListSerializer(_AlgorithmSerializer):
-    url = serializers.HyperlinkedIdentityField(view_name='algorithm-detail', lookup_field='slug')
+    links = serializers.SerializerMethodField()
 
     class Meta:
         model = Algorithm
         fields = [
-            'url',
+            'links',
             'name',
             'general_description',
             'difficulty',
             'categories',
         ]
 
+    def get_links(self, instance: Algorithm) -> dict[str, str]:
+        return {
+            'self': reverse(
+                'algorithm-detail',
+                kwargs={'slug': instance.slug},
+                request=self.context['request'],
+            ),
+        }
+
 
 class AlgorithmDetailSerializer(_AlgorithmSerializer):
+    actions = serializers.SerializerMethodField()
     test_cases = TestCaseSerializer(many=True, read_only=True)
 
     class Meta:
         model = Algorithm
         fields = [
+            'actions',
             'name',
             'general_description',
             'input_description',
@@ -40,3 +54,16 @@ class AlgorithmDetailSerializer(_AlgorithmSerializer):
             'categories',
             'test_cases',
         ]
+
+    def get_actions(self, instance: Algorithm) -> dict[str, dict[str, Any]]:
+        return {
+            'execute': {
+                'href': reverse(
+                    'algorithm-execute',
+                    kwargs={'slug': instance.slug},
+                    request=self.context['request'],
+                ),
+                'method': 'POST',
+                'fields': list(instance.input_description),
+            },
+        }

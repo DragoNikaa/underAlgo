@@ -9,7 +9,7 @@ class CategorySerializer(serializers.ModelSerializer[Category]):
 
     class Meta:
         model = Category
-        fields = ['links', 'name']
+        fields = ['links', 'name', 'slug']
 
     def get_links(self, instance: Category) -> dict[str, str]:
         algorithm_list_url = reverse('algorithm-list', request=self.context['request'])

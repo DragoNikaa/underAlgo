@@ -1,0 +1,39 @@
+.drawer {
+  position: fixed;
+  z-index: 100;
+  inset-block: 0;
+  overflow-y: auto;
+  transition: transform 0.25s ease;
+  width: min(80%, 360px);
+  padding: var(--size-5);
+  background: var(--black);
+}
+
+.left {
+  left: 0;
+  transform: translateX(-100%);
+  border-right: 1px solid var(--gray);
+}
+
+.right {
+  right: 0;
+  transform: translateX(100%);
+  border-left: 1px solid var(--gray);
+}
+
+.open {
+  transform: translateX(0);
+}
+
+.closeButton {
+  display: flex;
+  justify-self: flex-end;
+  margin-bottom: var(--size-5);
+}
+
+.overlay {
+  position: fixed;
+  z-index: 90;
+  inset: 0;
+  background: rgb(0 0 0 / 40%);
+}

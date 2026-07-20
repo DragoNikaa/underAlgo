@@ -1,0 +1,20 @@
+.logo {
+  transition: background-position 1s ease;
+  background: linear-gradient(
+    to right,
+    var(--blue-light),
+    var(--pink),
+    var(--lime)
+  );
+  background-size: 200%;
+  font-size: 1.8rem;
+  line-height: 0.8;
+  font-weight: bold;
+  text-indent: 2ch;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.logo:hover {
+  background-position: right;
+}

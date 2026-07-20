@@ -1,0 +1,17 @@
+.showMobile {
+  display: none;
+}
+
+.showDesktop {
+  display: flex;
+}
+
+@media (max-width: 767px) {
+  .showMobile {
+    display: flex;
+  }
+
+  .showDesktop {
+    display: none;
+  }
+}

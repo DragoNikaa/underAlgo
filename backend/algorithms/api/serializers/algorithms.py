@@ -22,6 +22,7 @@ class AlgorithmListSerializer(_AlgorithmSerializer):
         fields = [
             'links',
             'name',
+            'slug',
             'general_description',
             'difficulty',
             'categories',
@@ -46,6 +47,7 @@ class AlgorithmDetailSerializer(_AlgorithmSerializer):
         fields = [
             'actions',
             'name',
+            'slug',
             'general_description',
             'input_description',
             'output_description',

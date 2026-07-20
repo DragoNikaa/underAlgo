@@ -1,0 +1,39 @@
+.algorithmListPage {
+  display: grid;
+  grid-template-areas: "filters main column3";
+  grid-template-columns: 1fr 2fr 1fr;
+  column-gap: var(--size-5);
+  margin: 0 var(--size-5) var(--size-5);
+}
+
+.main {
+  grid-area: main;
+}
+
+.filters {
+  grid-area: filters;
+}
+
+.column3 {
+  grid-area: column3;
+}
+
+.filters,
+.column3 {
+  margin-top: var(--size-6);
+}
+
+.pagination {
+  margin-top: var(--size-5);
+}
+
+@media (max-width: 767px) {
+  .algorithmListPage {
+    display: block;
+  }
+
+  .drawerButtons {
+    justify-content: space-between;
+    margin-bottom: var(--size-4);
+  }
+}

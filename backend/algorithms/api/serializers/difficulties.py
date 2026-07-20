@@ -9,7 +9,7 @@ class DifficultySerializer(serializers.ModelSerializer[Difficulty]):
 
     class Meta:
         model = Difficulty
-        fields = ['links', 'name']
+        fields = ['links', 'name', 'slug']
 
     def get_links(self, instance: Difficulty) -> dict[str, str]:
         algorithm_list_url = reverse('algorithm-list', request=self.context['request'])

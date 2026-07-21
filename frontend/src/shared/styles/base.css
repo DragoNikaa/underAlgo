@@ -42,12 +42,13 @@ textarea {
   font: inherit;
 }
 
-button:disabled {
-  cursor: not-allowed;
-}
-
+button,
 label {
   cursor: pointer;
+}
+
+button:disabled {
+  cursor: not-allowed;
 }
 
 fieldset {

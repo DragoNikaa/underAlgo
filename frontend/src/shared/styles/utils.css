@@ -1,3 +1,7 @@
+.notVisible {
+  visibility: hidden;
+}
+
 .showMobile {
   display: none;
 }

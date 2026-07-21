@@ -5,6 +5,7 @@ import { useSearchParams } from "react-router-dom";
 import Button from "../../../../shared/components/Button/Button.tsx";
 import Drawer from "../../../../shared/components/Drawer/Drawer.tsx";
 import Heading from "../../../../shared/components/Heading/Heading.tsx";
+import Pagination from "../../../../shared/components/Pagination/Pagination.tsx";
 import AlgorithmList from "../../components/AlgorithmList/AlgorithmList.tsx";
 import { useAlgorithms } from "../../hooks.ts";
 import styles from "./AlgorithmListPage.module.css";
@@ -12,7 +13,6 @@ import styles from "./AlgorithmListPage.module.css";
 export default function AlgorithmListPage() {
   const [searchParams] = useSearchParams();
   const { data } = useAlgorithms(searchParams.toString());
-  const algorithms = data.results;
 
   const [openDrawer, setOpenDrawer] = useState<"filters" | "column3" | null>(
     null,
@@ -28,11 +28,9 @@ export default function AlgorithmListPage() {
           <Button onClick={() => setOpenDrawer("column3")}>column 3</Button>
         </div>
 
-        <AlgorithmList algorithms={algorithms} />
+        <AlgorithmList algorithms={data.results} />
 
-        <nav aria-label="pagination" className={styles.pagination}>
-          pagination
-        </nav>
+        <Pagination pageInfo={data.page} className={styles.pagination} />
       </main>
 
       <aside className={clsx(styles.filters, "showDesktop")}>filters</aside>

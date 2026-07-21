@@ -3,9 +3,10 @@ import { PATHS } from "../../shared/paths.ts";
 import type { PaginatedResponse } from "../../shared/types/pagination.ts";
 import type { AlgorithmDetail, AlgorithmListItem } from "./types/algorithm.ts";
 
-export function getAlgorithms() {
+export function getAlgorithms(search?: string) {
   return apiClient.get<PaginatedResponse<AlgorithmListItem>>(
     PATHS.algorithm.list,
+    search,
   );
 }
 

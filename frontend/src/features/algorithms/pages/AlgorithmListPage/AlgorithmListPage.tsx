@@ -1,5 +1,6 @@
 import clsx from "clsx";
 import { useState } from "react";
+import { useSearchParams } from "react-router-dom";
 
 import Button from "../../../../shared/components/Button/Button.tsx";
 import Drawer from "../../../../shared/components/Drawer/Drawer.tsx";
@@ -9,7 +10,8 @@ import { useAlgorithms } from "../../hooks.ts";
 import styles from "./AlgorithmListPage.module.css";
 
 export default function AlgorithmListPage() {
-  const { data } = useAlgorithms();
+  const [searchParams] = useSearchParams();
+  const { data } = useAlgorithms(searchParams.toString());
   const algorithms = data.results;
 
   const [openDrawer, setOpenDrawer] = useState<"filters" | "column3" | null>(

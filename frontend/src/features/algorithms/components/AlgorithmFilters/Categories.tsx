@@ -17,7 +17,7 @@ export default function Categories() {
     <fieldset>
       <Card>
         <legend>
-          <Heading as="h2" variant="secondary">
+          <Heading as="h3" variant="secondary">
             categories
           </Heading>
         </legend>

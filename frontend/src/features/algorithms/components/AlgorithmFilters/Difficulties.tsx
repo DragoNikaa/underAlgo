@@ -23,7 +23,7 @@ export default function Difficulties() {
     <fieldset>
       <Card>
         <legend>
-          <Heading as="h2" variant="secondary">
+          <Heading as="h3" variant="secondary">
             difficulty
           </Heading>
         </legend>

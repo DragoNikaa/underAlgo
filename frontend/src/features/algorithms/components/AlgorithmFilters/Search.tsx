@@ -15,7 +15,7 @@ export default function Search() {
         onChange={(e) => setParam("search", e.target.value)}
         value={params.get("search") ?? ""}
       >
-        <Heading as="h2" variant="secondary">
+        <Heading as="h3" variant="secondary">
           search
         </Heading>
       </Input>

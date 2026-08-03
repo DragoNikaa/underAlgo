@@ -2,8 +2,8 @@
   position: fixed;
   inset: var(--size-7) 0 0;
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
 }
 
 .loader {

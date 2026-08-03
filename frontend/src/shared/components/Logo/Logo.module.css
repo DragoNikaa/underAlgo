@@ -1,17 +1,17 @@
 .logo {
-  transition: background-position 1s ease;
+  font-size: 1.8rem;
+  font-weight: bold;
+  line-height: 0.8;
+  text-indent: 2ch;
   background: linear-gradient(
     to right,
     var(--blue-light),
     var(--pink),
     var(--lime)
   );
-  background-size: 200%;
-  font-size: 1.8rem;
-  line-height: 0.8;
-  font-weight: bold;
-  text-indent: 2ch;
   -webkit-background-clip: text;
+  background-size: 200%;
+  transition: background-position 1s ease;
   -webkit-text-fill-color: transparent;
 }
 

@@ -1,24 +1,24 @@
 .drawer {
   position: fixed;
-  z-index: 100;
   inset-block: 0;
-  overflow-y: auto;
-  transition: transform 0.25s ease;
+  z-index: 100;
   width: min(80%, 360px);
   padding: var(--size-5);
+  overflow-y: auto;
   background: var(--black);
+  transition: transform 0.25s ease;
 }
 
 .left {
   left: 0;
-  transform: translateX(-100%);
   border-right: 1px solid var(--gray);
+  transform: translateX(-100%);
 }
 
 .right {
   right: 0;
-  transform: translateX(100%);
   border-left: 1px solid var(--gray);
+  transform: translateX(100%);
 }
 
 .open {
@@ -33,7 +33,7 @@
 
 .overlay {
   position: fixed;
-  z-index: 90;
   inset: 0;
+  z-index: 90;
   background: rgb(0 0 0 / 40%);
 }

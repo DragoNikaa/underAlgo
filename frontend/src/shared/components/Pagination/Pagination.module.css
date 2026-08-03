@@ -1,8 +1,8 @@
 .pagination {
   display: flex;
-  justify-content: center;
-  align-items: center;
   gap: var(--size-3);
+  align-items: center;
+  justify-content: center;
 }
 
 .buttons {

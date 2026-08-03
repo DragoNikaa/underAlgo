@@ -1,6 +1,6 @@
 import { ApiError } from "./api-error.ts";
 
-const BASE_URL: string = import.meta.env.VITE_API_BASE_URL;
+const URL_ORIGIN: string = import.meta.env.VITE_API_URL_ORIGIN;
 
 export const apiClient = {
   get<T>(path: string, search?: string) {
@@ -53,7 +53,7 @@ async function request<T>(
 }
 
 function buildUrl(path: string, search?: string) {
-  const url = new URL(path.substring(1), BASE_URL);
+  const url = new URL(path, URL_ORIGIN);
   if (search) url.search = search;
   return url;
 }

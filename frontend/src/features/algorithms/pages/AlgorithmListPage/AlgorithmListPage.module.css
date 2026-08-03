@@ -27,7 +27,7 @@
   margin-top: var(--size-5);
 }
 
-@media (max-width: 767px) {
+@media (max-width: 767.98px) {
   .algorithmListPage {
     display: block;
   }

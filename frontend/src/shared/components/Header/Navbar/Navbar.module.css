@@ -1,10 +1,10 @@
 .navbar {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
   gap: var(--size-7);
-  border-bottom: 1px solid var(--gray);
+  align-items: center;
+  justify-content: space-between;
   padding: var(--size-3) var(--size-7);
+  border-bottom: 1px solid var(--gray);
 }
 
 .nav {
@@ -23,17 +23,17 @@
 }
 
 .navLinkActive {
-  --background: var(--white);
   --color: var(--black);
+  --background: var(--white);
   border-color: transparent;
 }
 
 .navLinkActive:active {
-  background: var(--muted-color);
   color: var(--black) !important;
+  background: var(--muted-color);
 }
 
-@media (max-width: 1023px) {
+@media (max-width: 1023.98px) {
   .navbar {
     gap: var(--size-6);
     padding-inline: var(--size-6);
@@ -49,7 +49,7 @@
   }
 }
 
-@media (max-width: 767px) {
+@media (max-width: 767.98px) {
   .nav {
     flex-direction: column;
   }
@@ -62,8 +62,8 @@
   }
 
   .navLinks {
-    border-bottom: 1px solid var(--gray);
     padding-bottom: var(--size-6);
+    border-bottom: 1px solid var(--gray);
   }
 
   .navLink,

@@ -1,0 +1,53 @@
+.label {
+  display: flex;
+  gap: var(--size-2);
+  align-items: center;
+  width: fit-content;
+}
+
+.checkbox,
+.radio {
+  display: grid;
+  flex-shrink: 0;
+  place-content: center;
+  width: 1.15em;
+  height: 1.15em;
+  appearance: none;
+  border: 0.15em solid var(--white);
+}
+
+.checkbox {
+  border-radius: 0.25em;
+}
+
+.radio {
+  border-radius: 50%;
+}
+
+:is(.checkbox, .radio):is(:hover, :checked) {
+  border-color: var(--blue-light);
+  transform: scale(1.15);
+}
+
+:is(.checkbox, .radio)::before {
+  content: "";
+  background-color: var(--blue-light);
+  transform: scale(0);
+  transition: transform 0.2s ease-in-out;
+}
+
+.checkbox::before {
+  width: 0.55em;
+  height: 0.55em;
+  clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+}
+
+.radio::before {
+  width: 0.35em;
+  height: 0.35em;
+  border-radius: 50%;
+}
+
+:is(.checkbox, .radio):checked::before {
+  transform: scale(1);
+}

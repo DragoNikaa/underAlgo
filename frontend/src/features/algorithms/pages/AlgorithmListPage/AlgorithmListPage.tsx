@@ -6,6 +6,7 @@ import Button from "../../../../shared/components/Button/Button.tsx";
 import Drawer from "../../../../shared/components/Drawer/Drawer.tsx";
 import Heading from "../../../../shared/components/Heading/Heading.tsx";
 import Pagination from "../../../../shared/components/Pagination/Pagination.tsx";
+import AlgorithmFilters from "../../components/AlgorithmFilters/AlgorithmFilters.tsx";
 import AlgorithmList from "../../components/AlgorithmList/AlgorithmList.tsx";
 import { useAlgorithms } from "../../hooks.ts";
 import styles from "./AlgorithmListPage.module.css";
@@ -33,21 +34,24 @@ export default function AlgorithmListPage() {
         <Pagination pageInfo={data.page} className={styles.pagination} />
       </main>
 
-      <aside className={clsx(styles.filters, "showDesktop")}>filters</aside>
+      <aside className={clsx(styles.filters, "showDesktop")}>
+        <AlgorithmFilters />
+      </aside>
+
       <aside className={clsx(styles.column3, "showDesktop")}>column 3</aside>
 
       <div className="showMobile">
         <Drawer
-          isOpen={openDrawer === "filters"}
           side="left"
+          isOpen={openDrawer === "filters"}
           onClose={() => setOpenDrawer(null)}
         >
-          filters
+          <AlgorithmFilters />
         </Drawer>
 
         <Drawer
-          isOpen={openDrawer === "column3"}
           side="right"
+          isOpen={openDrawer === "column3"}
           onClose={() => setOpenDrawer(null)}
         >
           column 3

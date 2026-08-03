@@ -1,6 +1,11 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
 
-import { getAlgorithm, getAlgorithms } from "./api.ts";
+import {
+  getAlgorithm,
+  getAlgorithms,
+  getCategories,
+  getDifficulties,
+} from "./api.ts";
 
 export function useAlgorithms(search?: string) {
   return useSuspenseQuery({
@@ -13,5 +18,19 @@ export function useAlgorithm(slug: string) {
   return useSuspenseQuery({
     queryKey: ["algorithm", slug],
     queryFn: () => getAlgorithm(slug),
+  });
+}
+
+export function useDifficulties() {
+  return useSuspenseQuery({
+    queryKey: ["difficulties"],
+    queryFn: () => getDifficulties(),
+  });
+}
+
+export function useCategories() {
+  return useSuspenseQuery({
+    queryKey: ["categories"],
+    queryFn: () => getCategories(),
   });
 }

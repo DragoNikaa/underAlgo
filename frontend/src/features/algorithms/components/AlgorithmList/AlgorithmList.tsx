@@ -4,6 +4,7 @@ import ButtonLink from "../../../../shared/components/Button/ButtonLink.tsx";
 import Card from "../../../../shared/components/Card/Card.tsx";
 import Heading from "../../../../shared/components/Heading/Heading.tsx";
 import { PATHS } from "../../../../shared/paths.ts";
+import { truncateText } from "../../../../shared/utils/truncate-text.ts";
 import type { AlgorithmListItem } from "../../types/algorithm.ts";
 import { AlgorithmBadges } from "../AlgorithmBadges/AlgorithmBadges.tsx";
 import styles from "./AlgorithmList.module.css";
@@ -26,7 +27,7 @@ export default function AlgorithmList({ algorithms }: AlgorithmListProps) {
                   </Link>
                 </Heading>
 
-                <p>{algorithm.general_description}</p>
+                <p>{truncateText(algorithm.general_description)}</p>
 
                 <AlgorithmBadges
                   difficulty={algorithm.difficulty}

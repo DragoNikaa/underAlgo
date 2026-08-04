@@ -1,0 +1,15 @@
+.pagination {
+  display: flex;
+  gap: var(--size-3);
+  align-items: center;
+  justify-content: center;
+}
+
+.buttons {
+  display: flex;
+  gap: var(--size-2);
+}
+
+.pageNumber {
+  white-space: nowrap;
+}

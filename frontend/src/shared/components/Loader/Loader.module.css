@@ -1,0 +1,38 @@
+.wrapper {
+  position: fixed;
+  inset: var(--size-7) 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loader {
+  width: var(--size-7);
+  height: var(--size-7);
+}
+
+.stop1 {
+  stop-color: var(--blue-light);
+}
+
+.stop2 {
+  stop-color: var(--pink);
+}
+
+.stop3 {
+  stop-color: var(--lime);
+}
+
+.hexagon {
+  fill: none;
+  stroke: url(#loaderGradient);
+  stroke-width: 6;
+  stroke-dasharray: 200 40;
+  animation: moveGap 3s linear infinite;
+}
+
+@keyframes moveGap {
+  to {
+    stroke-dashoffset: -240;
+  }
+}

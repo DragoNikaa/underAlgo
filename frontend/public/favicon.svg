@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="43" height="64" viewBox="0 0 43 64">
+    <defs>
+        <linearGradient id="faviconGradient" gradientUnits="userSpaceOnUse" x1="0" y1="64" x2="43" y2="0">
+            <stop offset="5%" stop-color="#6fbcff"/>
+            <stop offset="40%" stop-color="#e378e3"/>
+            <stop offset="60%" stop-color="#e378e3"/>
+            <stop offset="100%" stop-color="#c8dc14"/>
+        </linearGradient>
+    </defs>
+
+    <text x="-3" y="63" font-family="monospace" font-size="50" font-weight="bold" fill="url(#faviconGradient)">u</text>
+    <text x="15" y="32" font-family="monospace" font-size="50" font-weight="bold" fill="url(#faviconGradient)">A</text>
+</svg>

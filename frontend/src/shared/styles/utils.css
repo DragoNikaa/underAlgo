@@ -1,0 +1,21 @@
+.notVisible {
+  visibility: hidden;
+}
+
+.showMobile {
+  display: none;
+}
+
+.showDesktop {
+  display: flex;
+}
+
+@media (max-width: 767.98px) {
+  .showMobile {
+    display: flex;
+  }
+
+  .showDesktop {
+    display: none;
+  }
+}

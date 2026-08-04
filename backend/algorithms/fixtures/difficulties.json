@@ -1,0 +1,26 @@
+[
+  {
+    "pk": 1,
+    "model": "algorithms.difficulty",
+    "fields": {
+      "name": "easy",
+      "slug": "easy"
+    }
+  },
+  {
+    "pk": 2,
+    "model": "algorithms.difficulty",
+    "fields": {
+      "name": "medium",
+      "slug": "medium"
+    }
+  },
+  {
+    "pk": 3,
+    "model": "algorithms.difficulty",
+    "fields": {
+      "name": "hard",
+      "slug": "hard"
+    }
+  }
+]

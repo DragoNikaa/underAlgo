@@ -1,0 +1,42 @@
+.heading {
+  width: fit-content;
+}
+
+.primary,
+.secondary:after {
+  background: linear-gradient(
+    to right,
+    var(--blue-light),
+    var(--pink),
+    var(--lime)
+  );
+  background-size: 200%;
+  transition: background-position 1s ease;
+}
+
+.primary {
+  margin: var(--size-4) var(--size-5);
+  font-size: 2.5rem;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.secondary {
+  position: relative;
+  padding-bottom: 0.4em;
+  font-size: 1.5rem;
+}
+
+.primary:hover,
+.secondary:hover::after {
+  background-position: right;
+}
+
+.secondary::after {
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  height: 0.25em;
+  content: "";
+  border-radius: 1em;
+}

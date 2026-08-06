@@ -3,12 +3,15 @@ from typing import Any
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters, serializers, viewsets
 from rest_framework.decorators import action
+from rest_framework.exceptions import NotFound
 from rest_framework.request import Request
 from rest_framework.response import Response
 
 from algorithms.api.filters import AlgorithmFilter
 from algorithms.api.serializers import AlgorithmDetailSerializer, AlgorithmListSerializer, TestCaseSerializer
 from algorithms.models import Algorithm
+from algorithms.services.exceptions import InputValidationError
+from algorithms.services.execution import ALGORITHMS, BaseAlgorithm
 
 
 class AlgorithmViewSet(viewsets.ReadOnlyModelViewSet[Algorithm]):
@@ -33,14 +36,26 @@ class AlgorithmViewSet(viewsets.ReadOnlyModelViewSet[Algorithm]):
 
     @action(methods=['POST'], detail=True)
     def execute(self, request: Request, slug: str) -> Response:
-        algorithm = self.get_object()
+        algorithm_class = self._get_algorithm_class(slug)
 
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-
-        test_case = serializer.validated_data['body']
+        try:
+            algorithm = algorithm_class(self._get_input(request))
+        except InputValidationError as error:
+            return Response({'errors': error.errors}, status=422)
 
         return Response({
-            'algorithm': algorithm.name,
-            'test_case': test_case,
+            'steps': algorithm.steps,
+            'output': algorithm.output,
         })
+
+    @staticmethod
+    def _get_algorithm_class(slug: str) -> type[BaseAlgorithm[Any]]:
+        try:
+            return ALGORITHMS[slug]
+        except KeyError:
+            raise NotFound('No Algorithm matches the given query.')
+
+    def _get_input(self, request: Request) -> Any:
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        return serializer.validated_data['body']

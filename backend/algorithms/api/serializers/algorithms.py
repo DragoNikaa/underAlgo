@@ -3,10 +3,10 @@ from typing import Any
 from rest_framework import serializers
 from rest_framework.reverse import reverse
 
+from algorithms.api.serializers.categories import CategorySerializer
+from algorithms.api.serializers.difficulties import DifficultySerializer
+from algorithms.api.serializers.test_cases import TestCaseSerializer
 from algorithms.models import Algorithm
-from .categories import CategorySerializer
-from .difficulties import DifficultySerializer
-from .test_cases import TestCaseSerializer
 
 
 class _AlgorithmSerializer(serializers.ModelSerializer[Algorithm]):

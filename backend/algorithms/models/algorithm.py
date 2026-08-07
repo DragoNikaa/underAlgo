@@ -1,8 +1,8 @@
 from django.db import models
 
+from algorithms.models.category import Category
+from algorithms.models.difficulty import Difficulty
 from core.models import SlugModel, TimeStampedModel
-from .category import Category
-from .difficulty import Difficulty
 
 
 def _default_input_description() -> dict[str, str]:

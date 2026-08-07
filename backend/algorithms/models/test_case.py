@@ -1,6 +1,6 @@
 from django.db import models
 
-from .algorithm import Algorithm
+from algorithms.models.algorithm import Algorithm
 
 
 class TestCase(models.Model):

@@ -24,7 +24,7 @@ export default function AlgorithmDetailPage() {
           <AlgorithmTestCases
             testCases={algorithm.test_cases}
             execute={execute}
-            error={error}
+            executionError={error}
           />
         )}
       </div>

@@ -16,26 +16,37 @@ export type SelectedTestCase = number | typeof CUSTOM_TEST_CASE;
 interface AlgorithmTestCasesProps {
   testCases: TestCase[];
   execute: (body: Record<string, unknown>) => void;
-  error: ValidationError | null;
+  executionError: ValidationError | null;
 }
 
 export default function AlgorithmTestCases({
   testCases,
   execute,
-  error,
+  executionError,
 }: AlgorithmTestCasesProps) {
   const [selectedTestCase, setSelectedTestCase] = useState<SelectedTestCase>(0);
   const [customBody, setCustomBody] = useState<Record<string, string>>({});
+  const [parseError, setParseError] = useState<ValidationError | null>(null);
 
   function handleSubmit(event: SyntheticEvent<HTMLFormElement>) {
     event.preventDefault();
+    setParseError(null);
 
-    const body =
-      selectedTestCase === CUSTOM_TEST_CASE
-        ? parseBody(customBody)
-        : testCases[selectedTestCase].body;
+    try {
+      execute(getBody());
+    } catch (error) {
+      if (error instanceof ValidationError) {
+        setParseError(error);
+      } else {
+        throw error;
+      }
+    }
+  }
 
-    execute(body);
+  function getBody() {
+    return selectedTestCase === CUSTOM_TEST_CASE
+      ? parseBody(customBody)
+      : testCases[selectedTestCase].body;
   }
 
   return (
@@ -63,7 +74,7 @@ export default function AlgorithmTestCases({
                 [key]: value,
               }))
             }
-            error={error}
+            error={parseError ?? executionError}
           />
 
           <Button type="submit">execute</Button>

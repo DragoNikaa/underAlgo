@@ -28,7 +28,7 @@ export function getCategories() {
   return apiClient.get<Category[]>(ENDPOINTS.category.list);
 }
 
-export function getExecution(slug: string, body: Record<string, unknown>) {
+export function executeAlgorithm(slug: string, body: Record<string, unknown>) {
   return apiClient.post<AlgorithmExecution>(
     ENDPOINTS.algorithm.execution(slug),
     body,

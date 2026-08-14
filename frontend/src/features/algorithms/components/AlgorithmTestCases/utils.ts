@@ -1,15 +1,20 @@
-export function parseBody(
-  body: Record<string, string>,
-): Record<string, unknown> {
-  return Object.fromEntries(
-    Object.entries(body).map(([key, value]) => [key, parseInputValue(value)]),
-  );
-}
+import { ValidationError } from "../../../../shared/api/errors.ts";
 
-function parseInputValue(value: string): unknown {
-  try {
-    return JSON.parse(value);
-  } catch {
-    return value;
+export function parseBody(body: Record<string, string>) {
+  const errors: Record<string, string[]> = {};
+  const parsedBody: Record<string, unknown> = {};
+
+  for (const [key, value] of Object.entries(body)) {
+    try {
+      parsedBody[key] = JSON.parse(value);
+    } catch {
+      errors[key] = ["Invalid format. Algorithm confused."];
+    }
   }
+
+  if (Object.keys(errors).length > 0) {
+    throw new ValidationError(errors);
+  }
+
+  return parsedBody;
 }

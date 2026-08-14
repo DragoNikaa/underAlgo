@@ -1,13 +1,13 @@
 .pagination {
   display: flex;
-  gap: var(--size-3);
+  gap: var(--size-4);
   align-items: center;
   justify-content: center;
 }
 
 .buttons {
   display: flex;
-  gap: var(--size-2);
+  gap: var(--size-3);
 }
 
 .pageNumber {

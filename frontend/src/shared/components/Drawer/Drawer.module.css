@@ -3,7 +3,7 @@
   inset-block: 0;
   z-index: 100;
   width: min(80%, 360px);
-  padding: var(--size-5);
+  padding: var(--size-6);
   overflow-y: auto;
   background: var(--black);
   transition: transform 0.25s ease;
@@ -28,7 +28,7 @@
 .closeButton {
   display: flex;
   justify-self: flex-end;
-  margin-bottom: var(--size-5);
+  margin-bottom: var(--size-6);
 }
 
 .overlay {

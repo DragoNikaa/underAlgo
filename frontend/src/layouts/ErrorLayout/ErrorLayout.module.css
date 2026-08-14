@@ -1,5 +1,5 @@
 .main {
   display: flex;
   justify-content: center;
-  padding: var(--size-6) var(--size-5);
+  padding: var(--size-7) var(--size-6);
 }

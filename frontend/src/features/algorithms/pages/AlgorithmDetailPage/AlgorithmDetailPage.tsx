@@ -2,6 +2,7 @@ import { useParams } from "react-router-dom";
 
 import { ValidationError } from "../../../../shared/api/errors.ts";
 import Heading from "../../../../shared/components/Heading/Heading.tsx";
+import AlgorithmDescription from "../../components/AlgorithmDescription/AlgorithmDescription.tsx";
 import AlgorithmTestCases from "../../components/AlgorithmTestCases/AlgorithmTestCases.tsx";
 import { useAlgorithm, useExecution } from "../../hooks.ts";
 import styles from "./AlgorithmDetailPage.module.css";
@@ -27,6 +28,12 @@ export default function AlgorithmDetailPage() {
             executionError={error}
           />
         )}
+
+        <AlgorithmDescription
+          generalDescription={algorithm.general_description}
+          inputDescription={algorithm.input_description}
+          outputDescription={algorithm.output_description}
+        />
       </div>
     </article>
   );

@@ -2,8 +2,8 @@
   display: grid;
   grid-template-areas: "filters main column3";
   grid-template-columns: 1fr 2fr 1fr;
-  column-gap: var(--size-5);
-  margin: 0 var(--size-5) var(--size-5);
+  column-gap: var(--size-6);
+  margin: 0 var(--size-6) var(--size-6);
 }
 
 .main {
@@ -20,11 +20,11 @@
 
 .filters,
 .column3 {
-  margin-top: var(--size-6);
+  margin-top: var(--size-7);
 }
 
 .pagination {
-  margin-top: var(--size-5);
+  margin-top: var(--size-6);
 }
 
 @media (max-width: 767.98px) {
@@ -34,6 +34,6 @@
 
   .drawerButtons {
     justify-content: space-between;
-    margin-bottom: var(--size-4);
+    margin-bottom: var(--size-5);
   }
 }

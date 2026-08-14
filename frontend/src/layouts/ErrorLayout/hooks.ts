@@ -1,6 +1,6 @@
 import { isRouteErrorResponse, useRouteError } from "react-router-dom";
 
-import { ApiError } from "../../shared/api/api-error.ts";
+import { ApiError } from "../../shared/api/errors.ts";
 
 export function useErrorInfo() {
   const error = useRouteError();

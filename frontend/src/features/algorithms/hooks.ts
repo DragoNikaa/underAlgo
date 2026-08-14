@@ -1,10 +1,11 @@
-import { useSuspenseQuery } from "@tanstack/react-query";
+import { useMutation, useSuspenseQuery } from "@tanstack/react-query";
 
 import {
   getAlgorithm,
   getAlgorithms,
   getCategories,
   getDifficulties,
+  getExecution,
 } from "./api.ts";
 
 export function useAlgorithms(search?: string) {
@@ -32,5 +33,11 @@ export function useCategories() {
   return useSuspenseQuery({
     queryKey: ["categories"],
     queryFn: () => getCategories(),
+  });
+}
+
+export function useExecution(slug: string) {
+  return useMutation({
+    mutationFn: (body: Record<string, unknown>) => getExecution(slug, body),
   });
 }

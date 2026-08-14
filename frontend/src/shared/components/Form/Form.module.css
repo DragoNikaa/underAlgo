@@ -2,7 +2,6 @@
   display: flex;
   gap: var(--size-2);
   align-items: center;
-  width: fit-content;
 }
 
 .checkbox,

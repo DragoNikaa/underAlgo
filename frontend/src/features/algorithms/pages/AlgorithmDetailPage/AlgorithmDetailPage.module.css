@@ -1,0 +1,13 @@
+.algorithmDetailPage {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--size-5);
+  margin: 0 var(--size-5) var(--size-5);
+}
+
+@media (max-width: 767.98px) {
+  .algorithmDetailPage {
+    display: flex;
+    flex-direction: column;
+  }
+}

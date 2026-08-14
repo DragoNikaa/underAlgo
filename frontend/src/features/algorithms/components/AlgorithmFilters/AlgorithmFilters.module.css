@@ -5,6 +5,10 @@
   width: 100%;
 }
 
+.algorithmCount {
+  margin-left: auto;
+}
+
 .categories {
   display: flex;
   flex-direction: column;

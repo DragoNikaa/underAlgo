@@ -1,0 +1,5 @@
+.formError {
+  margin-bottom: var(--size-1);
+  color: var(--red-light);
+  text-shadow: 0.08em 0.08em 0.05em var(--black);
+}

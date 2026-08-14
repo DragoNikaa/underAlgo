@@ -34,7 +34,9 @@ export default function Categories() {
                 {category.name}
               </span>
 
-              {category.algorithm_count}
+              <span className={styles.algorithmCount}>
+                {category.algorithm_count}
+              </span>
             </Checkbox>
           ))}
         </div>

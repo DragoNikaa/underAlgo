@@ -29,5 +29,16 @@ export interface AlgorithmDetail {
   code: string[];
   difficulty: Difficulty;
   categories: Category[];
-  testCases: TestCase[];
+  test_cases: TestCase[];
+}
+
+export interface AlgorithmExecution {
+  steps: Step[];
+  output: unknown;
+}
+
+interface Step {
+  line: number;
+  explanation: string;
+  variables: Record<string, unknown>;
 }

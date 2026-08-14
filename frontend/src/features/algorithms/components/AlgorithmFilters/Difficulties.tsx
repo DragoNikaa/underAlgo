@@ -45,7 +45,9 @@ export default function Difficulties() {
               {difficulty.name}
             </span>
 
-            {difficulty.algorithm_count}
+            <span className={styles.algorithmCount}>
+              {difficulty.algorithm_count}
+            </span>
           </Radio>
         ))}
 

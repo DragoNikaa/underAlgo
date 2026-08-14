@@ -1,21 +1,16 @@
-from typing import Any
-
 from algorithms.services.execution.base import BaseAlgorithm, Variable
-from algorithms.services.execution.binary_search.input import BinarySearchInput
 
 
 class BinarySearch(BaseAlgorithm[int]):
-    _Input = BinarySearchInput
-
-    def __init__(self, input_data: Any):
-        super().__init__(input_data)
-
-        self._numbers = Variable[list[int]]('numbers', self._test_case['numbers'])
-        self._target = Variable[int]('target', self._test_case['target'])
+    def __init__(self, numbers: list[int], target: int):
+        self._numbers = Variable('numbers', numbers)
+        self._target = Variable('target', target)
 
         self._left = Variable('left', 0, self._update_last_step_variable)
         self._right = Variable('right', 0, self._update_last_step_variable)
         self._middle = Variable('middle', 0, self._update_last_step_variable)
+
+        super().__init__()
 
     def _execute_and_save_steps(self) -> int:
         self._save_step(

@@ -32,7 +32,7 @@ export default function AlgorithmDescription({
           <div className={styles.inputDescription}>
             {Object.entries(inputDescription).map(
               ([parameter, description]) => (
-                <p>
+                <p key={parameter}>
                   <strong>{parameter}:</strong> {description}
                 </p>
               ),

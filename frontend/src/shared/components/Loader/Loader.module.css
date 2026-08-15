@@ -6,6 +6,11 @@
   justify-content: center;
 }
 
+.overlay {
+  z-index: 80;
+  background: var(--black);
+}
+
 .loader {
   width: var(--size-8);
   height: var(--size-8);

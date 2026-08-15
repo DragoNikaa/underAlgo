@@ -1,10 +1,13 @@
+import clsx from "clsx";
+import type { ComponentPropsWithoutRef } from "react";
+
 import ButtonLink from "../../../../shared/components/Button/ButtonLink.tsx";
 import { PATHS } from "../../../../shared/paths.ts";
 import type { Category } from "../../types/category.ts";
 import type { Difficulty } from "../../types/difficulty.ts";
 import styles from "./AlgorithmBadges.module.css";
 
-interface AlgorithmBadgesProps {
+interface AlgorithmBadgesProps extends ComponentPropsWithoutRef<"ul"> {
   difficulty: Difficulty;
   categories: Category[];
 }
@@ -12,6 +15,7 @@ interface AlgorithmBadgesProps {
 export function AlgorithmBadges({
   difficulty,
   categories,
+  className,
 }: AlgorithmBadgesProps) {
   const difficultyToColor: Record<string, "green" | "yellow" | "red"> = {
     easy: "green",
@@ -20,7 +24,7 @@ export function AlgorithmBadges({
   };
 
   return (
-    <ul className={styles.algorithmBadges}>
+    <ul className={clsx(styles.algorithmBadges, className)}>
       <li>
         <ButtonLink
           to={{

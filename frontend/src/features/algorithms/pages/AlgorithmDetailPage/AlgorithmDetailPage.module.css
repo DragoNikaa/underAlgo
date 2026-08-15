@@ -5,6 +5,10 @@
   margin: 0 var(--size-6) var(--size-6);
 }
 
+.algorithmBadges {
+  grid-column: 1 / -1;
+}
+
 @media (max-width: 767.98px) {
   .algorithmDetailPage {
     display: flex;

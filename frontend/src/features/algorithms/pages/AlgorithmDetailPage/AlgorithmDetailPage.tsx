@@ -4,6 +4,7 @@ import { ValidationError } from "../../../../shared/api/errors.ts";
 import Heading from "../../../../shared/components/Heading/Heading.tsx";
 import Loader from "../../../../shared/components/Loader/Loader.tsx";
 import { AlgorithmBadges } from "../../components/AlgorithmBadges/AlgorithmBadges.tsx";
+import AlgorithmCode from "../../components/AlgorithmCode/AlgorithmCode.tsx";
 import AlgorithmDescription from "../../components/AlgorithmDescription/AlgorithmDescription.tsx";
 import AlgorithmTestCases from "../../components/AlgorithmTestCases/AlgorithmTestCases.tsx";
 import { useAlgorithm, useExecution } from "../../hooks.ts";
@@ -26,24 +27,31 @@ export default function AlgorithmDetailPage() {
         <div className={styles.algorithmDetailPage}>
           {isPending && <Loader overlay />}
 
-          {!isSuccess && (
-            <AlgorithmTestCases
-              testCases={algorithm.test_cases}
-              execute={execute}
-              executionError={error}
-            />
-          )}
+          <div className={styles.layout}>
+            <div className={styles.column}>
+              {!isSuccess && (
+                <AlgorithmTestCases
+                  testCases={algorithm.test_cases}
+                  execute={execute}
+                  executionError={error}
+                />
+              )}
 
-          <AlgorithmDescription
-            generalDescription={algorithm.general_description}
-            inputDescription={algorithm.input_description}
-            outputDescription={algorithm.output_description}
-          />
+              <AlgorithmDescription
+                generalDescription={algorithm.general_description}
+                inputDescription={algorithm.input_description}
+                outputDescription={algorithm.output_description}
+              />
+            </div>
+
+            <div className={styles.column}>
+              <AlgorithmCode code={algorithm.code} />
+            </div>
+          </div>
 
           <AlgorithmBadges
             difficulty={algorithm.difficulty}
             categories={algorithm.categories}
-            className={styles.algorithmBadges}
           />
         </div>
       </article>

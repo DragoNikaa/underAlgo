@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useParams } from "react-router-dom";
 
 import { ValidationError } from "../../../../shared/api/errors.ts";
@@ -6,6 +7,7 @@ import Loader from "../../../../shared/components/Loader/Loader.tsx";
 import { AlgorithmBadges } from "../../components/AlgorithmBadges/AlgorithmBadges.tsx";
 import AlgorithmCode from "../../components/AlgorithmCode/AlgorithmCode.tsx";
 import AlgorithmDescription from "../../components/AlgorithmDescription/AlgorithmDescription.tsx";
+import AlgorithmExplanation from "../../components/AlgorithmExplanation/AlgorithmExplanation.tsx";
 import AlgorithmTestCases from "../../components/AlgorithmTestCases/AlgorithmTestCases.tsx";
 import { useAlgorithm, useExecution } from "../../hooks.ts";
 import styles from "./AlgorithmDetailPage.module.css";
@@ -13,7 +15,14 @@ import styles from "./AlgorithmDetailPage.module.css";
 export default function AlgorithmDetailPage() {
   const { slug } = useParams();
   const { data: algorithm } = useAlgorithm(slug!);
-  const { mutate: execute, isPending, isSuccess, error } = useExecution(slug!);
+  const {
+    mutate: execute,
+    data: execution,
+    isPending,
+    isSuccess,
+    error,
+  } = useExecution(slug!);
+  const [currentStep, setCurrentStep] = useState(0);
 
   if (error && !(error instanceof ValidationError)) {
     throw error;
@@ -46,6 +55,12 @@ export default function AlgorithmDetailPage() {
 
             <div className={styles.column}>
               <AlgorithmCode code={algorithm.code} />
+
+              {isSuccess && (
+                <AlgorithmExplanation
+                  explanation={execution.steps[currentStep].explanation}
+                />
+              )}
             </div>
           </div>
 

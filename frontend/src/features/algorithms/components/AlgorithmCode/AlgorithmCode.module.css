@@ -8,6 +8,14 @@
   display: flex;
 }
 
+.line:first-child > * {
+  padding-top: 0.5em;
+}
+
+.line:last-child > * {
+  padding-bottom: 0.5em;
+}
+
 .lineNumber {
   flex-shrink: 0;
   width: 1em;
@@ -16,15 +24,17 @@
   border-right: 1px solid;
 }
 
+.lineContent {
+  flex-grow: 1;
+}
+
 .lineNumber,
 .lineContent {
   padding: 0.15em 0.8em;
 }
 
-.line:first-child :is(.lineNumber, .lineContent) {
-  padding-top: 0.5em;
-}
-
-.line:last-child :is(.lineNumber, .lineContent) {
-  padding-bottom: 0.5em;
+.currentLine * {
+  font-weight: bold;
+  color: var(--gray-dark);
+  background: var(--blue-light);
 }

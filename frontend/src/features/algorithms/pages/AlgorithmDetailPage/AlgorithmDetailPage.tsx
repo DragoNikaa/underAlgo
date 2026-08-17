@@ -22,7 +22,8 @@ export default function AlgorithmDetailPage() {
     isSuccess,
     error,
   } = useExecution(slug!);
-  const [currentStep, setCurrentStep] = useState(0);
+  const [currentStepIndex, setCurrentStepIndex] = useState(0);
+  const currentStep = execution?.steps[currentStepIndex];
 
   if (error && !(error instanceof ValidationError)) {
     throw error;
@@ -54,12 +55,13 @@ export default function AlgorithmDetailPage() {
             </div>
 
             <div className={styles.column}>
-              <AlgorithmCode code={algorithm.code} />
+              <AlgorithmCode
+                code={algorithm.code}
+                currentLine={currentStep?.line}
+              />
 
-              {isSuccess && (
-                <AlgorithmExplanation
-                  explanation={execution.steps[currentStep].explanation}
-                />
+              {currentStep && (
+                <AlgorithmExplanation explanation={currentStep.explanation} />
               )}
             </div>
           </div>

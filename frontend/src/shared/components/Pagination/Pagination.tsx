@@ -24,7 +24,7 @@ export default function Pagination({ pageInfo, className }: PaginationProps) {
   return (
     <nav aria-label="pagination" className={clsx(styles.pagination, className)}>
       <div
-        className={clsx(styles.buttons, pageInfo.current <= 1 && "notVisible")}
+        className={clsx(styles.buttons, pageInfo.current <= 1 && "invisible")}
       >
         <Button onClick={() => updatePageParam(1)} oval>
           &lt;&lt;
@@ -42,7 +42,7 @@ export default function Pagination({ pageInfo, className }: PaginationProps) {
       <div
         className={clsx(
           styles.buttons,
-          pageInfo.current >= pageInfo.total && "notVisible",
+          pageInfo.current >= pageInfo.total && "invisible",
         )}
       >
         <Button onClick={() => updatePageParam(pageInfo.current + 1)} oval>

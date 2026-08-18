@@ -1,0 +1,8 @@
+.buttons {
+  display: flex;
+  gap: var(--size-3);
+}
+
+.backButton {
+  margin-left: auto;
+}

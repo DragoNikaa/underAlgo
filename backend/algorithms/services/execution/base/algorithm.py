@@ -2,12 +2,14 @@ from abc import ABC, abstractmethod
 from typing import Any, Generic, TypeVar
 
 from algorithms.services.execution.base.step import Step
+from algorithms.services.execution.base.variable import Variable
 
 T = TypeVar('T')
 
 
 class BaseAlgorithm(ABC, Generic[T]):
     def __init__(self, **kwargs: Any):
+        self._variables: set[Variable[Any]] = set()
         self._steps: list[Step] = []
         self._output: T = self._execute_and_save_steps()
 
@@ -27,9 +29,11 @@ class BaseAlgorithm(ABC, Generic[T]):
         self._steps.append({
             'line': line,
             'explanation': explanation,
-            'variables': {},
+            'changed_variables': set(),
+            'variables': {variable.name: variable.value for variable in self._variables},
         })
 
-    def _update_last_step_variable(self, name: str, value: Any) -> None:
+    def _save_variable_update(self, variable: Variable[Any]) -> None:
+        self._variables.add(variable)
         if self._steps:
-            self._steps[-1]['variables'][name] = value
+            self._steps[-1]['changed_variables'].add(variable.name)

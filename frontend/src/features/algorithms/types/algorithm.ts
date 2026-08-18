@@ -40,5 +40,6 @@ export interface AlgorithmExecution {
 interface Step {
   line: number;
   explanation: string;
+  changed_variables: string[];
   variables: Record<string, unknown>;
 }

@@ -6,9 +6,9 @@ class BinarySearch(BaseAlgorithm[int]):
         self._numbers = Variable('numbers', numbers)
         self._target = Variable('target', target)
 
-        self._left = Variable('left', 0, self._update_last_step_variable)
-        self._right = Variable('right', 0, self._update_last_step_variable)
-        self._middle = Variable('middle', 0, self._update_last_step_variable)
+        self._left = Variable('left', 0, self._save_variable_update)
+        self._right = Variable('right', 0, self._save_variable_update)
+        self._middle = Variable('middle', 0, self._save_variable_update)
 
         super().__init__()
 

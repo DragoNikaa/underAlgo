@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import { ValidationError } from "../../../../shared/api/errors.ts";
 import Heading from "../../../../shared/components/Heading/Heading.tsx";
 import Loader from "../../../../shared/components/Loader/Loader.tsx";
+import AlgorithmAnimation from "../../components/AlgorithmAnimation/AlgorithmAnimation.tsx";
 import { AlgorithmBadges } from "../../components/AlgorithmBadges/AlgorithmBadges.tsx";
 import AlgorithmCode from "../../components/AlgorithmCode/AlgorithmCode.tsx";
 import AlgorithmDescription from "../../components/AlgorithmDescription/AlgorithmDescription.tsx";
@@ -19,7 +20,6 @@ export default function AlgorithmDetailPage() {
     mutate: execute,
     data: execution,
     isPending,
-    isSuccess,
     error,
   } = useExecution(slug!);
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
@@ -39,11 +39,23 @@ export default function AlgorithmDetailPage() {
 
           <div className={styles.layout}>
             <div className={styles.column}>
-              {!isSuccess && (
+              {!currentStep && (
                 <AlgorithmTestCases
                   testCases={algorithm.test_cases}
                   execute={execute}
                   executionError={error}
+                />
+              )}
+
+              {currentStep && (
+                <AlgorithmAnimation
+                  step={currentStepIndex}
+                  lastStep={execution.steps.length - 1}
+                  changedVariables={currentStep.changed_variables}
+                  variables={currentStep.variables}
+                  output={execution.output}
+                  onPrevious={() => setCurrentStepIndex((prev) => prev - 1)}
+                  onNext={() => setCurrentStepIndex((prev) => prev + 1)}
                 />
               )}
 

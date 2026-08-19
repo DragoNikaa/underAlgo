@@ -51,6 +51,7 @@ export default function AlgorithmDetailPage() {
                 <AlgorithmAnimation
                   step={currentStepIndex}
                   lastStep={execution.steps.length - 1}
+                  input={execution.input}
                   changedVariables={currentStep.changed_variables}
                   variables={currentStep.variables}
                   output={execution.output}

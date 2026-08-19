@@ -10,7 +10,7 @@ class BinarySearch(BaseAlgorithm[int]):
         self._right = Variable('right', 0, self._save_variable_update)
         self._middle = Variable('middle', 0, self._save_variable_update)
 
-        super().__init__()
+        super().__init__(numbers=numbers, target=target)
 
     def _execute_and_save_steps(self) -> int:
         self._save_step(

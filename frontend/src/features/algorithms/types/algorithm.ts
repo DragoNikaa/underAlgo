@@ -33,6 +33,7 @@ export interface AlgorithmDetail {
 }
 
 export interface AlgorithmExecution {
+  input: Record<string, unknown>;
   steps: Step[];
   output: unknown;
 }

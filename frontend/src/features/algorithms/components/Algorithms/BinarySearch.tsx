@@ -1,29 +1,18 @@
-import clsx from "clsx";
-
+import { algorithmVariableColors } from "../../config/variable-colors.ts";
 import type { AlgorithmProps } from "../../types/algorithm-component.ts";
-import styles from "./Algorithms.module.css";
+import List from "../DataStructures/List/List.tsx";
 
 export default function BinarySearch({
+  input,
   changedVariables,
   variables,
 }: AlgorithmProps) {
-  const variableNames = ["left", "right", "middle"];
-
   return (
-    <div>
-      {variableNames.map((name) => {
-        return (
-          <div
-            key={name}
-            className={clsx(
-              !(name in variables) && "invisible",
-              changedVariables.includes(name) && styles.blink,
-            )}
-          >
-            {name}&nbsp;=&nbsp;{String(variables[name])}
-          </div>
-        );
-      })}
-    </div>
+    <List
+      list={input["numbers"] as number[]}
+      pointers={variables as Record<string, number>}
+      changingPointers={changedVariables}
+      colors={algorithmVariableColors["binary-search"]}
+    />
   );
 }

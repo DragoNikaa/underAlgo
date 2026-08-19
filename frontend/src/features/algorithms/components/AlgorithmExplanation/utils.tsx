@@ -12,10 +12,7 @@ export function styleVariables(text: string, algorithmSlug: string) {
     const color = variableColors[variable];
 
     return (
-      <strong
-        key={index}
-        style={color ? { color: `var(--${color})` } : undefined}
-      >
+      <strong key={index} className={color}>
         {variable}
       </strong>
     );

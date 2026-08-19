@@ -1,0 +1,22 @@
+.hljs-built_in,
+.lime {
+  color: var(--lime);
+}
+
+.hljs-keyword,
+.pink {
+  color: var(--pink);
+}
+
+.hljs-number {
+  color: var(--orange);
+}
+
+.hljs-params {
+  color: var(--white);
+}
+
+.hljs-title,
+.blue-light {
+  color: var(--blue-light);
+}

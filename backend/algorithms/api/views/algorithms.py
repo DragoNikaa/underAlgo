@@ -41,6 +41,7 @@ class AlgorithmViewSet(viewsets.ReadOnlyModelViewSet[Algorithm]):
         algorithm = self._get_algorithm(request)
 
         return Response({
+            'input': algorithm.input,
             'steps': algorithm.steps,
             'output': algorithm.output,
         })

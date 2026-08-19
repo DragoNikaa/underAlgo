@@ -9,9 +9,14 @@ T = TypeVar('T')
 
 class BaseAlgorithm(ABC, Generic[T]):
     def __init__(self, **kwargs: Any):
+        self._input = kwargs
         self._variables: set[Variable[Any]] = set()
         self._steps: list[Step] = []
         self._output: T = self._execute_and_save_steps()
+
+    @property
+    def input(self) -> dict[str, Any]:
+        return self._input
 
     @property
     def steps(self) -> list[Step]:

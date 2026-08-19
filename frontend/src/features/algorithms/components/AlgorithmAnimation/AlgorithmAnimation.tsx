@@ -18,6 +18,7 @@ interface AlgorithmAnimationProps extends AlgorithmProps {
 export default function AlgorithmAnimation({
   step,
   lastStep,
+  input,
   changedVariables,
   variables,
   output,
@@ -29,12 +30,13 @@ export default function AlgorithmAnimation({
 
   return (
     <section>
-      <Card>
+      <Card className={styles.algorithmAnimation}>
         <Heading as="h2" variant="secondary">
           animation
         </Heading>
 
         <AlgorithmComponent
+          input={input}
           changedVariables={changedVariables}
           variables={variables}
         />

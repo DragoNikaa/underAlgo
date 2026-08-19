@@ -19,23 +19,3 @@
     display: none;
   }
 }
-
-.hljs-built_in {
-  color: var(--lime);
-}
-
-.hljs-keyword {
-  color: var(--pink);
-}
-
-.hljs-number {
-  color: var(--orange);
-}
-
-.hljs-params {
-  color: var(--white);
-}
-
-.hljs-title {
-  color: var(--blue-light);
-}

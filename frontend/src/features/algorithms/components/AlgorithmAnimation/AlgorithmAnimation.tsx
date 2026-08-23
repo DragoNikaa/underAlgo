@@ -5,12 +5,14 @@ import Button from "../../../../shared/components/Button/Button.tsx";
 import Card from "../../../../shared/components/Card/Card.tsx";
 import Heading from "../../../../shared/components/Heading/Heading.tsx";
 import { algorithmComponents } from "../../config/algorithm-components.tsx";
-import type { AlgorithmProps } from "../../types/algorithm-component.ts";
 import styles from "./AlgorithmAnimation.module.css";
 
-interface AlgorithmAnimationProps extends AlgorithmProps {
+interface AlgorithmAnimationProps {
   step: number;
   lastStep: number;
+  input: Record<string, unknown>;
+  changedVariables: string[];
+  variables: Record<string, unknown>;
   output: unknown;
   onPrevious: () => void;
   onNext: () => void;

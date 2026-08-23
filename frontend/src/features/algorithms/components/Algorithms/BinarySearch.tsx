@@ -6,6 +6,7 @@ export default function BinarySearch({
   input,
   changedVariables,
   variables,
+  onAnimationStateChange,
 }: AlgorithmProps) {
   return (
     <List
@@ -13,6 +14,7 @@ export default function BinarySearch({
       pointers={variables as Record<string, number>}
       changingPointers={changedVariables}
       colors={algorithmVariableColors["binary-search"]}
+      onAnimationStateChange={onAnimationStateChange}
     />
   );
 }

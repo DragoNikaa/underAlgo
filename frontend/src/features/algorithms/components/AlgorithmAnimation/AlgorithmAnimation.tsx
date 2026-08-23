@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useParams } from "react-router-dom";
 
 import Button from "../../../../shared/components/Button/Button.tsx";
@@ -26,6 +27,7 @@ export default function AlgorithmAnimation({
   onNext,
 }: AlgorithmAnimationProps) {
   const { slug } = useParams();
+  const [isAnimating, setIsAnimating] = useState(false);
   const AlgorithmComponent = algorithmComponents[slug!];
 
   return (
@@ -39,6 +41,7 @@ export default function AlgorithmAnimation({
           input={input}
           changedVariables={changedVariables}
           variables={variables}
+          onAnimationStateChange={setIsAnimating}
         />
 
         {step >= lastStep && (
@@ -49,11 +52,11 @@ export default function AlgorithmAnimation({
         )}
 
         <div className={styles.buttons}>
-          <Button onClick={onPrevious} disabled={step <= 0}>
+          <Button onClick={onPrevious} disabled={step <= 0 || isAnimating}>
             previous
           </Button>
 
-          <Button onClick={onNext} disabled={step >= lastStep}>
+          <Button onClick={onNext} disabled={step >= lastStep || isAnimating}>
             next
           </Button>
 

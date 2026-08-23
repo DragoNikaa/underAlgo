@@ -63,6 +63,12 @@
   gap: var(--size-2);
 }
 
+.pointer {
+  position: relative;
+  width: fit-content;
+  transition: left 0.6s ease;
+}
+
 .blink {
   animation: blink 2s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite;
 }

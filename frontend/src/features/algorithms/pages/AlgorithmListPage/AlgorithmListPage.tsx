@@ -6,8 +6,8 @@ import Button from "../../../../shared/components/Button/Button.tsx";
 import Drawer from "../../../../shared/components/Drawer/Drawer.tsx";
 import Heading from "../../../../shared/components/Heading/Heading.tsx";
 import Pagination from "../../../../shared/components/Pagination/Pagination.tsx";
-import AlgorithmFilters from "../../components/AlgorithmFilters/AlgorithmFilters.tsx";
-import AlgorithmList from "../../components/AlgorithmList/AlgorithmList.tsx";
+import Filters from "../../components/Filters/Filters.tsx";
+import List from "../../components/List/List.tsx";
 import { useAlgorithms } from "../../hooks.ts";
 import styles from "./AlgorithmListPage.module.css";
 
@@ -29,13 +29,13 @@ export default function AlgorithmListPage() {
           <Button onClick={() => setOpenDrawer("column3")}>column 3</Button>
         </div>
 
-        <AlgorithmList algorithms={data.results} />
+        <List algorithms={data.results} />
 
         <Pagination pageInfo={data.page} className={styles.pagination} />
       </main>
 
       <aside className={clsx(styles.filters, "showDesktop")}>
-        <AlgorithmFilters />
+        <Filters />
       </aside>
 
       <aside className={clsx(styles.column3, "showDesktop")}>column 3</aside>
@@ -46,7 +46,7 @@ export default function AlgorithmListPage() {
           isOpen={openDrawer === "filters"}
           onClose={() => setOpenDrawer(null)}
         >
-          <AlgorithmFilters />
+          <Filters />
         </Drawer>
 
         <Drawer

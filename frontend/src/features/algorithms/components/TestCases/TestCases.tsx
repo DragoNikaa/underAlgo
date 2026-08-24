@@ -5,9 +5,9 @@ import Button from "../../../../shared/components/Button/Button.tsx";
 import Card from "../../../../shared/components/Card/Card.tsx";
 import Heading from "../../../../shared/components/Heading/Heading.tsx";
 import type { TestCase } from "../../types/test-case.ts";
-import styles from "./AlgorithmTestCases.module.css";
 import CustomTestCase from "./CustomTestCase.tsx";
 import PredefinedTestCases from "./PredefinedTestCases.tsx";
+import styles from "./TestCases.module.css";
 import { parseBody } from "./utils.ts";
 
 export const CUSTOM_TEST_CASE = "custom";
@@ -19,7 +19,7 @@ interface AlgorithmTestCasesProps {
   executionError: ValidationError | null;
 }
 
-export default function AlgorithmTestCases({
+export default function TestCases({
   testCases,
   execute,
   executionError,

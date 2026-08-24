@@ -2,11 +2,8 @@ import { ValidationError } from "../../../../shared/api/errors.ts";
 import FormError from "../../../../shared/components/Form/FormError/FormError.tsx";
 import Input from "../../../../shared/components/Form/Input/Input.tsx";
 import Radio from "../../../../shared/components/Form/Radio.tsx";
-import styles from "./AlgorithmTestCases.module.css";
-import {
-  CUSTOM_TEST_CASE,
-  type SelectedTestCase,
-} from "./AlgorithmTestCases.tsx";
+import styles from "./TestCases.module.css";
+import { CUSTOM_TEST_CASE, type SelectedTestCase } from "./TestCases.tsx";
 
 interface CustomTestCaseProps {
   fields: string[];

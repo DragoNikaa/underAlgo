@@ -1,6 +1,6 @@
 import Card from "../../../../shared/components/Card/Card.tsx";
 import Heading from "../../../../shared/components/Heading/Heading.tsx";
-import styles from "./AlgorithmDescription.module.css";
+import styles from "./Description.module.css";
 
 interface AlgorithmDescriptionProps {
   generalDescription: string;
@@ -8,7 +8,7 @@ interface AlgorithmDescriptionProps {
   outputDescription: string;
 }
 
-export default function AlgorithmDescription({
+export default function Description({
   generalDescription,
   inputDescription,
   outputDescription,

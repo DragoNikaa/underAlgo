@@ -4,12 +4,12 @@ import { useParams } from "react-router-dom";
 import { ValidationError } from "../../../../shared/api/errors.ts";
 import Heading from "../../../../shared/components/Heading/Heading.tsx";
 import Loader from "../../../../shared/components/Loader/Loader.tsx";
-import AlgorithmAnimation from "../../components/AlgorithmAnimation/AlgorithmAnimation.tsx";
-import { AlgorithmBadges } from "../../components/AlgorithmBadges/AlgorithmBadges.tsx";
-import AlgorithmCode from "../../components/AlgorithmCode/AlgorithmCode.tsx";
-import AlgorithmDescription from "../../components/AlgorithmDescription/AlgorithmDescription.tsx";
-import AlgorithmExplanation from "../../components/AlgorithmExplanation/AlgorithmExplanation.tsx";
-import AlgorithmTestCases from "../../components/AlgorithmTestCases/AlgorithmTestCases.tsx";
+import Animation from "../../components/Animation/Animation.tsx";
+import Badges from "../../components/Badges/Badges.tsx";
+import Code from "../../components/Code/Code.tsx";
+import Description from "../../components/Description/Description.tsx";
+import Explanation from "../../components/Explanation/Explanation.tsx";
+import TestCases from "../../components/TestCases/TestCases.tsx";
 import { useAlgorithm, useExecution } from "../../hooks.ts";
 import styles from "./AlgorithmDetailPage.module.css";
 
@@ -41,13 +41,13 @@ export default function AlgorithmDetailPage() {
             <div className={styles.column}>
               <div className={styles.animation}>
                 {!currentStep ? (
-                  <AlgorithmTestCases
+                  <TestCases
                     testCases={algorithm.test_cases}
                     execute={execute}
                     executionError={error}
                   />
                 ) : (
-                  <AlgorithmAnimation
+                  <Animation
                     step={currentStepIndex}
                     lastStep={execution.steps.length - 1}
                     input={execution.input}
@@ -61,7 +61,7 @@ export default function AlgorithmDetailPage() {
               </div>
 
               <div className={styles.description}>
-                <AlgorithmDescription
+                <Description
                   generalDescription={algorithm.general_description}
                   inputDescription={algorithm.input_description}
                   outputDescription={algorithm.output_description}
@@ -71,21 +71,18 @@ export default function AlgorithmDetailPage() {
 
             <div className={styles.column}>
               <div className={styles.code}>
-                <AlgorithmCode
-                  code={algorithm.code}
-                  currentLine={currentStep?.line}
-                />
+                <Code code={algorithm.code} currentLine={currentStep?.line} />
               </div>
 
               {currentStep && (
                 <div className={styles.explanation}>
-                  <AlgorithmExplanation explanation={currentStep.explanation} />
+                  <Explanation explanation={currentStep.explanation} />
                 </div>
               )}
             </div>
           </div>
 
-          <AlgorithmBadges
+          <Badges
             difficulty={algorithm.difficulty}
             categories={algorithm.categories}
           />

@@ -1,8 +1,8 @@
 import Input from "../../../../shared/components/Form/Input/Input.tsx";
 import Radio from "../../../../shared/components/Form/Radio.tsx";
 import type { TestCase } from "../../types/test-case.ts";
-import styles from "./AlgorithmTestCases.module.css";
-import type { SelectedTestCase } from "./AlgorithmTestCases.tsx";
+import styles from "./TestCases.module.css";
+import type { SelectedTestCase } from "./TestCases.tsx";
 
 interface PredefinedTestCasesProps {
   testCases: TestCase[];

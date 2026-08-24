@@ -6,14 +6,14 @@ import Heading from "../../../../shared/components/Heading/Heading.tsx";
 import { PATHS } from "../../../../shared/paths.ts";
 import { truncateText } from "../../../../shared/utils/truncate-text.ts";
 import type { AlgorithmListItem } from "../../types/algorithm.ts";
-import { AlgorithmBadges } from "../AlgorithmBadges/AlgorithmBadges.tsx";
-import styles from "./AlgorithmList.module.css";
+import Badges from "../Badges/Badges.tsx";
+import styles from "./List.module.css";
 
 interface AlgorithmListProps {
   algorithms: AlgorithmListItem[];
 }
 
-export default function AlgorithmList({ algorithms }: AlgorithmListProps) {
+export default function List({ algorithms }: AlgorithmListProps) {
   return (
     <section>
       <ul className={styles.algorithmList}>
@@ -29,7 +29,7 @@ export default function AlgorithmList({ algorithms }: AlgorithmListProps) {
 
                 <p>{truncateText(algorithm.general_description)}</p>
 
-                <AlgorithmBadges
+                <Badges
                   difficulty={algorithm.difficulty}
                   categories={algorithm.categories}
                 />

@@ -7,7 +7,7 @@ import Checkbox from "../../../../shared/components/Form/Checkbox.tsx";
 import Heading from "../../../../shared/components/Heading/Heading.tsx";
 import { useSearchParamsActions } from "../../../../shared/hooks/search-params.ts";
 import { useCategories } from "../../hooks.ts";
-import styles from "./AlgorithmFilters.module.css";
+import styles from "./Filters.module.css";
 
 export default function Categories() {
   const { data: categories } = useCategories();

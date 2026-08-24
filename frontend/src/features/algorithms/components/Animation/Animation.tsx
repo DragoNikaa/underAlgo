@@ -5,7 +5,7 @@ import Button from "../../../../shared/components/Button/Button.tsx";
 import Card from "../../../../shared/components/Card/Card.tsx";
 import Heading from "../../../../shared/components/Heading/Heading.tsx";
 import { algorithmComponents } from "../../config/algorithm-components.tsx";
-import styles from "./AlgorithmAnimation.module.css";
+import styles from "./Animation.module.css";
 
 interface AlgorithmAnimationProps {
   step: number;
@@ -18,7 +18,7 @@ interface AlgorithmAnimationProps {
   onNext: () => void;
 }
 
-export default function AlgorithmAnimation({
+export default function Animation({
   step,
   lastStep,
   input,

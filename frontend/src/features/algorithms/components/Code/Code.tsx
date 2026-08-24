@@ -2,17 +2,14 @@ import clsx from "clsx";
 import hljs from "highlight.js";
 
 import Card from "../../../../shared/components/Card/Card.tsx";
-import styles from "./AlgorithmCode.module.css";
+import styles from "./Code.module.css";
 
 interface AlgorithmCodeProps {
   code: string[];
   currentLine?: number;
 }
 
-export default function AlgorithmCode({
-  code,
-  currentLine,
-}: AlgorithmCodeProps) {
+export default function Code({ code, currentLine }: AlgorithmCodeProps) {
   return (
     <section>
       <Card className={styles.algorithmCode}>

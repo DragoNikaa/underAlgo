@@ -8,7 +8,7 @@ interface AlgorithmExplanationProps {
   explanation: string;
 }
 
-export default function AlgorithmExplanation({
+export default function Explanation({
   explanation,
 }: AlgorithmExplanationProps) {
   const { slug } = useParams();

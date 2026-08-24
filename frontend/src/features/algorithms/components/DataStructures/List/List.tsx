@@ -161,7 +161,7 @@ export default function List({
               changingPointers.includes(name) && styles.blink,
             )}
           >
-            {name}&nbsp;=&nbsp;{displayedPointers[name] ?? 0}
+            {name} = {displayedPointers[name] ?? 0}
           </div>
         ))}
       </div>

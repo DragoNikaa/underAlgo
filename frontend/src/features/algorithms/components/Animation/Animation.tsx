@@ -47,8 +47,8 @@ export default function Animation({
         />
 
         {step >= lastStep && (
-          <div>
-            output&nbsp;=&nbsp;
+          <div className="noWrap">
+            output ={" "}
             <output>{JSON.stringify(output).replaceAll(",", ", ")}</output>
           </div>
         )}
@@ -66,7 +66,7 @@ export default function Animation({
             onClick={() => window.location.reload()}
             className={styles.backButton}
           >
-            &lt;&nbsp;back
+            &lt; back
           </Button>
         </div>
       </Card>

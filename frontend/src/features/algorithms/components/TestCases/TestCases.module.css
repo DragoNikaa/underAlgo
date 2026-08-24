@@ -18,7 +18,6 @@
 
 .fieldName {
   justify-self: flex-end;
-  white-space: nowrap;
 }
 
 .error {

@@ -35,7 +35,7 @@ export default function Pagination({ pageInfo, className }: PaginationProps) {
         </Button>
       </div>
 
-      <span className={styles.pageNumber}>
+      <span className="noWrap">
         page {pageInfo.current} / {pageInfo.total}
       </span>
 

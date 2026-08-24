@@ -9,7 +9,3 @@
   display: flex;
   gap: var(--size-3);
 }
-
-.pageNumber {
-  white-space: nowrap;
-}

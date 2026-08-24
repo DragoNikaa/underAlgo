@@ -2,6 +2,10 @@
   visibility: hidden;
 }
 
+.noWrap {
+  white-space: nowrap;
+}
+
 .showMobile {
   display: none;
 }

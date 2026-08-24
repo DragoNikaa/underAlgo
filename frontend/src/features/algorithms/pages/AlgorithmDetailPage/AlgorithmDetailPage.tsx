@@ -39,42 +39,48 @@ export default function AlgorithmDetailPage() {
 
           <div className={styles.layout}>
             <div className={styles.column}>
-              {!currentStep && (
-                <AlgorithmTestCases
-                  testCases={algorithm.test_cases}
-                  execute={execute}
-                  executionError={error}
-                />
-              )}
+              <div className={styles.animation}>
+                {!currentStep ? (
+                  <AlgorithmTestCases
+                    testCases={algorithm.test_cases}
+                    execute={execute}
+                    executionError={error}
+                  />
+                ) : (
+                  <AlgorithmAnimation
+                    step={currentStepIndex}
+                    lastStep={execution.steps.length - 1}
+                    input={execution.input}
+                    changedVariables={currentStep.changed_variables}
+                    variables={currentStep.variables}
+                    output={execution.output}
+                    onPrevious={() => setCurrentStepIndex((prev) => prev - 1)}
+                    onNext={() => setCurrentStepIndex((prev) => prev + 1)}
+                  />
+                )}
+              </div>
 
-              {currentStep && (
-                <AlgorithmAnimation
-                  step={currentStepIndex}
-                  lastStep={execution.steps.length - 1}
-                  input={execution.input}
-                  changedVariables={currentStep.changed_variables}
-                  variables={currentStep.variables}
-                  output={execution.output}
-                  onPrevious={() => setCurrentStepIndex((prev) => prev - 1)}
-                  onNext={() => setCurrentStepIndex((prev) => prev + 1)}
+              <div className={styles.description}>
+                <AlgorithmDescription
+                  generalDescription={algorithm.general_description}
+                  inputDescription={algorithm.input_description}
+                  outputDescription={algorithm.output_description}
                 />
-              )}
-
-              <AlgorithmDescription
-                generalDescription={algorithm.general_description}
-                inputDescription={algorithm.input_description}
-                outputDescription={algorithm.output_description}
-              />
+              </div>
             </div>
 
             <div className={styles.column}>
-              <AlgorithmCode
-                code={algorithm.code}
-                currentLine={currentStep?.line}
-              />
+              <div className={styles.code}>
+                <AlgorithmCode
+                  code={algorithm.code}
+                  currentLine={currentStep?.line}
+                />
+              </div>
 
               {currentStep && (
-                <AlgorithmExplanation explanation={currentStep.explanation} />
+                <div className={styles.explanation}>
+                  <AlgorithmExplanation explanation={currentStep.explanation} />
+                </div>
               )}
             </div>
           </div>

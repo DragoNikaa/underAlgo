@@ -22,4 +22,24 @@
     display: flex;
     flex-direction: column;
   }
+
+  .column {
+    display: contents;
+  }
+
+  .animation {
+    order: 1;
+  }
+
+  .code {
+    order: 2;
+  }
+
+  .explanation {
+    order: 3;
+  }
+
+  .description {
+    order: 4;
+  }
 }

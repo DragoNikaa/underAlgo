@@ -1,21 +1,21 @@
 .navbar {
   display: flex;
-  gap: var(--size-7);
+  gap: var(--size-8);
   align-items: center;
   justify-content: space-between;
-  padding: var(--size-3) var(--size-7);
+  padding: var(--size-4) var(--size-8);
   border-bottom: 1px solid var(--gray);
 }
 
 .nav {
   display: flex;
-  gap: var(--size-7);
+  gap: var(--size-8);
 }
 
 .navLinks,
 .authMenu {
   display: flex;
-  gap: var(--size-5);
+  gap: var(--size-6);
 }
 
 .navLink {
@@ -35,17 +35,17 @@
 
 @media (max-width: 1023.98px) {
   .navbar {
-    gap: var(--size-6);
-    padding-inline: var(--size-6);
+    gap: var(--size-7);
+    padding-inline: var(--size-7);
   }
 
   .nav {
-    gap: var(--size-6);
+    gap: var(--size-7);
   }
 
   .navLinks,
   .authMenu {
-    gap: var(--size-3);
+    gap: var(--size-4);
   }
 }
 
@@ -62,7 +62,7 @@
   }
 
   .navLinks {
-    padding-bottom: var(--size-6);
+    padding-bottom: var(--size-7);
     border-bottom: 1px solid var(--gray);
   }
 

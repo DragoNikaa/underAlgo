@@ -1,0 +1,25 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-3);
+}
+
+.testCase {
+  display: grid;
+  flex: 1;
+  grid-template-columns: max-content 1fr;
+  gap: var(--size-1) var(--size-3);
+  align-items: center;
+}
+
+.wrapper {
+  display: contents;
+}
+
+.fieldName {
+  justify-self: flex-end;
+}
+
+.error {
+  grid-column: 2;
+}

@@ -1,0 +1,11 @@
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-3);
+}
+
+.inputDescription {
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-2);
+}

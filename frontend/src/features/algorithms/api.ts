@@ -1,7 +1,11 @@
 import { apiClient } from "../../shared/api/api-client.ts";
 import { ENDPOINTS } from "../../shared/api/endpoints.ts";
 import type { PaginatedResponse } from "../../shared/types/pagination.ts";
-import type { AlgorithmDetail, AlgorithmListItem } from "./types/algorithm.ts";
+import type {
+  AlgorithmDetail,
+  AlgorithmExecution,
+  AlgorithmListItem,
+} from "./types/algorithm.ts";
 import type { Category } from "./types/category.ts";
 import type { Difficulty } from "./types/difficulty.ts";
 
@@ -22,4 +26,11 @@ export function getDifficulties() {
 
 export function getCategories() {
   return apiClient.get<Category[]>(ENDPOINTS.category.list);
+}
+
+export function executeAlgorithm(slug: string, body: Record<string, unknown>) {
+  return apiClient.post<AlgorithmExecution>(
+    ENDPOINTS.algorithm.execution(slug),
+    body,
+  );
 }

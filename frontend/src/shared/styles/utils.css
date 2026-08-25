@@ -1,5 +1,9 @@
-.notVisible {
+.invisible {
   visibility: hidden;
+}
+
+.noWrap {
+  white-space: nowrap;
 }
 
 .showMobile {

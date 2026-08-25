@@ -1,0 +1,45 @@
+.algorithmDetailPage {
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-6);
+  margin: 0 var(--size-6) var(--size-6);
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: var(--size-6);
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-6);
+}
+
+@media (max-width: 767.98px) {
+  .layout {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .column {
+    display: contents;
+  }
+
+  .animation {
+    order: 1;
+  }
+
+  .code {
+    order: 2;
+  }
+
+  .explanation {
+    order: 3;
+  }
+
+  .description {
+    order: 4;
+  }
+}

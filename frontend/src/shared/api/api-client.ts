@@ -1,4 +1,4 @@
-import { ApiError } from "./api-error.ts";
+import { ApiError, ValidationError } from "./errors.ts";
 
 const URL_ORIGIN: string = import.meta.env.VITE_API_URL_ORIGIN;
 
@@ -41,8 +41,7 @@ async function request<T>(
   const response = await fetch(buildUrl(path, search), addDefaultHeaders(init));
 
   if (!response.ok) {
-    const data = await response.json().catch(() => null);
-    throw new ApiError(response.status, data?.detail || response.statusText);
+    await handleErrorResponse(response);
   }
 
   if (response.status === 204) {
@@ -66,4 +65,14 @@ function addDefaultHeaders(init: RequestInit): RequestInit {
       ...init.headers,
     },
   };
+}
+
+async function handleErrorResponse(response: Response): Promise<never> {
+  const data = await response.json().catch(() => null);
+
+  if (response.status === 400) {
+    throw new ValidationError(data);
+  }
+
+  throw new ApiError(response.status, data?.detail || response.statusText);
 }

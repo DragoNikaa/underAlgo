@@ -1,0 +1,87 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-3);
+}
+
+.list {
+  display: flex;
+  justify-content: center;
+  width: max-content;
+  min-width: 100%;
+}
+
+.item {
+  padding: 1em 1.3em;
+  border: 1px solid;
+  border-radius: 0.4em;
+  transition: background 0.25s ease;
+}
+
+.highlightedItem {
+  font-weight: bold;
+  color: var(--gray-dark);
+}
+
+.pinkItem {
+  background: var(--pink);
+}
+
+.blue-lightItem {
+  background: var(--blue-light);
+}
+
+.limeItem {
+  background: var(--lime);
+}
+
+.pinkItem.blue-lightItem {
+  background: linear-gradient(45deg, var(--pink) 37%, var(--blue-light) 63%);
+}
+
+.pinkItem.limeItem {
+  background: linear-gradient(45deg, var(--pink) 37%, var(--lime) 63%);
+}
+
+.blue-lightItem.limeItem {
+  background: linear-gradient(45deg, var(--blue-light) 37%, var(--lime) 63%);
+}
+
+.pinkItem.blue-lightItem.limeItem {
+  background: linear-gradient(
+    45deg,
+    var(--pink) 25%,
+    var(--blue-light) 45%,
+    var(--blue-light) 55%,
+    var(--lime) 75%
+  );
+}
+
+.pointers {
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-2);
+}
+
+.pointer {
+  position: relative;
+  width: fit-content;
+  white-space: nowrap;
+  transition: left 0.6s ease;
+}
+
+.blink {
+  animation: blink 2s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite;
+}
+
+@keyframes blink {
+  0%,
+  50%,
+  100% {
+    opacity: 1;
+  }
+  25%,
+  75% {
+    opacity: 0;
+  }
+}

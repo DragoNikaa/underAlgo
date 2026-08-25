@@ -1,8 +1,7 @@
 .label {
   display: flex;
-  gap: var(--size-2);
+  gap: var(--size-3);
   align-items: center;
-  width: fit-content;
 }
 
 .checkbox,

@@ -1,5 +1,5 @@
 .algorithmList {
   display: flex;
   flex-direction: column;
-  gap: var(--size-5);
+  gap: var(--size-6);
 }

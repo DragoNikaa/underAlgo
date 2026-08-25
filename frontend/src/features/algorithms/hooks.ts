@@ -1,6 +1,7 @@
-import { useSuspenseQuery } from "@tanstack/react-query";
+import { useMutation, useSuspenseQuery } from "@tanstack/react-query";
 
 import {
+  executeAlgorithm,
   getAlgorithm,
   getAlgorithms,
   getCategories,
@@ -32,5 +33,11 @@ export function useCategories() {
   return useSuspenseQuery({
     queryKey: ["categories"],
     queryFn: () => getCategories(),
+  });
+}
+
+export function useExecution(slug: string) {
+  return useMutation({
+    mutationFn: (body: Record<string, unknown>) => executeAlgorithm(slug, body),
   });
 }

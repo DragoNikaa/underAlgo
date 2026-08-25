@@ -1,5 +1,5 @@
 .algorithmBadges {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--size-2) var(--size-3);
+  gap: var(--size-3) var(--size-4);
 }

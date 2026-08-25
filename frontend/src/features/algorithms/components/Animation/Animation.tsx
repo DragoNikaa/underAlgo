@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import Button from "../../../../shared/components/Button/Button.tsx";
 import Card from "../../../../shared/components/Card/Card.tsx";
 import Heading from "../../../../shared/components/Heading/Heading.tsx";
+import { stringify } from "../../../../shared/utils/stringify.ts";
 import { algorithmComponents } from "../../config/algorithm-components.tsx";
 import styles from "./Animation.module.css";
 
@@ -48,8 +49,7 @@ export default function Animation({
 
         {step >= lastStep && (
           <div className="noWrap">
-            output ={" "}
-            <output>{JSON.stringify(output).replaceAll(",", ", ")}</output>
+            output = <output>{stringify(output)}</output>
           </div>
         )}
 

@@ -1,6 +1,7 @@
 import clsx from "clsx";
 import { useLayoutEffect, useRef, useState } from "react";
 
+import { stringify } from "../../../../../shared/utils/stringify.ts";
 import { sleep } from "../utils.ts";
 import styles from "./List.module.css";
 
@@ -140,7 +141,7 @@ export default function List({
               indexToColors[index]?.map((color) => styles[`${color}Item`]),
             )}
           >
-            {JSON.stringify(value)}
+            {stringify(value)}
           </div>
         ))}
 

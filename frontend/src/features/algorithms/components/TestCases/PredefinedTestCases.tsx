@@ -1,5 +1,6 @@
 import Input from "../../../../shared/components/Form/Input/Input.tsx";
 import Radio from "../../../../shared/components/Form/Radio.tsx";
+import { stringify } from "../../../../shared/utils/stringify.ts";
 import type { TestCase } from "../../types/test-case.ts";
 import styles from "./TestCases.module.css";
 import type { SelectedTestCase } from "./TestCases.tsx";
@@ -26,12 +27,7 @@ export default function PredefinedTestCases({
         >
           <div className={styles.testCase}>
             {Object.entries(testCase.body).map(([key, value]) => (
-              <Input
-                key={key}
-                value={JSON.stringify(value).replaceAll(",", ", ")}
-                readOnly
-                withoutLabel
-              >
+              <Input key={key} value={stringify(value)} readOnly withoutLabel>
                 <span className={styles.fieldName}>{key} =</span>
               </Input>
             ))}

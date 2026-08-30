@@ -1,4 +1,4 @@
-import { ApiError, ValidationError } from "./errors.ts";
+import { ApiError } from "./errors.ts";
 
 const URL_ORIGIN: string = import.meta.env.VITE_API_URL_ORIGIN;
 
@@ -38,17 +38,19 @@ async function request<T>(
   init: RequestInit,
   search?: string,
 ): Promise<T> {
-  const response = await fetch(buildUrl(path, search), addDefaultHeaders(init));
-
-  if (!response.ok) {
-    await handleErrorResponse(response);
-  }
+  const response = await fetch(buildUrl(path, search), addDefaultOptions(init));
 
   if (response.status === 204) {
     return undefined as T;
   }
 
-  return (await response.json()) as T;
+  const data = await response.json().catch(() => null);
+
+  if (!response.ok) {
+    throw new ApiError(response.status, data);
+  }
+
+  return data as T;
 }
 
 function buildUrl(path: string, search?: string) {
@@ -57,22 +59,30 @@ function buildUrl(path: string, search?: string) {
   return url;
 }
 
-function addDefaultHeaders(init: RequestInit): RequestInit {
+function addDefaultOptions(init: RequestInit): RequestInit {
+  const CSRFToken = getCSRFToken();
+
   return {
+    credentials: "include",
     ...init,
     headers: {
-      "Content-Type": "application/json",
+      Accept: "application/json",
+      ...(init.body && {
+        "Content-Type": "application/json",
+      }),
+      ...(CSRFToken && {
+        "X-CSRFToken": CSRFToken,
+      }),
       ...init.headers,
     },
   };
 }
 
-async function handleErrorResponse(response: Response): Promise<never> {
-  const data = await response.json().catch(() => null);
-
-  if (response.status === 400) {
-    throw new ValidationError(data);
-  }
-
-  throw new ApiError(response.status, data?.detail || response.statusText);
+function getCSRFToken() {
+  return (
+    document.cookie
+      .split("; ")
+      .find((cookie) => cookie.startsWith("csrftoken="))
+      ?.split("=")[1] ?? null
+  );
 }

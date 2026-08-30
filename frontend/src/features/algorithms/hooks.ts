@@ -6,7 +6,7 @@ import {
   getAlgorithms,
   getCategories,
   getDifficulties,
-} from "./api.ts";
+} from "./api/algorithms.ts";
 
 export function useAlgorithms(search?: string) {
   return useSuspenseQuery({

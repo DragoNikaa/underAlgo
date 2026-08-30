@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 
-import { ValidationError } from "../../../../shared/api/errors.ts";
+import { DRFValidationError } from "../../../../shared/api/errors.ts";
 import Heading from "../../../../shared/components/Heading/Heading.tsx";
 import Loader from "../../../../shared/components/Loader/Loader.tsx";
 import Animation from "../../components/Animation/Animation.tsx";
@@ -25,7 +25,7 @@ export default function AlgorithmDetailPage() {
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
   const currentStep = execution?.steps[currentStepIndex];
 
-  if (error && !(error instanceof ValidationError)) {
+  if (error && !(error instanceof DRFValidationError)) {
     throw error;
   }
 

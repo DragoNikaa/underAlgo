@@ -1,3 +1,4 @@
+import { PATHS } from "../../../paths.ts";
 import ButtonLink from "../../Button/ButtonLink.tsx";
 import styles from "./Navbar.module.css";
 
@@ -10,7 +11,7 @@ export default function AuthMenu({ onNavigate }: AuthMenuProps) {
     <ul className={styles.authMenu}>
       <li>
         <ButtonLink
-          to="/login"
+          to={PATHS.user.login}
           onClick={onNavigate}
           oval
           color="blue"
@@ -22,7 +23,7 @@ export default function AuthMenu({ onNavigate }: AuthMenuProps) {
 
       <li>
         <ButtonLink
-          to="/signup"
+          to={PATHS.user.signup}
           onClick={onNavigate}
           oval
           color="blueInverse"

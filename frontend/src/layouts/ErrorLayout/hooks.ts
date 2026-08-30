@@ -1,6 +1,6 @@
 import { isRouteErrorResponse, useRouteError } from "react-router-dom";
 
-import { ApiError } from "../../shared/api/errors.ts";
+import { ApiError, isDRFApiErrorResponse } from "../../shared/api/errors.ts";
 
 export function useErrorInfo() {
   const error = useRouteError();
@@ -11,6 +11,9 @@ export function useErrorInfo() {
   if (isRouteErrorResponse(error)) {
     title = `error ${error.status}`;
     message = error.data.replace("Error: ", "");
+  } else if (isDRFApiErrorResponse(error)) {
+    title = `error ${error.status}`;
+    message = error.data.detail;
   } else if (error instanceof ApiError) {
     title = `error ${error.status}`;
     message = error.message;

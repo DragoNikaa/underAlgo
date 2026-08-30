@@ -1,0 +1,24 @@
+.signupPage {
+  width: 30%;
+  min-width: 250px;
+  margin: var(--size-7) auto;
+}
+
+.heading,
+.signupButton {
+  margin-inline: auto;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-4);
+}
+
+.loginPrompt {
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-3);
+  align-items: center;
+  margin-block: var(--size-7) var(--size-3);
+}

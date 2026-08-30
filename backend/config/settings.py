@@ -14,6 +14,10 @@ from pathlib import Path
 
 from decouple import config
 
+# ======================================================================================================================
+# Base
+# ======================================================================================================================
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -21,14 +25,16 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = config('SECRET_KEY')
+SECRET_KEY = config('DJANGO_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS: list[str] = []
 
-# Application definition
+# ======================================================================================================================
+# Applications
+# ======================================================================================================================
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -38,13 +44,25 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'allauth',
+    'allauth.account',
+    'allauth.headless',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.github',
+    'allauth.socialaccount.providers.google',
+
     'corsheaders',
     'django_filters',
     'rest_framework',
 
     'algorithms',
     'core',
+    'users',
 ]
+
+# ======================================================================================================================
+# Middleware
+# ======================================================================================================================
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
@@ -56,9 +74,17 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    'allauth.account.middleware.AccountMiddleware',
 ]
 
+# ======================================================================================================================
+# Django
+# ======================================================================================================================
+
 ROOT_URLCONF = 'config.urls'
+
+WSGI_APPLICATION = 'config.wsgi.application'
 
 TEMPLATES = [
     {
@@ -75,9 +101,30 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'config.wsgi.application'
+# ======================================================================================================================
+# Authentication
+# ======================================================================================================================
 
+AUTH_USER_MODEL = 'users.User'
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+
+ACCOUNT_LOGIN_METHODS = {'username', 'email'}
+
+ACCOUNT_SIGNUP_FIELDS = [
+    'username*',
+    'email*',
+    'password1*',
+    'password2*',
+]
+
+# ======================================================================================================================
 # Database
+# ======================================================================================================================
+
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
 DATABASES = {
@@ -87,7 +134,10 @@ DATABASES = {
     }
 }
 
+# ======================================================================================================================
 # Password validation
+# ======================================================================================================================
+
 # https://docs.djangoproject.com/en/6.0/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
@@ -105,7 +155,10 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# ======================================================================================================================
 # Internationalization
+# ======================================================================================================================
+
 # https://docs.djangoproject.com/en/6.0/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
@@ -116,17 +169,73 @@ USE_I18N = True
 
 USE_TZ = True
 
+# ======================================================================================================================
 # Static files (CSS, JavaScript, Images)
+# ======================================================================================================================
+
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = 'static/'
 
-# Cross-Origin Resource Sharing (CORS)
+# ======================================================================================================================
+# Django REST framework
+# ======================================================================================================================
+
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'core.pagination.CustomPagination',
+}
+
+# ======================================================================================================================
+# CORS / CSRF
+# ======================================================================================================================
+
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:5173',
 ]
 
-# Django REST framework
-REST_FRAMEWORK = {
-    'DEFAULT_PAGINATION_CLASS': 'core.pagination.CustomPagination',
+CORS_ALLOW_CREDENTIALS = True
+
+CSRF_TRUSTED_ORIGINS = [
+    'http://localhost:5173',
+]
+
+# ======================================================================================================================
+# django-allauth
+# ======================================================================================================================
+
+HEADLESS_ONLY = True
+
+HEADLESS_TOKEN_STRATEGY = 'allauth.headless.tokens.strategies.jwt.JWTTokenStrategy'
+
+HEADLESS_FRONTEND_URLS = {
+    'account_confirm_email':
+        'http://localhost:5173/users/verify-email/{key}',
+
+    'account_reset_password':
+        'http://localhost:5173/users/password/reset',
+
+    'account_reset_password_from_key':
+        'http://localhost:5173/users/password/reset/key/{key}',
+
+    'account_signup':
+        'http://localhost:5173/signup',
+
+    'socialaccount_login_error':
+        'http://localhost:5173/users/provider/callback',
+}
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+# ======================================================================================================================
+# Social accounts
+# ======================================================================================================================
+
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'APP': {
+            'client_id': config('GOOGLE_CLIENT_ID'),
+            'secret': config('GOOGLE_SECRET_KEY'),
+            'key': '',
+        }
+    }
 }

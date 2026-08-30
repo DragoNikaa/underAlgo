@@ -1,19 +1,21 @@
-import { ValidationError } from "../../../../shared/api/errors.ts";
+import { ParseError } from "./errors.ts";
 
 export function parseBody(body: Record<string, string>) {
-  const errors: Record<string, string[]> = {};
+  const invalidFields: string[] = [];
   const parsedBody: Record<string, unknown> = {};
 
   for (const [key, value] of Object.entries(body)) {
+    if (!value.trim()) continue;
+
     try {
       parsedBody[key] = JSON.parse(value);
     } catch {
-      errors[key] = ["Invalid format. Algorithm confused."];
+      invalidFields.push(key);
     }
   }
 
-  if (Object.keys(errors).length > 0) {
-    throw new ValidationError(errors);
+  if (invalidFields.length > 0) {
+    throw new ParseError(invalidFields);
   }
 
   return parsedBody;

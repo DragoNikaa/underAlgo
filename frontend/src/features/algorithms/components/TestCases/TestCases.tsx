@@ -1,11 +1,12 @@
 import { type SyntheticEvent, useState } from "react";
 
-import { ValidationError } from "../../../../shared/api/errors.ts";
+import { DRFValidationError } from "../../../../shared/api/errors.ts";
 import Button from "../../../../shared/components/Button/Button.tsx";
 import Card from "../../../../shared/components/Card/Card.tsx";
 import Heading from "../../../../shared/components/Heading/Heading.tsx";
 import type { TestCase } from "../../types/test-case.ts";
 import CustomTestCase from "./CustomTestCase.tsx";
+import { ParseError } from "./errors.ts";
 import PredefinedTestCases from "./PredefinedTestCases.tsx";
 import styles from "./TestCases.module.css";
 import { parseBody } from "./utils.ts";
@@ -16,7 +17,7 @@ export type SelectedTestCase = number | typeof CUSTOM_TEST_CASE;
 interface AlgorithmTestCasesProps {
   testCases: TestCase[];
   execute: (body: Record<string, unknown>) => void;
-  executionError: ValidationError | null;
+  executionError: DRFValidationError | null;
 }
 
 export default function TestCases({
@@ -26,7 +27,7 @@ export default function TestCases({
 }: AlgorithmTestCasesProps) {
   const [selectedTestCase, setSelectedTestCase] = useState<SelectedTestCase>(0);
   const [customBody, setCustomBody] = useState<Record<string, string>>({});
-  const [parseError, setParseError] = useState<ValidationError | null>(null);
+  const [parseError, setParseError] = useState<ParseError | null>(null);
 
   function handleSubmit(event: SyntheticEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -35,7 +36,7 @@ export default function TestCases({
     try {
       execute(getBody());
     } catch (error) {
-      if (error instanceof ValidationError) {
+      if (error instanceof ParseError) {
         setParseError(error);
       } else {
         throw error;

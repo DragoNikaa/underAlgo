@@ -1,6 +1,7 @@
+import { getCSRFToken } from "./csrf.ts";
 import { ApiError } from "./errors.ts";
 
-const URL_ORIGIN: string = import.meta.env.VITE_API_URL_ORIGIN;
+const API_URL_ORIGIN: string = import.meta.env.VITE_API_URL_ORIGIN;
 
 export const apiClient = {
   get<T>(path: string, search?: string) {
@@ -54,7 +55,7 @@ async function request<T>(
 }
 
 function buildUrl(path: string, search?: string) {
-  const url = new URL(path, URL_ORIGIN);
+  const url = new URL(path, API_URL_ORIGIN);
   if (search) url.search = search;
   return url;
 }
@@ -76,13 +77,4 @@ function addDefaultOptions(init: RequestInit): RequestInit {
       ...init.headers,
     },
   };
-}
-
-function getCSRFToken() {
-  return (
-    document.cookie
-      .split("; ")
-      .find((cookie) => cookie.startsWith("csrftoken="))
-      ?.split("=")[1] ?? null
-  );
 }

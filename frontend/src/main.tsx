@@ -4,9 +4,9 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 
 import App from "./app/App.tsx";
-import { initializeCSRFToken } from "./shared/api/csrf.ts";
+import { fetchCSRFToken } from "./shared/api/csrf.ts";
 
-await initializeCSRFToken();
+await fetchCSRFToken();
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>

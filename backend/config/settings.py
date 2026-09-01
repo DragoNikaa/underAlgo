@@ -205,8 +205,6 @@ CSRF_TRUSTED_ORIGINS = [
 
 HEADLESS_ONLY = True
 
-HEADLESS_TOKEN_STRATEGY = 'allauth.headless.tokens.strategies.jwt.JWTTokenStrategy'
-
 HEADLESS_FRONTEND_URLS = {
     'account_confirm_email':
         'http://localhost:5173/users/verify-email/{key}',
@@ -221,7 +219,7 @@ HEADLESS_FRONTEND_URLS = {
         'http://localhost:5173/signup',
 
     'socialaccount_login_error':
-        'http://localhost:5173/users/provider/callback',
+        'http://localhost:5173/login',
 }
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
@@ -231,11 +229,19 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 # ======================================================================================================================
 
 SOCIALACCOUNT_PROVIDERS = {
+    'github': {
+        'APP': {
+            'client_id': config('GITHUB_CLIENT_ID'),
+            'secret': config('GITHUB_SECRET_KEY'),
+            'key': '',
+        }
+    },
+
     'google': {
         'APP': {
             'client_id': config('GOOGLE_CLIENT_ID'),
             'secret': config('GOOGLE_SECRET_KEY'),
             'key': '',
         }
-    }
+    },
 }

@@ -8,6 +8,7 @@ import Input from "../../../../shared/components/Form/Input/Input.tsx";
 import Heading from "../../../../shared/components/Heading/Heading.tsx";
 import { PATHS } from "../../../../shared/paths.ts";
 import { AllauthValidationError } from "../../api/errors.ts";
+import ProviderButton from "../../components/ProviderButton/ProviderButton.tsx";
 import { useSignup } from "../../hooks.ts";
 import styles from "./SignupPage.module.css";
 
@@ -116,6 +117,13 @@ export default function SignupPage() {
           sign up
         </Button>
       </form>
+
+      <div className={styles.divider}>or</div>
+
+      <div className={styles.providerButtons}>
+        <ProviderButton authMode="signup" provider="google" />
+        <ProviderButton authMode="signup" provider="github" />
+      </div>
 
       <div className={styles.loginPrompt}>
         <p>Already initialized?</p>

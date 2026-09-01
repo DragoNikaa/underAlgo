@@ -4,15 +4,40 @@
   margin: var(--size-7) auto;
 }
 
-.heading,
-.signupButton {
+.heading {
   margin-inline: auto;
 }
 
 .form {
   display: flex;
   flex-direction: column;
+  gap: var(--size-3);
+}
+
+.signupButton {
+  margin: var(--size-2) auto var(--size-1);
+}
+
+.divider {
+  display: flex;
   gap: var(--size-4);
+  align-items: center;
+  margin-block: var(--size-1);
+}
+
+.divider::before,
+.divider::after {
+  flex: 1;
+  height: 0.8px;
+  content: "";
+  background: var(--gray);
+}
+
+.providerButtons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--size-3) var(--size-6);
+  justify-content: center;
 }
 
 .loginPrompt {
@@ -20,5 +45,7 @@
   flex-direction: column;
   gap: var(--size-3);
   align-items: center;
-  margin-block: var(--size-7) var(--size-3);
+  padding-block: var(--size-6) var(--size-2);
+  margin-top: var(--size-2);
+  border-top: 1px solid var(--gray);
 }

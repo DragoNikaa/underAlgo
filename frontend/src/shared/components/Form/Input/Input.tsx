@@ -4,8 +4,11 @@ import type { ComponentPropsWithoutRef } from "react";
 import formStyles from "../Form.module.css";
 import inputStyles from "./Input.module.css";
 
+export type InputType =
+  "text" | "email" | "password" | "search" | "tel" | "url" | "number";
+
 interface InputProps extends Omit<ComponentPropsWithoutRef<"input">, "type"> {
-  type?: "text" | "email" | "password" | "search" | "tel" | "url" | "number";
+  type?: InputType;
   column?: boolean;
   withoutLabel?: boolean;
 }

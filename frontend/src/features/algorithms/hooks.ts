@@ -25,14 +25,14 @@ export function useAlgorithm(slug: string) {
 export function useDifficulties() {
   return useSuspenseQuery({
     queryKey: ["difficulties"],
-    queryFn: () => getDifficulties(),
+    queryFn: getDifficulties,
   });
 }
 
 export function useCategories() {
   return useSuspenseQuery({
     queryKey: ["categories"],
-    queryFn: () => getCategories(),
+    queryFn: getCategories,
   });
 }
 

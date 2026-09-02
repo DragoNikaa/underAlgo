@@ -39,7 +39,7 @@ export default function ProviderButton({
       <input
         type="hidden"
         name="callback_url"
-        value={FRONTEND_URL_ORIGIN + PATHS.algorithm.list}
+        value={FRONTEND_URL_ORIGIN + PATHS.user.provider.completeSignup}
       />
       <input type="hidden" name="csrfmiddlewaretoken" value={getCSRFToken()} />
 

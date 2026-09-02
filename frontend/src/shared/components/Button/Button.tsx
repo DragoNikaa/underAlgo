@@ -3,10 +3,12 @@ import type { ComponentPropsWithoutRef } from "react";
 
 import styles from "./Button.module.css";
 
+export type ButtonColor = "blue" | "blueInverse" | "green" | "yellow" | "red";
+
 interface ButtonProps extends ComponentPropsWithoutRef<"button"> {
   size?: "large";
   oval?: boolean;
-  color?: "blue" | "blueInverse" | "green" | "yellow" | "red";
+  color?: ButtonColor;
 }
 
 export default function Button({

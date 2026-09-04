@@ -1,7 +1,8 @@
 import type { RouteObject } from "react-router-dom";
 
-import CompleteSignupPage from "./pages/CompleteSignupPage/CompleteSignupPage.tsx";
-import SignupPage from "./pages/SignupPage/SignupPage.tsx";
+import CompleteSignupPage from "./pages/CompleteSignupPage.tsx";
+import LoginPage from "./pages/LoginPage.tsx";
+import SignupPage from "./pages/SignupPage.tsx";
 
 export const userRoutes: RouteObject[] = [
   {
@@ -11,5 +12,9 @@ export const userRoutes: RouteObject[] = [
   {
     path: "complete-signup",
     element: <CompleteSignupPage />,
+  },
+  {
+    path: "login",
+    element: <LoginPage />,
   },
 ];

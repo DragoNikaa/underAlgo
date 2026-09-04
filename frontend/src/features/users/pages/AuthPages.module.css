@@ -20,7 +20,8 @@
   justify-content: center;
 }
 
-.loginPrompt {
+.loginPrompt,
+.signupPrompt {
   display: flex;
   flex-direction: column;
   gap: var(--size-3);

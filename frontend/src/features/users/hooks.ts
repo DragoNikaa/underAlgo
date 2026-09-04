@@ -5,6 +5,7 @@ import { PATHS } from "../../shared/paths.ts";
 import {
   completeProviderSignup,
   getProviderSignupData,
+  login,
   signup,
 } from "./api/users.ts";
 
@@ -29,6 +30,15 @@ export function useCompleteProviderSignup(email: string) {
 
   return useMutation({
     mutationFn: (username: string) => completeProviderSignup(username, email),
+    onSuccess: () => navigate(PATHS.algorithm.list),
+  });
+}
+
+export function useLogin() {
+  const navigate = useNavigate();
+
+  return useMutation({
+    mutationFn: login,
     onSuccess: () => navigate(PATHS.algorithm.list),
   });
 }

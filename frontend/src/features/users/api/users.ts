@@ -40,3 +40,19 @@ export async function completeProviderSignup(username: string, email: string) {
     throw error;
   }
 }
+
+interface LoginBody {
+  username: string;
+  password: string;
+}
+
+export async function login(body: LoginBody) {
+  try {
+    return await apiClient.post<void>(ENDPOINTS.user.login, body);
+  } catch (error) {
+    if (isAllauthValidationErrorResponse(error)) {
+      throw new AllauthValidationError(error.data.errors);
+    }
+    throw error;
+  }
+}

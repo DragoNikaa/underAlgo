@@ -1,5 +1,7 @@
 import { type SyntheticEvent, useState } from "react";
+import { Navigate } from "react-router-dom";
 
+import { PATHS } from "../../../shared/paths.ts";
 import { AllauthValidationError } from "../api/errors.ts";
 import AuthCard from "../components/AuthCard/AuthCard.tsx";
 import type {
@@ -16,14 +18,13 @@ const fields: Field[] = [
 
 export default function CompleteSignupPage() {
   const { data: signupData } = useProviderSignupData();
-  const email = signupData.data.email[0].email;
-
   const [form, setForm] = useState<Form>({
-    username: signupData.data.user.username ?? "",
-    email: email,
+    username: signupData?.data.user.username ?? "",
+    email: signupData?.data.email[0].email ?? "",
   });
-
-  const { mutate: completeSignup, error } = useCompleteProviderSignup(email);
+  const { mutate: completeSignup, error } = useCompleteProviderSignup(
+    form.email!,
+  );
 
   if (error && !(error instanceof AllauthValidationError)) {
     throw error;
@@ -31,6 +32,7 @@ export default function CompleteSignupPage() {
 
   const fieldErrors: FieldErrors = {
     username: error?.errors.username,
+    email: error?.errors.email,
   };
 
   function handleSubmit(event: SyntheticEvent<HTMLFormElement>) {
@@ -38,7 +40,7 @@ export default function CompleteSignupPage() {
     completeSignup(form.username!);
   }
 
-  return (
+  return signupData ? (
     <AuthCard
       heading="complete sign up"
       fields={fields}
@@ -48,5 +50,7 @@ export default function CompleteSignupPage() {
       onFormSubmit={handleSubmit}
       submitButtonLabel="sign up"
     />
+  ) : (
+    <Navigate to={PATHS.algorithm.list} replace />
   );
 }

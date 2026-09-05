@@ -29,12 +29,6 @@ export default function ProviderButton({
 }: ProviderButtonProps) {
   const { name, Icon } = PROVIDERS[provider];
 
-  const callbackUrl =
-    FRONTEND_URL_ORIGIN +
-    (authMode === "signup"
-      ? PATHS.user.provider.completeSignup
-      : PATHS.algorithm.list);
-
   return (
     <form
       method="POST"
@@ -42,7 +36,11 @@ export default function ProviderButton({
     >
       <input type="hidden" name="provider" value={provider} />
       <input type="hidden" name="process" value={process} />
-      <input type="hidden" name="callback_url" value={callbackUrl} />
+      <input
+        type="hidden"
+        name="callback_url"
+        value={FRONTEND_URL_ORIGIN + PATHS.user.provider.completeSignup}
+      />
       <input type="hidden" name="csrfmiddlewaretoken" value={getCSRFToken()} />
 
       <button

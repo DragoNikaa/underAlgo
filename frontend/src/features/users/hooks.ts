@@ -1,20 +1,33 @@
-import { useMutation, useSuspenseQuery } from "@tanstack/react-query";
+import {
+  useMutation,
+  useQueryClient,
+  useSuspenseQuery,
+} from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 
 import { PATHS } from "../../shared/paths.ts";
 import {
   completeProviderSignup,
   getProviderSignupData,
+  getSession,
   login,
+  logout,
   signup,
 } from "./api/users.ts";
 
+export function useSession() {
+  return useSuspenseQuery({
+    queryKey: ["session"],
+    queryFn: getSession,
+  });
+}
+
 export function useSignup() {
-  const navigate = useNavigate();
+  const handleAuthSuccess = useHandleAuthSuccess();
 
   return useMutation({
     mutationFn: signup,
-    onSuccess: () => navigate(PATHS.algorithm.list),
+    onSuccess: handleAuthSuccess,
   });
 }
 
@@ -26,19 +39,41 @@ export function useProviderSignupData() {
 }
 
 export function useCompleteProviderSignup(email: string) {
-  const navigate = useNavigate();
+  const handleAuthSuccess = useHandleAuthSuccess();
 
   return useMutation({
     mutationFn: (username: string) => completeProviderSignup(username, email),
-    onSuccess: () => navigate(PATHS.algorithm.list),
+    onSuccess: handleAuthSuccess,
   });
 }
 
 export function useLogin() {
-  const navigate = useNavigate();
+  const handleAuthSuccess = useHandleAuthSuccess();
 
   return useMutation({
     mutationFn: login,
-    onSuccess: () => navigate(PATHS.algorithm.list),
+    onSuccess: handleAuthSuccess,
   });
+}
+
+export function useLogout() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: logout,
+    onSuccess: () => queryClient.setQueryData(["session"], null),
+  });
+}
+
+function useHandleAuthSuccess() {
+  const queryClient = useQueryClient();
+  const navigate = useNavigate();
+
+  return async () => {
+    await queryClient.invalidateQueries({
+      queryKey: ["session"],
+    });
+
+    navigate(PATHS.algorithm.list);
+  };
 }

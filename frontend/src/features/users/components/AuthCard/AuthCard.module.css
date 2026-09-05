@@ -1,6 +1,6 @@
 .authCard {
-  width: 30%;
-  min-width: 250px;
+  width: 35%;
+  min-width: 290px;
   padding-bottom: var(--size-5);
   margin: var(--size-7) auto;
 }

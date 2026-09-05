@@ -1,5 +1,11 @@
 import { ApiError } from "../../../shared/api/errors.ts";
 
+export function isNotAuthenticatedErrorResponse(
+  error: unknown,
+): error is ApiError {
+  return error instanceof ApiError && error.status === 401;
+}
+
 type AllauthValidationErrorItem = {
   message: string;
   code: string;

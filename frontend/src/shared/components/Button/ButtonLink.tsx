@@ -2,11 +2,12 @@ import clsx from "clsx";
 import { Link, type LinkProps } from "react-router-dom";
 
 import styles from "./Button.module.css";
+import type { ButtonColor } from "./Button.tsx";
 
 interface ButtonLinkProps extends LinkProps {
   size?: "large";
   oval?: boolean;
-  color?: "blue" | "blueInverse" | "green" | "yellow" | "red";
+  color?: ButtonColor;
 }
 
 export default function ButtonLink({

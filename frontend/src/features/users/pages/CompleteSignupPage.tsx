@@ -15,11 +15,11 @@ const fields: Field[] = [
 ];
 
 export default function CompleteSignupPage() {
-  const { data } = useProviderSignupData();
-  const email = data.data.email[0].email;
+  const { data: signupData } = useProviderSignupData();
+  const email = signupData.data.email[0].email;
 
   const [form, setForm] = useState<Form>({
-    username: data.data.user.username ?? "",
+    username: signupData.data.user.username ?? "",
     email: email,
   });
 

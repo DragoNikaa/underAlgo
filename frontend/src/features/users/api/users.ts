@@ -1,10 +1,23 @@
 import { apiClient } from "../../../shared/api/api-client.ts";
 import { ENDPOINTS } from "../../../shared/api/endpoints.ts";
 import type { ProviderSignupData } from "../types/provider-signup.ts";
+import type { Session } from "../types/session.ts";
 import {
   AllauthValidationError,
   isAllauthValidationErrorResponse,
+  isNotAuthenticatedErrorResponse,
 } from "./errors.ts";
+
+export async function getSession() {
+  try {
+    return await apiClient.get<Session>(ENDPOINTS.user.session);
+  } catch (error) {
+    if (isNotAuthenticatedErrorResponse(error)) {
+      return null;
+    }
+    throw error;
+  }
+}
 
 interface SignupBody {
   username: string;
@@ -14,7 +27,7 @@ interface SignupBody {
 
 export async function signup(body: SignupBody) {
   try {
-    return await apiClient.post<void>(ENDPOINTS.user.signup, body);
+    await apiClient.post<void>(ENDPOINTS.user.signup, body);
   } catch (error) {
     if (isAllauthValidationErrorResponse(error)) {
       throw new AllauthValidationError(error.data.errors);
@@ -29,7 +42,7 @@ export function getProviderSignupData() {
 
 export async function completeProviderSignup(username: string, email: string) {
   try {
-    return await apiClient.post<void>(ENDPOINTS.user.provider.signup, {
+    await apiClient.post<void>(ENDPOINTS.user.provider.signup, {
       username,
       email,
     });
@@ -48,10 +61,21 @@ interface LoginBody {
 
 export async function login(body: LoginBody) {
   try {
-    return await apiClient.post<void>(ENDPOINTS.user.login, body);
+    await apiClient.post<void>(ENDPOINTS.user.login, body);
   } catch (error) {
     if (isAllauthValidationErrorResponse(error)) {
       throw new AllauthValidationError(error.data.errors);
+    }
+    throw error;
+  }
+}
+
+export async function logout() {
+  try {
+    await apiClient.delete<void>(ENDPOINTS.user.session);
+  } catch (error) {
+    if (isNotAuthenticatedErrorResponse(error)) {
+      return null;
     }
     throw error;
   }

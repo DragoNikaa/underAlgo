@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
-import { PATHS } from "../../../paths.ts";
-import Button from "../../Button/Button.tsx";
-import Drawer from "../../Drawer/Drawer.tsx";
-import Logo from "../../Logo/Logo.tsx";
+import Button from "../../../../shared/components/Button/Button.tsx";
+import Drawer from "../../../../shared/components/Drawer/Drawer.tsx";
+import Logo from "../../../../shared/components/Logo/Logo.tsx";
+import { PATHS } from "../../../../shared/paths.ts";
 import Nav from "./Nav.tsx";
 import styles from "./Navbar.module.css";
 

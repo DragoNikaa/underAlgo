@@ -13,7 +13,7 @@
 }
 
 .navLinks,
-.authMenu {
+.userNav {
   display: flex;
   gap: var(--size-6);
 }
@@ -44,7 +44,7 @@
   }
 
   .navLinks,
-  .authMenu {
+  .userNav {
     gap: var(--size-4);
   }
 }
@@ -55,7 +55,7 @@
   }
 
   .navLinks,
-  .authMenu {
+  .userNav {
     flex-direction: column;
     align-items: center;
     font-size: 1.2rem;
@@ -67,7 +67,7 @@
   }
 
   .navLink,
-  .authMenuItem {
-    width: 150px;
+  .userNavItem {
+    width: 160px;
   }
 }

@@ -2,6 +2,7 @@ export const ENDPOINTS = {
   csrf: "/api/csrf/",
 
   user: {
+    session: "/_allauth/browser/v1/auth/session",
     signup: "/_allauth/browser/v1/auth/signup",
     login: "/_allauth/browser/v1/auth/login",
 

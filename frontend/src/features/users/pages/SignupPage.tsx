@@ -21,7 +21,7 @@ const fields: Field[] = [
 ];
 
 export default function SignupPage() {
-  const { mutate: signup, error } = useSignup();
+  const { mutate: signup, isPending, error } = useSignup();
   const [form, setForm] = useState<Form>({
     username: "",
     email: "",
@@ -71,6 +71,7 @@ export default function SignupPage() {
       form={form}
       setForm={setForm}
       onFormSubmit={handleSubmit}
+      isSubmitting={isPending}
     >
       <div className={styles.divider}>or</div>
 

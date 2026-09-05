@@ -16,7 +16,7 @@ import styles from "./AuthPages.module.css";
 const fields: Field[] = [{ name: "username" }, { name: "password" }];
 
 export default function LoginPage() {
-  const { mutate: login, error } = useLogin();
+  const { mutate: login, isPending, error } = useLogin();
   const [form, setForm] = useState<Form>({
     username: "",
     password: "",
@@ -53,6 +53,7 @@ export default function LoginPage() {
       form={form}
       setForm={setForm}
       onFormSubmit={handleSubmit}
+      isSubmitting={isPending}
       submitButtonColor="blue"
     >
       <div className={styles.divider}>or</div>

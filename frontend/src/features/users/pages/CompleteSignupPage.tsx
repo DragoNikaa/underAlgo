@@ -22,9 +22,11 @@ export default function CompleteSignupPage() {
     username: signupData?.data.user.username ?? "",
     email: signupData?.data.email[0].email ?? "",
   });
-  const { mutate: completeSignup, error } = useCompleteProviderSignup(
-    form.email!,
-  );
+  const {
+    mutate: completeSignup,
+    isPending,
+    error,
+  } = useCompleteProviderSignup(form.email!);
 
   if (error && !(error instanceof AllauthValidationError)) {
     throw error;
@@ -48,6 +50,7 @@ export default function CompleteSignupPage() {
       form={form}
       setForm={setForm}
       onFormSubmit={handleSubmit}
+      isSubmitting={isPending}
       submitButtonLabel="sign up"
     />
   ) : (

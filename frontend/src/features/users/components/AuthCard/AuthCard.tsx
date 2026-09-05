@@ -22,6 +22,7 @@ interface AuthCardProps extends ComponentPropsWithoutRef<"div"> {
   form: Form;
   setForm: Dispatch<SetStateAction<Form>>;
   onFormSubmit: (event: SyntheticEvent<HTMLFormElement>) => void;
+  isSubmitting: boolean;
   submitButtonLabel?: string;
   submitButtonColor?: ButtonColor;
 }
@@ -33,6 +34,7 @@ export default function AuthCard({
   form,
   setForm,
   onFormSubmit,
+  isSubmitting,
   submitButtonLabel = heading,
   submitButtonColor = "blueInverse",
   children,
@@ -76,6 +78,7 @@ export default function AuthCard({
 
         <Button
           type="submit"
+          disabled={isSubmitting}
           oval
           color={submitButtonColor}
           className={styles.submitButton}

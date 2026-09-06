@@ -4,7 +4,7 @@ import CompleteSignupPage from "./pages/CompleteSignupPage.tsx";
 import LoginPage from "./pages/LoginPage.tsx";
 import SignupPage from "./pages/SignupPage.tsx";
 
-export const userRoutes: RouteObject[] = [
+export const userGuestRoutes: RouteObject[] = [
   {
     path: "signup",
     element: <SignupPage />,

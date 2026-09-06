@@ -1,7 +1,7 @@
 import type { ComponentType } from "react";
 
-import { GitHubIcon } from "./icons/GitHubIcon.tsx";
-import { GoogleIcon } from "./icons/GoogleIcon.tsx";
+import GitHubIcon from "./icons/GitHubIcon.tsx";
+import GoogleIcon from "./icons/GoogleIcon.tsx";
 
 export type AuthProvider = "github" | "google";
 

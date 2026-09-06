@@ -1,4 +1,4 @@
-export function GoogleIcon() {
+export default function GoogleIcon() {
   return (
     <svg viewBox="0 0 48 48" style={{ display: "block" }}>
       <path

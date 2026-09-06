@@ -1,4 +1,4 @@
-export function GitHubIcon() {
+export default function GitHubIcon() {
   return (
     <svg viewBox="0 0 98 96" fill="none">
       <g clipPath="url(#clip0_730_27136)">

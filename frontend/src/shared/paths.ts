@@ -2,6 +2,7 @@ export const PATHS = {
   user: {
     signup: "/signup/",
     login: "/login/",
+    resetPassword: "/reset-password/",
 
     provider: {
       completeSignup: "/complete-signup/",

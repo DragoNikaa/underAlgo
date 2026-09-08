@@ -4,6 +4,7 @@ type FieldName = "username" | "email" | "password" | "confirmPassword";
 
 export interface Field {
   name: FieldName;
+  label?: string;
   readOnly?: boolean;
 }
 

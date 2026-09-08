@@ -4,8 +4,8 @@ import { ApiError } from "./errors.ts";
 const API_URL_ORIGIN: string = import.meta.env.VITE_API_URL_ORIGIN;
 
 export const apiClient = {
-  get<T>(path: string, search?: string) {
-    return request<T>(path, { method: "GET" }, search);
+  get<T>(path: string, search?: string, headers?: HeadersInit) {
+    return request<T>(path, { method: "GET", headers }, search);
   },
 
   post<T>(path: string, body?: unknown) {

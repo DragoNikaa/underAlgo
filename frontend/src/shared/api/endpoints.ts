@@ -6,6 +6,11 @@ export const ENDPOINTS = {
     signup: "/_allauth/browser/v1/auth/signup",
     login: "/_allauth/browser/v1/auth/login",
 
+    password: {
+      request: "/_allauth/browser/v1/auth/password/request",
+      reset: "/_allauth/browser/v1/auth/password/reset",
+    },
+
     provider: {
       redirect: "/_allauth/browser/v1/auth/provider/redirect",
       signup: "/_allauth/browser/v1/auth/provider/signup",

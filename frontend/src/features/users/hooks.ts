@@ -9,9 +9,12 @@ import { PATHS } from "../../shared/paths.ts";
 import {
   completeProviderSignup,
   getProviderSignupData,
+  getResetPasswordData,
   getSession,
   login,
   logout,
+  requestPassword,
+  resetPassword,
   signup,
 } from "./api/users.ts";
 
@@ -65,15 +68,48 @@ export function useLogout() {
   });
 }
 
+export function useRequestPassword() {
+  const navigateAfterAuth = useNavigateAfterAuth();
+
+  return useMutation({
+    mutationFn: requestPassword,
+    onSuccess: navigateAfterAuth,
+  });
+}
+
+export function useResetPasswordData(key: string) {
+  return useSuspenseQuery({
+    queryKey: ["resetPasswordData", key],
+    queryFn: () => getResetPasswordData(key),
+  });
+}
+
+export function useResetPassword(key: string) {
+  const handleAuthSuccess = useHandleAuthSuccess();
+
+  return useMutation({
+    mutationFn: (password: string) => resetPassword(key, password),
+    onSuccess: handleAuthSuccess,
+  });
+}
+
 function useHandleAuthSuccess() {
   const queryClient = useQueryClient();
-  const navigate = useNavigate();
+  const navigateAfterAuth = useNavigateAfterAuth();
 
   return async () => {
     await queryClient.invalidateQueries({
       queryKey: ["session"],
     });
 
+    navigateAfterAuth();
+  };
+}
+
+function useNavigateAfterAuth() {
+  const navigate = useNavigate();
+
+  return () => {
     navigate(PATHS.algorithm.list);
   };
 }

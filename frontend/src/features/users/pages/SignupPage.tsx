@@ -12,6 +12,7 @@ import type {
 import ProviderButton from "../components/ProviderButton/ProviderButton.tsx";
 import { useSignup } from "../hooks.ts";
 import styles from "./AuthPages.module.css";
+import { getPasswordMatchError } from "./utils.ts";
 
 const fields: Field[] = [
   { name: "username" },
@@ -33,22 +34,22 @@ export default function SignupPage() {
     throw error;
   }
 
-  const confirmPasswordError =
-    form.password !== form.confirmPassword
-      ? "Passwords do not match."
-      : undefined;
+  const passwordMatchError = getPasswordMatchError(
+    form.password,
+    form.confirmPassword,
+  );
 
   const fieldErrors: FieldErrors = {
     username: error?.errors.username,
     email: error?.errors.email,
     password: error?.errors.password,
-    confirmPassword: confirmPasswordError,
+    confirmPassword: passwordMatchError,
   };
 
   function handleSubmit(event: SyntheticEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    if (confirmPasswordError) return;
+    if (passwordMatchError) return;
 
     signup({
       username: form.username!,

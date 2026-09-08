@@ -1,4 +1,5 @@
 import { type SyntheticEvent, useState } from "react";
+import { Link } from "react-router-dom";
 
 import ButtonLink from "../../../shared/components/Button/ButtonLink.tsx";
 import { PATHS } from "../../../shared/paths.ts";
@@ -56,6 +57,10 @@ export default function LoginPage() {
       isSubmitting={isPending}
       submitButtonColor="blue"
     >
+      <Link to={PATHS.user.resetPassword} className={styles.forgotPasswordLink}>
+        forgot password?
+      </Link>
+
       <div className={styles.divider}>or</div>
 
       <div className={styles.providerButtons}>

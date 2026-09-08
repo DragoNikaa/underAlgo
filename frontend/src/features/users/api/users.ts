@@ -1,6 +1,7 @@
 import { apiClient } from "../../../shared/api/api-client.ts";
 import { ENDPOINTS } from "../../../shared/api/endpoints.ts";
 import type { ProviderSignupData } from "../types/provider-signup.ts";
+import type { ResetPasswordData } from "../types/reset-password.ts";
 import type { Session } from "../types/session.ts";
 import {
   AllauthValidationError,
@@ -86,6 +87,46 @@ export async function logout() {
   } catch (error) {
     if (isNotAuthenticatedError(error)) {
       return null;
+    }
+    throw error;
+  }
+}
+
+export async function requestPassword(email: string) {
+  try {
+    await apiClient.post<void>(ENDPOINTS.user.password.request, { email });
+  } catch (error) {
+    if (isAllauthValidationErrorResponse(error)) {
+      throw new AllauthValidationError(error.data.errors);
+    }
+    throw error;
+  }
+}
+
+export async function getResetPasswordData(key: string) {
+  try {
+    return await apiClient.get<ResetPasswordData>(
+      ENDPOINTS.user.password.reset,
+      undefined,
+      { "X-Password-Reset-Key": key },
+    );
+  } catch (error) {
+    if (isAllauthValidationErrorResponse(error) || isConflictError(error)) {
+      return null;
+    }
+    throw error;
+  }
+}
+
+export async function resetPassword(key: string, password: string) {
+  try {
+    await apiClient.post<void>(ENDPOINTS.user.password.reset, {
+      key,
+      password,
+    });
+  } catch (error) {
+    if (isAllauthValidationErrorResponse(error)) {
+      throw new AllauthValidationError(error.data.errors);
     }
     throw error;
   }

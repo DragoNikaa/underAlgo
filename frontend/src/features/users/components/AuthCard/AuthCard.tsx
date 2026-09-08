@@ -44,7 +44,7 @@ export default function AuthCard({
       <Heading className={styles.heading}>{heading}</Heading>
 
       <form onSubmit={onFormSubmit} className={styles.form}>
-        {fields.map(({ name, readOnly }) => {
+        {fields.map(({ name, label, readOnly }) => {
           const errorId = `${name}Error`;
           const fieldError = fieldErrors[name];
 
@@ -67,7 +67,7 @@ export default function AuthCard({
                 column
               >
                 <Heading as="h2" variant="secondary">
-                  {FIELDS[name].label}
+                  {label ?? FIELDS[name].label}
                 </Heading>
               </Input>
 

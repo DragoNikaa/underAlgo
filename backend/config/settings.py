@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 
 from pathlib import Path
 
+from corsheaders.defaults import default_headers
 from decouple import config
 
 # ======================================================================================================================
@@ -112,14 +113,6 @@ AUTHENTICATION_BACKENDS = [
     'allauth.account.auth_backends.AuthenticationBackend',
 ]
 
-ACCOUNT_LOGIN_METHODS = {'username', 'email'}
-
-ACCOUNT_SIGNUP_FIELDS = [
-    'username*',
-    'email*',
-    'password1*',
-]
-
 # ======================================================================================================================
 # Database
 # ======================================================================================================================
@@ -192,6 +185,13 @@ CORS_ALLOWED_ORIGINS = [
     'http://localhost:5173',
 ]
 
+CORS_ALLOW_HEADERS = [
+    *default_headers,
+    'x-session-token',
+    'x-email-verification-key',
+    'x-password-reset-key',
+]
+
 CORS_ALLOW_CREDENTIALS = True
 
 CSRF_TRUSTED_ORIGINS = [
@@ -202,6 +202,16 @@ CSRF_TRUSTED_ORIGINS = [
 # django-allauth
 # ======================================================================================================================
 
+ACCOUNT_LOGIN_METHODS = {'username', 'email'}
+
+ACCOUNT_SIGNUP_FIELDS = [
+    'username*',
+    'email*',
+    'password1*',
+]
+
+ACCOUNT_LOGIN_ON_PASSWORD_RESET = True
+
 HEADLESS_ONLY = True
 
 HEADLESS_FRONTEND_URLS = {
@@ -209,10 +219,10 @@ HEADLESS_FRONTEND_URLS = {
         'http://localhost:5173/users/verify-email/{key}',
 
     'account_reset_password':
-        'http://localhost:5173/users/password/reset',
+        'http://localhost:5173/reset-password',
 
     'account_reset_password_from_key':
-        'http://localhost:5173/users/password/reset/key/{key}',
+        'http://localhost:5173/reset-password/key/{key}',
 
     'account_signup':
         'http://localhost:5173/signup',

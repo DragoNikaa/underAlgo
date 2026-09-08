@@ -1,3 +1,9 @@
+.forgotPasswordLink {
+  margin-inline: auto;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
 .divider {
   display: flex;
   gap: var(--size-4);

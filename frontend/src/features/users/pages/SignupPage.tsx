@@ -73,6 +73,7 @@ export default function SignupPage() {
       setForm={setForm}
       onFormSubmit={handleSubmit}
       isSubmitting={isPending}
+      submitButtonColor="blueInverse"
     >
       <div className={styles.divider}>or</div>
 

@@ -52,6 +52,7 @@ export default function CompleteSignupPage() {
       onFormSubmit={handleSubmit}
       isSubmitting={isPending}
       submitButtonLabel="sign up"
+      submitButtonColor="blueInverse"
     />
   ) : (
     <Navigate to={PATHS.algorithm.list} replace />

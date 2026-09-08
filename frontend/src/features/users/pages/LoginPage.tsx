@@ -55,7 +55,6 @@ export default function LoginPage() {
       setForm={setForm}
       onFormSubmit={handleSubmit}
       isSubmitting={isPending}
-      submitButtonColor="blue"
     >
       <Link to={PATHS.user.resetPassword} className={styles.forgotPasswordLink}>
         forgot password?

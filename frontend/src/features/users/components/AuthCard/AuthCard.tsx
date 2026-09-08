@@ -36,7 +36,7 @@ export default function AuthCard({
   onFormSubmit,
   isSubmitting,
   submitButtonLabel = heading,
-  submitButtonColor = "blueInverse",
+  submitButtonColor = "blue",
   children,
 }: AuthCardProps) {
   return (

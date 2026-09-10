@@ -9,13 +9,14 @@ import { PATHS } from "../../shared/paths.ts";
 import {
   completeProviderSignup,
   getProviderSignupData,
-  getResetPasswordData,
   getSession,
   login,
   logout,
   requestPassword,
   resetPassword,
   signup,
+  validatePasswordResetKey,
+  verifyEmail,
 } from "./api/users.ts";
 
 export function useSession() {
@@ -68,7 +69,14 @@ export function useLogout() {
   });
 }
 
-export function useRequestPassword() {
+export function useEmailVerification(key: string) {
+  return useSuspenseQuery({
+    queryKey: ["verifyEmail", key],
+    queryFn: () => verifyEmail(key),
+  });
+}
+
+export function usePasswordRequest() {
   const navigateAfterAuth = useNavigateAfterAuth();
 
   return useMutation({
@@ -77,14 +85,14 @@ export function useRequestPassword() {
   });
 }
 
-export function useResetPasswordData(key: string) {
+export function usePasswordResetKeyValidation(key: string) {
   return useSuspenseQuery({
-    queryKey: ["resetPasswordData", key],
-    queryFn: () => getResetPasswordData(key),
+    queryKey: ["passwordResetKeyValidation", key],
+    queryFn: () => validatePasswordResetKey(key),
   });
 }
 
-export function useResetPassword(key: string) {
+export function usePasswordReset(key: string) {
   const handleAuthSuccess = useHandleAuthSuccess();
 
   return useMutation({

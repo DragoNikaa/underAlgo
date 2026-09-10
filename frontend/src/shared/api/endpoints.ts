@@ -5,6 +5,7 @@ export const ENDPOINTS = {
     session: "/_allauth/browser/v1/auth/session",
     signup: "/_allauth/browser/v1/auth/signup",
     login: "/_allauth/browser/v1/auth/login",
+    verifyEmail: "/_allauth/browser/v1/auth/email/verify",
 
     password: {
       request: "/_allauth/browser/v1/auth/password/request",

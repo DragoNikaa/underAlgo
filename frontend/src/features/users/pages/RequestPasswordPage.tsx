@@ -7,12 +7,12 @@ import type {
   FieldErrors,
   Form,
 } from "../components/AuthCard/fields.ts";
-import { useRequestPassword } from "../hooks.ts";
+import { usePasswordRequest } from "../hooks.ts";
 
 const fields: Field[] = [{ name: "email" }];
 
-export default function RequestPassword() {
-  const { mutate: requestPassword, isPending, error } = useRequestPassword();
+export default function RequestPasswordPage() {
+  const { mutate: requestPassword, isPending, error } = usePasswordRequest();
   const [form, setForm] = useState<Form>({ email: "" });
 
   if (error && !(error instanceof AllauthValidationError)) {

@@ -210,13 +210,15 @@ ACCOUNT_SIGNUP_FIELDS = [
     'password1*',
 ]
 
+ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True
+
 ACCOUNT_LOGIN_ON_PASSWORD_RESET = True
 
 HEADLESS_ONLY = True
 
 HEADLESS_FRONTEND_URLS = {
     'account_confirm_email':
-        'http://localhost:5173/users/verify-email/{key}',
+        'http://localhost:5173/verify-email/{key}',
 
     'account_reset_password':
         'http://localhost:5173/reset-password',

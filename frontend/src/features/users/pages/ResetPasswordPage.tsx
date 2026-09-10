@@ -1,7 +1,6 @@
 import { type SyntheticEvent, useState } from "react";
-import { Navigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
-import { PATHS } from "../../../shared/paths.ts";
 import { AllauthValidationError } from "../api/errors.ts";
 import AuthCard from "../components/AuthCard/AuthCard.tsx";
 import type {
@@ -9,7 +8,7 @@ import type {
   FieldErrors,
   Form,
 } from "../components/AuthCard/fields.ts";
-import { useResetPassword, useResetPasswordData } from "../hooks.ts";
+import { usePasswordReset, usePasswordResetKeyValidation } from "../hooks.ts";
 import { getPasswordMatchError } from "./utils.ts";
 
 const fields: Field[] = [
@@ -17,10 +16,10 @@ const fields: Field[] = [
   { name: "confirmPassword", label: "confirm new password" },
 ];
 
-export default function ResetPassword() {
+export default function ResetPasswordPage() {
   const { key } = useParams();
-  const { data: resetPasswordData } = useResetPasswordData(key!);
-  const { mutate: resetPassword, isPending, error } = useResetPassword(key!);
+  usePasswordResetKeyValidation(key!);
+  const { mutate: resetPassword, isPending, error } = usePasswordReset(key!);
   const [form, setForm] = useState<Form>({
     password: "",
     confirmPassword: "",
@@ -52,7 +51,7 @@ export default function ResetPassword() {
     });
   }
 
-  return resetPasswordData ? (
+  return (
     <AuthCard
       heading="reset password"
       fields={fields}
@@ -63,7 +62,5 @@ export default function ResetPassword() {
       isSubmitting={isPending}
       submitButtonLabel="reset"
     />
-  ) : (
-    <Navigate to={PATHS.algorithm.list} replace />
   );
 }

@@ -1,18 +1,18 @@
 import { type SyntheticEvent, useState } from "react";
 import { Link } from "react-router-dom";
 
-import ButtonLink from "../../../shared/components/Button/ButtonLink.tsx";
-import { PATHS } from "../../../shared/paths.ts";
-import { AllauthValidationError } from "../api/errors.ts";
-import AuthCard from "../components/AuthCard/AuthCard.tsx";
+import ButtonLink from "../../../../shared/components/Button/ButtonLink.tsx";
+import { PATHS } from "../../../../shared/paths.ts";
+import { AllauthValidationError } from "../../api/errors.ts";
+import AuthCard from "../../components/AuthCard/AuthCard.tsx";
 import type {
   Field,
   FieldErrors,
   Form,
-} from "../components/AuthCard/fields.ts";
-import ProviderButton from "../components/ProviderButton/ProviderButton.tsx";
-import { useLogin } from "../hooks.ts";
-import styles from "./AuthPages.module.css";
+} from "../../components/AuthCard/fields.ts";
+import ProviderButton from "../../components/ProviderButton/ProviderButton.tsx";
+import { useLogin } from "../../hooks.ts";
+import styles from "./LoginSignupPages.module.css";
 
 const fields: Field[] = [{ name: "username" }, { name: "password" }];
 

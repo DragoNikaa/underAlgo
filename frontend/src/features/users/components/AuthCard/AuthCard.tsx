@@ -40,54 +40,56 @@ export default function AuthCard({
   children,
 }: AuthCardProps) {
   return (
-    <Card className={styles.authCard}>
-      <Heading className={styles.heading}>{heading}</Heading>
+    <main>
+      <Card className={styles.authCard}>
+        <Heading className={styles.heading}>{heading}</Heading>
 
-      <form onSubmit={onFormSubmit} className={styles.form}>
-        {fields.map(({ name, label, readOnly }) => {
-          const errorId = `${name}Error`;
-          const fieldError = fieldErrors[name];
+        <form onSubmit={onFormSubmit} className={styles.form}>
+          {fields.map(({ name, label, readOnly }) => {
+            const errorId = `${name}Error`;
+            const fieldError = fieldErrors[name];
 
-          return (
-            <div key={name}>
-              <Input
-                id={name}
-                type={FIELDS[name].type}
-                value={form[name]}
-                onChange={(event) =>
-                  setForm((prev) => ({
-                    ...prev,
-                    [name]: event.target.value,
-                  }))
-                }
-                placeholder={FIELDS[name].placeholder}
-                readOnly={readOnly}
-                aria-invalid={!!fieldError}
-                aria-describedby={fieldError ? errorId : undefined}
-                column
-              >
-                <Heading as="h2" variant="secondary">
-                  {label ?? FIELDS[name].label}
-                </Heading>
-              </Input>
+            return (
+              <div key={name}>
+                <Input
+                  id={name}
+                  type={FIELDS[name].type}
+                  value={form[name]}
+                  onChange={(event) =>
+                    setForm((prev) => ({
+                      ...prev,
+                      [name]: event.target.value,
+                    }))
+                  }
+                  placeholder={FIELDS[name].placeholder}
+                  readOnly={readOnly}
+                  aria-invalid={!!fieldError}
+                  aria-describedby={fieldError ? errorId : undefined}
+                  column
+                >
+                  <Heading as="h2" variant="secondary">
+                    {label ?? FIELDS[name].label}
+                  </Heading>
+                </Input>
 
-              {fieldError && <FormError id={errorId}>{fieldError}</FormError>}
-            </div>
-          );
-        })}
+                {fieldError && <FormError id={errorId}>{fieldError}</FormError>}
+              </div>
+            );
+          })}
 
-        <Button
-          type="submit"
-          disabled={isSubmitting}
-          oval
-          color={submitButtonColor}
-          className={styles.submitButton}
-        >
-          {submitButtonLabel}
-        </Button>
-      </form>
+          <Button
+            type="submit"
+            disabled={isSubmitting}
+            oval
+            color={submitButtonColor}
+            className={styles.submitButton}
+          >
+            {submitButtonLabel}
+          </Button>
+        </form>
 
-      {children}
-    </Card>
+        {children}
+      </Card>
+    </main>
   );
 }

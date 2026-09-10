@@ -18,7 +18,8 @@
 
 .lineNumber {
   flex-shrink: 0;
-  width: 1em;
+  width: 2.3em;
+  padding-inline: 0.6em;
   color: var(--gray-light);
   text-align: right;
   border-right: 1px solid;
@@ -26,11 +27,12 @@
 
 .lineContent {
   flex-grow: 1;
+  padding-inline: 0.8em;
 }
 
 .lineNumber,
 .lineContent {
-  padding: 0.15em 0.8em;
+  padding-block: 0.15em;
 }
 
 .currentLine * {

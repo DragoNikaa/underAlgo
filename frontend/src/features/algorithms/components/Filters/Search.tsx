@@ -12,7 +12,7 @@ export default function Search() {
         type="search"
         column
         placeholder="amazing algorithm…"
-        onChange={(e) => setParam("search", e.target.value)}
+        onChange={(event) => setParam("search", event.target.value)}
         value={params.get("search") ?? ""}
       >
         <Heading as="h3" variant="secondary">

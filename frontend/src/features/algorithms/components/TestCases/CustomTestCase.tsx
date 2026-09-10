@@ -1,7 +1,8 @@
-import { ValidationError } from "../../../../shared/api/errors.ts";
+import { DRFValidationError } from "../../../../shared/api/errors.ts";
 import FormError from "../../../../shared/components/Form/FormError/FormError.tsx";
 import Input from "../../../../shared/components/Form/Input/Input.tsx";
 import Radio from "../../../../shared/components/Form/Radio.tsx";
+import { getFieldErrors, ParseError } from "./errors.ts";
 import styles from "./TestCases.module.css";
 import { CUSTOM_TEST_CASE, type SelectedTestCase } from "./TestCases.tsx";
 
@@ -11,7 +12,7 @@ interface CustomTestCaseProps {
   setSelectedTestCase: (value: SelectedTestCase) => void;
   customBody: Record<string, string>;
   updateCustomBody: (key: string, value: string) => void;
-  error: ValidationError | null;
+  error: ParseError | DRFValidationError | null;
 }
 
 export default function CustomTestCase({
@@ -32,7 +33,7 @@ export default function CustomTestCase({
         {fields.map((field) => {
           const inputId = `testCase${field[0].toUpperCase() + field.slice(1)}`;
           const errorId = `${inputId}Error`;
-          const fieldErrors = error?.getFieldErrors(field) ?? [];
+          const fieldErrors = getFieldErrors(error, field);
           const hasError = fieldErrors.length > 0;
 
           return (

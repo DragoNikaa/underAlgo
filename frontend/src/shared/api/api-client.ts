@@ -1,10 +1,11 @@
-import { ApiError, ValidationError } from "./errors.ts";
+import { getCSRFToken } from "./csrf.ts";
+import { ApiError } from "./errors.ts";
 
-const URL_ORIGIN: string = import.meta.env.VITE_API_URL_ORIGIN;
+const API_URL_ORIGIN: string = import.meta.env.VITE_API_URL_ORIGIN;
 
 export const apiClient = {
-  get<T>(path: string, search?: string) {
-    return request<T>(path, { method: "GET" }, search);
+  get<T>(path: string, search?: string, headers?: HeadersInit) {
+    return request<T>(path, { method: "GET", headers }, search);
   },
 
   post<T>(path: string, body?: unknown) {
@@ -38,41 +39,42 @@ async function request<T>(
   init: RequestInit,
   search?: string,
 ): Promise<T> {
-  const response = await fetch(buildUrl(path, search), addDefaultHeaders(init));
-
-  if (!response.ok) {
-    await handleErrorResponse(response);
-  }
+  const response = await fetch(buildUrl(path, search), addDefaultOptions(init));
 
   if (response.status === 204) {
     return undefined as T;
   }
 
-  return (await response.json()) as T;
+  const data = await response.json().catch(() => null);
+
+  if (!response.ok) {
+    throw new ApiError(response.status, data);
+  }
+
+  return data as T;
 }
 
 function buildUrl(path: string, search?: string) {
-  const url = new URL(path, URL_ORIGIN);
+  const url = new URL(path, API_URL_ORIGIN);
   if (search) url.search = search;
   return url;
 }
 
-function addDefaultHeaders(init: RequestInit): RequestInit {
+function addDefaultOptions(init: RequestInit): RequestInit {
+  const CSRFToken = getCSRFToken();
+
   return {
+    credentials: "include",
     ...init,
     headers: {
-      "Content-Type": "application/json",
+      Accept: "application/json",
+      ...(init.body && {
+        "Content-Type": "application/json",
+      }),
+      ...(CSRFToken && {
+        "X-CSRFToken": CSRFToken,
+      }),
       ...init.headers,
     },
   };
-}
-
-async function handleErrorResponse(response: Response): Promise<never> {
-  const data = await response.json().catch(() => null);
-
-  if (response.status === 400) {
-    throw new ValidationError(data);
-  }
-
-  throw new ApiError(response.status, data?.detail || response.statusText);
 }

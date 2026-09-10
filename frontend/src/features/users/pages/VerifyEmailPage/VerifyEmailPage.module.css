@@ -1,0 +1,5 @@
+.verifyEmailPage {
+  width: 35%;
+  min-width: 290px;
+  margin: var(--size-7) auto;
+}

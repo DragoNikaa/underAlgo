@@ -1,8 +1,8 @@
 import clsx from "clsx";
 import { NavLink } from "react-router-dom";
 
-import { PATHS } from "../../../paths.ts";
-import buttonStyles from "../../Button/Button.module.css";
+import buttonStyles from "../../../../shared/components/Button/Button.module.css";
+import { PATHS } from "../../../../shared/paths.ts";
 import navbarStyles from "./Navbar.module.css";
 import styles from "./Navbar.module.css";
 
@@ -13,8 +13,8 @@ interface NavLinksProps {
 export default function NavLinks({ onNavigate }: NavLinksProps) {
   const links = [
     { to: PATHS.algorithm.list, label: "algorithms" },
-    { to: "/about", label: "about" },
-    { to: "/contact", label: "contact" },
+    { to: "/about/", label: "about" },
+    { to: "/contact/", label: "contact" },
   ];
 
   return (

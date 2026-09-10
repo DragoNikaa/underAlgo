@@ -1,0 +1,38 @@
+.forgotPasswordLink {
+  margin-inline: auto;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.divider {
+  display: flex;
+  gap: var(--size-4);
+  align-items: center;
+  margin-block: var(--size-1) var(--size-2);
+}
+
+.divider::before,
+.divider::after {
+  flex: 1;
+  height: 0.8px;
+  content: "";
+  background: var(--gray);
+}
+
+.providerButtons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--size-3) var(--size-6);
+  justify-content: center;
+}
+
+.loginPrompt,
+.signupPrompt {
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-3);
+  align-items: center;
+  padding-top: var(--size-6);
+  margin-top: var(--size-2);
+  border-top: 1px solid var(--gray);
+}

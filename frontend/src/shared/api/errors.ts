@@ -1,23 +1,38 @@
 export class ApiError extends Error {
   readonly status: number;
+  readonly data: unknown;
 
-  constructor(status: number, message: string) {
-    super(message);
+  constructor(status: number, data: unknown) {
+    super(`Request failed with status ${status}`);
     this.name = "ApiError";
+
     this.status = status;
+    this.data = data;
   }
 }
 
-type ValidationErrors = {
-  [key: string]: string[] | ValidationErrors;
+export function isDRFApiErrorResponse(error: unknown): error is ApiError & {
+  data: { detail: string };
+} {
+  return (
+    error instanceof ApiError &&
+    typeof error.data === "object" &&
+    error.data !== null &&
+    "detail" in error.data &&
+    typeof error.data.detail === "string"
+  );
+}
+
+type DRFValidationErrors = {
+  [key: string]: string[] | DRFValidationErrors;
 };
 
-export class ValidationError extends ApiError {
-  readonly errors: ValidationErrors;
+export class DRFValidationError extends ApiError {
+  readonly errors: DRFValidationErrors;
 
-  constructor(errors: ValidationErrors) {
-    super(400, "Validation error");
-    this.name = "ValidationError";
+  constructor(errors: DRFValidationErrors) {
+    super(400, "Django REST Framework validation error");
+    this.name = "DRFValidationError";
     this.errors = errors;
   }
 
@@ -35,7 +50,7 @@ export class ValidationError extends ApiError {
     return this.getMessages(errors);
   }
 
-  private getMessages(errors: ValidationErrors): string[] {
+  private getMessages(errors: DRFValidationErrors): string[] {
     return Object.entries(errors).flatMap(([key, error]) => {
       if (Array.isArray(error)) {
         return error.map((message) => `At index ${key}: ${message}`);
@@ -44,4 +59,18 @@ export class ValidationError extends ApiError {
       return this.getMessages(error);
     });
   }
+}
+
+export function isDRFValidationErrorResponse(
+  error: unknown,
+): error is ApiError & {
+  data: DRFValidationErrors;
+} {
+  return (
+    error instanceof ApiError &&
+    error.status === 400 &&
+    typeof error.data === "object" &&
+    error.data !== null &&
+    !("detail" in error.data)
+  );
 }

@@ -1,5 +1,5 @@
+import Header from "../../app/components/Header/Header.tsx";
 import Card from "../../shared/components/Card/Card.tsx";
-import Header from "../../shared/components/Header/Header.tsx";
 import Heading from "../../shared/components/Heading/Heading.tsx";
 import styles from "./ErrorLayout.module.css";
 import { useErrorInfo } from "./hooks.ts";

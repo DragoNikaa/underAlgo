@@ -21,7 +21,7 @@ export const ENDPOINTS = {
   algorithm: {
     list: "/api/algorithms/",
     detail: (slug: string) => `/api/algorithms/${slug}/`,
-    execution: (slug: string) => `/api/algorithms/${slug}/execute/`,
+    execution: (slug: string) => ENDPOINTS.algorithm.detail(slug) + "execute/",
   },
 
   difficulty: {
@@ -30,5 +30,10 @@ export const ENDPOINTS = {
 
   category: {
     list: "/api/categories/",
+  },
+
+  comment: {
+    list: (algorithmSlug: string) =>
+      ENDPOINTS.algorithm.detail(algorithmSlug) + "comments/",
   },
 };

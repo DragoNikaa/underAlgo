@@ -11,11 +11,18 @@
 
 .actions {
   display: flex;
-  gap: var(--size-4);
+  flex-wrap: wrap;
+  gap: var(--size-3) var(--size-4);
   align-items: center;
   font-size: 0.8rem;
 }
 
-.pagination {
-  margin-top: var(--size-6);
+.nested {
+  margin-top: var(--size-4);
+  margin-left: var(--size-7);
+}
+
+.showMoreButton {
+  margin-top: var(--size-3);
+  font-size: 0.8rem;
 }

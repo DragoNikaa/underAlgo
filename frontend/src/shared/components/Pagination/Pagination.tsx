@@ -1,16 +1,15 @@
 import clsx from "clsx";
-import type { ComponentPropsWithoutRef } from "react";
 
 import { useSearchParamsActions } from "../../hooks/search-params.ts";
 import type { PaginationInfo } from "../../types/pagination.ts";
 import Button from "../Button/Button.tsx";
 import styles from "./Pagination.module.css";
 
-interface PaginationProps extends ComponentPropsWithoutRef<"nav"> {
+interface PaginationProps {
   pageInfo: PaginationInfo;
 }
 
-export default function Pagination({ pageInfo, className }: PaginationProps) {
+export default function Pagination({ pageInfo }: PaginationProps) {
   const { setParam, removeParam } = useSearchParamsActions();
 
   const updatePageParam = (page: number) => {
@@ -22,7 +21,7 @@ export default function Pagination({ pageInfo, className }: PaginationProps) {
   };
 
   return (
-    <nav aria-label="pagination" className={clsx(styles.pagination, className)}>
+    <nav aria-label="pagination" className={styles.pagination}>
       <div
         className={clsx(styles.buttons, pageInfo.current <= 1 && "invisible")}
       >

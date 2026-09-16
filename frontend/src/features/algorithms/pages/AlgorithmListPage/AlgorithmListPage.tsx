@@ -31,7 +31,7 @@ export default function AlgorithmListPage() {
 
         <List algorithms={data.results} />
 
-        <Pagination pageInfo={data.page} className={styles.pagination} />
+        <Pagination pageInfo={data.page} />
       </main>
 
       <aside className={clsx(styles.filters, "showDesktop")}>

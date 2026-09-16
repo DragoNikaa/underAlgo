@@ -9,3 +9,14 @@ export function getComments(algorithmSlug: string, search?: string) {
     search,
   );
 }
+
+export function getReplies(
+  algorithmSlug: string,
+  commentId: number,
+  page: number,
+) {
+  return apiClient.get<PaginatedResponse<Comment>>(
+    ENDPOINTS.comment.replies(algorithmSlug, commentId),
+    `page=${page}`,
+  );
+}

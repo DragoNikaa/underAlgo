@@ -4,6 +4,43 @@
   align-items: center;
 }
 
+.column {
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.field {
+  width: 100%;
+  padding: 0.4em 0.8em;
+  font-weight: bold;
+  color: var(--black);
+  resize: vertical;
+  background: var(--white);
+  border: 0.15em solid;
+  border-radius: 0.25em;
+}
+
+.field::placeholder {
+  color: var(--gray);
+}
+
+.field:focus {
+  outline: 0.15em solid var(--gray-light);
+}
+
+.field:read-only {
+  background: var(--gray-light);
+}
+
+.field[aria-invalid="true"] {
+  border-color: var(--red-light);
+}
+
+.field[aria-invalid="true"]:focus {
+  outline-color: var(--red-light);
+  border-color: var(--black);
+}
+
 .checkbox,
 .radio {
   display: grid;

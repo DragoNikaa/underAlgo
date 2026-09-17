@@ -6,6 +6,7 @@ import Card from "../../../../shared/components/Card/Card.tsx";
 import dayjs from "../../../../shared/lib/dayjs.ts";
 import { useReplies } from "../../hooks.ts";
 import type { Comment } from "../../types/comment.ts";
+import Form from "../Form/Form.tsx";
 import styles from "./List.module.css";
 import List from "./List.tsx";
 
@@ -16,6 +17,7 @@ interface ListItemProps {
 
 export default function ListItem({ comment, nestingLevel }: ListItemProps) {
   const { slug } = useParams();
+  const [showReplyForm, setShowReplyForm] = useState(false);
   const [showReplies, setShowReplies] = useState(false);
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } = useReplies(
     slug!,
@@ -60,12 +62,18 @@ export default function ListItem({ comment, nestingLevel }: ListItemProps) {
                   </Button>
                 )}
 
-                <Button oval>reply</Button>
+                <Button onClick={() => setShowReplyForm((show) => !show)} oval>
+                  reply
+                </Button>
               </>
             )}
           </div>
         </Card>
       </article>
+
+      {showReplyForm && (
+        <Form parentCommentId={comment.id} className={styles.nested} />
+      )}
 
       {replies && showReplies && (
         <div className={styles.nested}>

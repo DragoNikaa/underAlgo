@@ -1,8 +1,7 @@
 import clsx from "clsx";
 import type { ComponentPropsWithoutRef } from "react";
 
-import formStyles from "../Form.module.css";
-import inputStyles from "./Input.module.css";
+import styles from "./Form.module.css";
 
 export type InputType =
   "text" | "email" | "password" | "search" | "tel" | "url" | "number";
@@ -23,14 +22,14 @@ export default function Input({
   const input = (
     <>
       {children}
-      <input type={type} className={inputStyles.input} {...rest} />
+      <input type={type} className={styles.field} {...rest} />
     </>
   );
 
   return withoutLabel ? (
     input
   ) : (
-    <label className={clsx(formStyles.label, column && inputStyles.column)}>
+    <label className={clsx(styles.label, column && styles.column)}>
       {input}
     </label>
   );

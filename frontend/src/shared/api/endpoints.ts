@@ -35,7 +35,14 @@ export const ENDPOINTS = {
   comment: {
     list: (algorithmSlug: string) =>
       ENDPOINTS.algorithm.detail(algorithmSlug) + "comments/",
-    replies: (algorithmSlug: string, commentId: number) =>
-      ENDPOINTS.comment.list(algorithmSlug) + `${commentId}/replies/`,
+    create: (algorithmSlug: string) =>
+      ENDPOINTS.algorithm.detail(algorithmSlug) + "comments/",
+
+    replies: {
+      list: (algorithmSlug: string, commentId: number) =>
+        ENDPOINTS.comment.list(algorithmSlug) + `${commentId}/replies/`,
+      create: (algorithmSlug: string, commentId: number) =>
+        ENDPOINTS.comment.create(algorithmSlug) + `${commentId}/replies/`,
+    },
   },
 };

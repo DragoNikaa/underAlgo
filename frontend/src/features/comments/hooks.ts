@@ -5,6 +5,7 @@ import {
   useSuspenseQuery,
 } from "@tanstack/react-query";
 
+import { useRequireAuth } from "../users/hooks.ts";
 import { getComments, getReplies, postComment } from "./api/comments.ts";
 
 export function useComments(algorithmSlug: string, search?: string) {
@@ -18,6 +19,7 @@ export function useCreateComment(
   algorithmSlug: string,
   parentCommentId?: number,
 ) {
+  const requireAuth = useRequireAuth();
   const invalidateQueries = useInvalidateQueries(
     algorithmSlug,
     parentCommentId,
@@ -25,7 +27,7 @@ export function useCreateComment(
 
   return useMutation({
     mutationFn: (body: string) =>
-      postComment(algorithmSlug, body, parentCommentId),
+      requireAuth(() => postComment(algorithmSlug, body, parentCommentId)),
     onSuccess: invalidateQueries,
   });
 }
@@ -33,13 +35,13 @@ export function useCreateComment(
 function useInvalidateQueries(algorithmSlug: string, parentCommentId?: number) {
   const queryClient = useQueryClient();
 
-  return async () => {
-    await queryClient.invalidateQueries({
+  return () => {
+    queryClient.invalidateQueries({
       queryKey: ["comments", algorithmSlug],
     });
 
-    if (parentCommentId) {
-      await queryClient.invalidateQueries({
+    if (parentCommentId !== undefined) {
+      queryClient.invalidateQueries({
         queryKey: ["replies", algorithmSlug],
       });
     }

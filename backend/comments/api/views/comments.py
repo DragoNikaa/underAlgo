@@ -1,6 +1,6 @@
 from django.db.models import QuerySet
 from django.shortcuts import get_object_or_404
-from rest_framework import viewsets
+from rest_framework import viewsets, permissions
 from rest_framework.serializers import BaseSerializer
 
 from algorithms.models import Algorithm
@@ -10,6 +10,7 @@ from comments.models import Comment
 
 class CommentViewSet(viewsets.ModelViewSet[Comment]):
     serializer_class = CommentSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
     def get_queryset(self) -> QuerySet[Comment]:
         queryset = Comment.objects.filter(algorithm=self._get_algorithm())

@@ -1,7 +1,5 @@
 import { type SyntheticEvent, useState } from "react";
-import { Navigate } from "react-router-dom";
 
-import { PATHS } from "../../../shared/paths.ts";
 import { AllauthValidationError } from "../api/errors.ts";
 import AuthCard from "../components/AuthCard/AuthCard.tsx";
 import type {
@@ -42,7 +40,7 @@ export default function CompleteSignupPage() {
     completeSignup(form.username!);
   }
 
-  return signupData ? (
+  return (
     <AuthCard
       heading="complete sign up"
       fields={fields}
@@ -54,7 +52,5 @@ export default function CompleteSignupPage() {
       submitButtonLabel="sign up"
       submitButtonColor="blueInverse"
     />
-  ) : (
-    <Navigate to={PATHS.algorithm.list} replace />
   );
 }

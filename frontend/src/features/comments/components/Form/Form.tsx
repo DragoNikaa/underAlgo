@@ -19,7 +19,7 @@ interface FormProps extends ComponentPropsWithoutRef<"form"> {
 export default function Form({ parentCommentId, className }: FormProps) {
   const { slug } = useParams();
   const {
-    mutate: creteComment,
+    mutate: createComment,
     isPending,
     error,
   } = useCreateComment(slug!, parentCommentId);
@@ -35,8 +35,9 @@ export default function Form({ parentCommentId, className }: FormProps) {
   function handleSubmit(event: SyntheticEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    creteComment(comment);
-    setComment("");
+    createComment(comment, {
+      onSuccess: () => setComment(""),
+    });
   }
 
   return (

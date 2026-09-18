@@ -1,13 +1,13 @@
 import clsx from "clsx";
+import { useLocation } from "react-router-dom";
 
 import { getCSRFToken } from "../../../../shared/api/csrf.ts";
 import { ENDPOINTS } from "../../../../shared/api/endpoints.ts";
-import { PATHS } from "../../../../shared/paths.ts";
 import styles from "./ProviderButton.module.css";
 import { type AuthProvider, PROVIDERS } from "./providers.ts";
+import { getProviderCallbackUrl } from "./utils.ts";
 
 const API_URL_ORIGIN: string = import.meta.env.VITE_API_URL_ORIGIN;
-const FRONTEND_URL_ORIGIN: string = import.meta.env.VITE_FRONTEND_URL_ORIGIN;
 
 type AuthMode = "signup" | "login";
 
@@ -27,6 +27,7 @@ export default function ProviderButton({
   provider,
   process = "login",
 }: ProviderButtonProps) {
+  const location = useLocation();
   const { name, Icon } = PROVIDERS[provider];
 
   return (
@@ -39,7 +40,7 @@ export default function ProviderButton({
       <input
         type="hidden"
         name="callback_url"
-        value={FRONTEND_URL_ORIGIN + PATHS.user.provider.completeSignup}
+        value={getProviderCallbackUrl(location)}
       />
       <input type="hidden" name="csrfmiddlewaretoken" value={getCSRFToken()} />
 

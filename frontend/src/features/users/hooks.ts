@@ -75,11 +75,11 @@ export function useLogin() {
 }
 
 export function useLogout() {
-  const queryClient = useQueryClient();
+  const invalidateQueries = useInvalidateQueries();
 
   return useMutation({
     mutationFn: logout,
-    onSuccess: () => queryClient.setQueryData(["session"], null),
+    onSuccess: invalidateQueries,
   });
 }
 

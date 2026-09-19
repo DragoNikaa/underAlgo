@@ -17,6 +17,7 @@ class CommentSerializer(serializers.ModelSerializer[Comment]):
     user = _UserSerializer(read_only=True)
     reply_count = serializers.IntegerField(read_only=True)
     like_count = serializers.IntegerField(read_only=True)
+    liked_by_user = serializers.BooleanField(read_only=True)
 
     class Meta:
         model = Comment
@@ -26,6 +27,7 @@ class CommentSerializer(serializers.ModelSerializer[Comment]):
             'user',
             'reply_count',
             'like_count',
+            'liked_by_user',
             'created_at',
             'updated_at',
         ]

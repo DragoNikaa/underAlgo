@@ -1,9 +1,10 @@
 from django.conf import settings
 from django.db import models
-from django.db.models import Count
+from django.db.models import Count, Exists, OuterRef
 
 from algorithms.models import Algorithm
 from core.models import TimeStampedModel
+from users.models import User
 
 
 class _CommentQuerySet(models.QuerySet['Comment']):
@@ -11,6 +12,16 @@ class _CommentQuerySet(models.QuerySet['Comment']):
         return self.annotate(
             reply_count=Count('replies', distinct=True),
             like_count=Count('likes', distinct=True),
+        )
+
+    def with_user_likes(self, user: User) -> _CommentQuerySet:
+        return self.annotate(
+            liked_by_user=Exists(
+                Comment.likes.through.objects.filter(
+                    comment_id=OuterRef('pk'),
+                    user_id=user.pk,
+                )
+            )
         )
 
 

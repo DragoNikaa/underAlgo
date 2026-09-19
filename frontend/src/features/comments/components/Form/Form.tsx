@@ -9,7 +9,7 @@ import { DRFValidationError } from "../../../../shared/api/errors.ts";
 import Button from "../../../../shared/components/Button/Button.tsx";
 import FormError from "../../../../shared/components/Form/FormError/FormError.tsx";
 import TextArea from "../../../../shared/components/Form/TextArea.tsx";
-import { useCreateComment } from "../../hooks.ts";
+import { useCommentCreation } from "../../hooks.ts";
 import styles from "./Form.module.css";
 
 interface FormProps extends ComponentPropsWithoutRef<"form"> {
@@ -22,7 +22,7 @@ export default function Form({ parentCommentId, className }: FormProps) {
     mutate: createComment,
     isPending,
     error,
-  } = useCreateComment(slug!, parentCommentId);
+  } = useCommentCreation(slug!, parentCommentId);
   const [comment, setComment] = useState("");
 
   if (error && !(error instanceof DRFValidationError)) {

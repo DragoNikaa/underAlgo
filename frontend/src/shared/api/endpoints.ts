@@ -37,6 +37,8 @@ export const ENDPOINTS = {
       ENDPOINTS.algorithm.detail(algorithmSlug) + "comments/",
     create: (algorithmSlug: string) =>
       ENDPOINTS.algorithm.detail(algorithmSlug) + "comments/",
+    like: (algorithmSlug: string, id: number) =>
+      ENDPOINTS.algorithm.detail(algorithmSlug) + `comments/${id}/like/`,
 
     replies: {
       list: (algorithmSlug: string, commentId: number) =>

@@ -4,7 +4,7 @@ import { Link, useParams } from "react-router-dom";
 import Button from "../../../../shared/components/Button/Button.tsx";
 import Card from "../../../../shared/components/Card/Card.tsx";
 import dayjs from "../../../../shared/lib/dayjs.ts";
-import { useReplies } from "../../hooks.ts";
+import { useCommentLike, useCommentUnlike, useReplies } from "../../hooks.ts";
 import type { Comment } from "../../types/comment.ts";
 import Form from "../Form/Form.tsx";
 import styles from "./List.module.css";
@@ -23,6 +23,14 @@ export default function ListItem({ comment, nestingLevel }: ListItemProps) {
     slug!,
     comment.id,
     showReplies,
+  );
+  const { mutate: like, isPending: isLikePending } = useCommentLike(
+    slug!,
+    comment.id,
+  );
+  const { mutate: unlike, isPending: isUnlikePending } = useCommentUnlike(
+    slug!,
+    comment.id,
   );
 
   const replies = data?.pages.flatMap((page) => page.results);
@@ -48,9 +56,25 @@ export default function ListItem({ comment, nestingLevel }: ListItemProps) {
               {comment.like_count} {comment.like_count === 1 ? "like" : "likes"}
             </span>
 
-            <Button oval color="blue">
-              like
-            </Button>
+            {comment.liked_by_user ? (
+              <Button
+                onClick={() => unlike()}
+                disabled={isUnlikePending}
+                oval
+                color="blueInverse"
+              >
+                liked
+              </Button>
+            ) : (
+              <Button
+                onClick={() => like()}
+                disabled={isLikePending}
+                oval
+                color="blue"
+              >
+                like
+              </Button>
+            )}
 
             {nestingLevel < 3 && (
               <>

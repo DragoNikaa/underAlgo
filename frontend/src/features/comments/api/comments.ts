@@ -34,6 +34,14 @@ export async function postComment(
   }
 }
 
+export function likeComment(algorithmSlug: string, id: number) {
+  return apiClient.post<void>(ENDPOINTS.comment.like(algorithmSlug, id));
+}
+
+export function unlikeComment(algorithmSlug: string, id: number) {
+  return apiClient.delete<void>(ENDPOINTS.comment.like(algorithmSlug, id));
+}
+
 export function getReplies(
   algorithmSlug: string,
   commentId: number,

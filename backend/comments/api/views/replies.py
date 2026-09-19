@@ -8,12 +8,12 @@ from comments.models import Comment
 
 class ReplyViewSet(CommentViewSet):
     def get_queryset(self) -> QuerySet[Comment]:
-        return (
-            Comment.objects
-            .filter(reply_to=self._get_parent())
-            .with_counts()
-            .order_by('-created_at')
-        )
+        queryset = Comment.objects.filter(reply_to=self._get_parent())
+
+        if self.request.user.is_authenticated:
+            queryset = queryset.with_user_likes(self.request.user)
+
+        return queryset.with_counts().order_by('created_at')
 
     def perform_create(self, serializer: BaseSerializer[Comment]) -> None:
         parent = self._get_parent()

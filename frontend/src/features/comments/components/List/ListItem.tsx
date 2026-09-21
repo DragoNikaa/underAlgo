@@ -115,7 +115,7 @@ export default function ListItem({ comment, nestingLevel }: ListItemProps) {
               </>
             )}
 
-            {session?.data.user.username === comment.user.username && (
+            {session?.data.user.id === comment.user.id && (
               <>
                 <Button
                   onClick={() => setShowEditForm((show) => !show)}

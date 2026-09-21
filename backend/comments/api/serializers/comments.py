@@ -10,7 +10,10 @@ _User = get_user_model()
 class _UserSerializer(serializers.ModelSerializer[User]):
     class Meta:
         model = _User
-        fields = ['username']
+        fields = [
+            'id',
+            'username',
+        ]
 
 
 class CommentSerializer(serializers.ModelSerializer[Comment]):

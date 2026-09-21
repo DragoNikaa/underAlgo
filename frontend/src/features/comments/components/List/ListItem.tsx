@@ -4,9 +4,11 @@ import { Link, useParams } from "react-router-dom";
 import Button from "../../../../shared/components/Button/Button.tsx";
 import Card from "../../../../shared/components/Card/Card.tsx";
 import dayjs from "../../../../shared/lib/dayjs.ts";
+import { useSession } from "../../../users/hooks.ts";
 import { useCommentLike, useCommentUnlike, useReplies } from "../../hooks.ts";
 import type { Comment } from "../../types/comment.ts";
-import Form from "../Form/Form.tsx";
+import CreationForm from "../Form/CreationForm.tsx";
+import EditForm from "../Form/EditForm.tsx";
 import styles from "./List.module.css";
 import List from "./List.tsx";
 
@@ -17,8 +19,10 @@ interface ListItemProps {
 
 export default function ListItem({ comment, nestingLevel }: ListItemProps) {
   const { slug } = useParams();
+  const [showEditForm, setShowEditForm] = useState(false);
   const [showReplyForm, setShowReplyForm] = useState(false);
   const [showReplies, setShowReplies] = useState(false);
+  const { data: session } = useSession();
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } = useReplies(
     slug!,
     comment.id,
@@ -49,7 +53,15 @@ export default function ListItem({ comment, nestingLevel }: ListItemProps) {
             </span>
           </div>
 
-          <p>{comment.body}</p>
+          {showEditForm ? (
+            <EditForm
+              commentId={comment.id}
+              initialComment={comment.body}
+              onSuccess={() => setShowEditForm(false)}
+            />
+          ) : (
+            <p>{comment.body}</p>
+          )}
 
           <div className={styles.actions}>
             <span className="noWrap">
@@ -87,7 +99,23 @@ export default function ListItem({ comment, nestingLevel }: ListItemProps) {
                 )}
 
                 <Button onClick={() => setShowReplyForm((show) => !show)} oval>
-                  reply
+                  {showReplyForm && "cancel "}reply
+                </Button>
+              </>
+            )}
+
+            {session?.data.user.username === comment.user.username && (
+              <>
+                <Button
+                  onClick={() => setShowEditForm((show) => !show)}
+                  oval
+                  color="yellow"
+                >
+                  {showEditForm && "cancel "}edit
+                </Button>
+
+                <Button oval color="red">
+                  delete
                 </Button>
               </>
             )}
@@ -96,7 +124,7 @@ export default function ListItem({ comment, nestingLevel }: ListItemProps) {
       </article>
 
       {showReplyForm && (
-        <Form parentCommentId={comment.id} className={styles.nested} />
+        <CreationForm parentCommentId={comment.id} className={styles.nested} />
       )}
 
       {replies && showReplies && (

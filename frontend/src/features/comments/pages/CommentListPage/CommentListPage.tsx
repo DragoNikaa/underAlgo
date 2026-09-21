@@ -3,7 +3,7 @@ import { useParams, useSearchParams } from "react-router-dom";
 import Heading from "../../../../shared/components/Heading/Heading.tsx";
 import Pagination from "../../../../shared/components/Pagination/Pagination.tsx";
 import { useAlgorithm } from "../../../algorithms/hooks.ts";
-import Form from "../../components/Form/Form.tsx";
+import CreationForm from "../../components/Form/CreationForm.tsx";
 import List from "../../components/List/List.tsx";
 import { useComments } from "../../hooks.ts";
 import styles from "./CommentListPage.module.css";
@@ -19,7 +19,7 @@ export default function CommentListPage() {
       <Heading>{algorithm.name} – comments</Heading>
 
       <div className={styles.commentListPage}>
-        <Form className={styles.form} />
+        <CreationForm className={styles.form} />
         <List comments={data.results} />
         <Pagination pageInfo={data.page} />
       </div>

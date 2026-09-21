@@ -34,6 +34,27 @@ export async function postComment(
   }
 }
 
+export async function updateComment(
+  algorithmSlug: string,
+  id: number,
+  newBody: string,
+) {
+  try {
+    await apiClient.patch<void>(ENDPOINTS.comment.update(algorithmSlug, id), {
+      body: newBody,
+    });
+  } catch (error) {
+    if (isDRFValidationErrorResponse(error)) {
+      throw new DRFValidationError(error.data);
+    }
+    throw error;
+  }
+}
+
+export function deleteComment(algorithmSlug: string, id: number) {
+  return apiClient.delete<void>(ENDPOINTS.comment.delete(algorithmSlug, id));
+}
+
 export function likeComment(algorithmSlug: string, id: number) {
   return apiClient.post<void>(ENDPOINTS.comment.like(algorithmSlug, id));
 }

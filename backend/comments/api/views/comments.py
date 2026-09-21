@@ -9,12 +9,13 @@ from rest_framework.serializers import BaseSerializer
 from algorithms.models import Algorithm
 from comments.api.serializers import CommentSerializer
 from comments.models import Comment
+from core.permissions import IsOwnerOrReadOnly
 from users.utils import get_authenticated_user
 
 
 class CommentViewSet(viewsets.ModelViewSet[Comment]):
     serializer_class = CommentSerializer
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
 
     def get_queryset(self) -> QuerySet[Comment]:
         queryset = Comment.objects.filter(algorithm=self._get_algorithm())
@@ -33,7 +34,7 @@ class CommentViewSet(viewsets.ModelViewSet[Comment]):
             algorithm=self._get_algorithm(),
         )
 
-    @action(methods=['POST'], detail=True)
+    @action(methods=['POST'], detail=True, permission_classes=[permissions.IsAuthenticated])
     def like(self, request: Request, algorithm_slug: str, pk: int | None = None) -> Response:
         comment = self.get_object()
         user = get_authenticated_user(request)

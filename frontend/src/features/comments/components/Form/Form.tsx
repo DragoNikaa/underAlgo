@@ -1,43 +1,40 @@
-import {
-  type ComponentPropsWithoutRef,
-  type SyntheticEvent,
-  useState,
-} from "react";
-import { useParams } from "react-router-dom";
+import { type ComponentPropsWithoutRef, type SyntheticEvent } from "react";
 
 import { DRFValidationError } from "../../../../shared/api/errors.ts";
 import Button from "../../../../shared/components/Button/Button.tsx";
 import FormError from "../../../../shared/components/Form/FormError/FormError.tsx";
 import TextArea from "../../../../shared/components/Form/TextArea.tsx";
-import { useCommentCreation } from "../../hooks.ts";
 import styles from "./Form.module.css";
 
 interface FormProps extends ComponentPropsWithoutRef<"form"> {
-  parentCommentId?: number;
+  comment: string;
+  onCommentChange: (comment: string) => void;
+  onSubmit: () => void;
+  isPending: boolean;
+  error: Error | null;
+  errorId: string;
+  placeholder: string;
+  buttonLabel: string;
 }
 
-export default function Form({ parentCommentId, className }: FormProps) {
-  const { slug } = useParams();
-  const {
-    mutate: createComment,
-    isPending,
-    error,
-  } = useCommentCreation(slug!, parentCommentId);
-  const [comment, setComment] = useState("");
-
+export default function Form({
+  comment,
+  onCommentChange,
+  onSubmit,
+  isPending,
+  error,
+  errorId,
+  placeholder,
+  buttonLabel,
+  className,
+}: FormProps) {
   if (error && !(error instanceof DRFValidationError)) {
     throw error;
   }
 
-  const errorId =
-    (parentCommentId ? `replyTo${parentCommentId}` : "comment") + "Error";
-
   function handleSubmit(event: SyntheticEvent<HTMLFormElement>) {
     event.preventDefault();
-
-    createComment(comment, {
-      onSuccess: () => setComment(""),
-    });
+    onSubmit();
   }
 
   return (
@@ -45,14 +42,14 @@ export default function Form({ parentCommentId, className }: FormProps) {
       <div className={styles.form}>
         <TextArea
           value={comment}
-          onChange={(event) => setComment(event.target.value)}
-          placeholder={`Write your ${parentCommentId ? "reply" : "comment"} here...`}
+          onChange={(event) => onCommentChange(event.target.value)}
+          placeholder={placeholder}
           aria-invalid={!!error}
           aria-describedby={error ? errorId : undefined}
         />
 
         <Button type="submit" disabled={isPending}>
-          {parentCommentId ? "reply" : "comment"}
+          {buttonLabel}
         </Button>
       </div>
 

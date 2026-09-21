@@ -7,11 +7,13 @@ import {
 
 import { useRequireAuth } from "../users/hooks.ts";
 import {
+  deleteComment,
   getComments,
   getReplies,
   likeComment,
   postComment,
   unlikeComment,
+  updateComment,
 } from "./api/comments.ts";
 
 export function useComments(algorithmSlug: string, search?: string) {
@@ -34,6 +36,27 @@ export function useCommentCreation(
   return useMutation({
     mutationFn: (body: string) =>
       requireAuth(() => postComment(algorithmSlug, body, parentCommentId)),
+    onSuccess: invalidateQueries,
+  });
+}
+
+export function useCommentUpdate(algorithmSlug: string, id: number) {
+  const requireAuth = useRequireAuth();
+  const invalidateQueries = useInvalidateQueries(algorithmSlug);
+
+  return useMutation({
+    mutationFn: (newBody: string) =>
+      requireAuth(() => updateComment(algorithmSlug, id, newBody)),
+    onSuccess: invalidateQueries,
+  });
+}
+
+export function useCommentDeletion(algorithmSlug: string, id: number) {
+  const requireAuth = useRequireAuth();
+  const invalidateQueries = useInvalidateQueries(algorithmSlug);
+
+  return useMutation({
+    mutationFn: () => requireAuth(() => deleteComment(algorithmSlug, id)),
     onSuccess: invalidateQueries,
   });
 }

@@ -5,7 +5,12 @@ import Button from "../../../../shared/components/Button/Button.tsx";
 import Card from "../../../../shared/components/Card/Card.tsx";
 import dayjs from "../../../../shared/lib/dayjs.ts";
 import { useSession } from "../../../users/hooks.ts";
-import { useCommentLike, useCommentUnlike, useReplies } from "../../hooks.ts";
+import {
+  useCommentDeletion,
+  useCommentLike,
+  useCommentUnlike,
+  useReplies,
+} from "../../hooks.ts";
 import type { Comment } from "../../types/comment.ts";
 import CreationForm from "../Form/CreationForm.tsx";
 import EditForm from "../Form/EditForm.tsx";
@@ -19,15 +24,16 @@ interface ListItemProps {
 
 export default function ListItem({ comment, nestingLevel }: ListItemProps) {
   const { slug } = useParams();
+  const { data: session } = useSession();
+
   const [showEditForm, setShowEditForm] = useState(false);
+  const [showDeletionConfirmation, setShowDeletionConfirmation] =
+    useState(false);
   const [showReplyForm, setShowReplyForm] = useState(false);
   const [showReplies, setShowReplies] = useState(false);
-  const { data: session } = useSession();
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } = useReplies(
-    slug!,
-    comment.id,
-    showReplies,
-  );
+
+  const { mutate: deleteComment, isPending: isDeletionPending } =
+    useCommentDeletion(slug!, comment.id);
   const { mutate: like, isPending: isLikePending } = useCommentLike(
     slug!,
     comment.id,
@@ -35,6 +41,11 @@ export default function ListItem({ comment, nestingLevel }: ListItemProps) {
   const { mutate: unlike, isPending: isUnlikePending } = useCommentUnlike(
     slug!,
     comment.id,
+  );
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } = useReplies(
+    slug!,
+    comment.id,
+    showReplies,
   );
 
   const replies = data?.pages.flatMap((page) => page.results);
@@ -111,12 +122,38 @@ export default function ListItem({ comment, nestingLevel }: ListItemProps) {
                   oval
                   color="yellow"
                 >
-                  {showEditForm && "cancel "}edit
+                  {showEditForm ? "cancel editing" : "edit"}
                 </Button>
 
-                <Button oval color="red">
-                  delete
-                </Button>
+                {showDeletionConfirmation ? (
+                  <div className={styles.deletionConfirmation}>
+                    <span>Are you sure?</span>
+
+                    <Button
+                      onClick={() => deleteComment()}
+                      disabled={isDeletionPending}
+                      oval
+                      color="red"
+                    >
+                      yes, delete
+                    </Button>
+
+                    <Button
+                      onClick={() => setShowDeletionConfirmation(false)}
+                      oval
+                    >
+                      no, cancel
+                    </Button>
+                  </div>
+                ) : (
+                  <Button
+                    onClick={() => setShowDeletionConfirmation(true)}
+                    oval
+                    color="red"
+                  >
+                    delete
+                  </Button>
+                )}
               </>
             )}
           </div>

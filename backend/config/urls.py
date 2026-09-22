@@ -21,6 +21,7 @@ urlpatterns = [
     path('_allauth/', include('allauth.headless.urls')),
     path('accounts/', include('allauth.urls')),
     path('admin/', admin.site.urls),
+    path('api/algorithms/<slug:algorithm_slug>/comments/', include('comments.api.urls')),
     path('api/users/', include('users.api.urls')),
     path('api/', include('core.api.urls')),
     path('api/', include('algorithms.api.urls')),

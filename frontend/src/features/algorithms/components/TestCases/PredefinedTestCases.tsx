@@ -1,4 +1,4 @@
-import Input from "../../../../shared/components/Form/Input/Input.tsx";
+import Input from "../../../../shared/components/Form/Input.tsx";
 import Radio from "../../../../shared/components/Form/Radio.tsx";
 import { stringify } from "../../../../shared/utils/stringify.ts";
 import type { TestCase } from "../../types/test-case.ts";

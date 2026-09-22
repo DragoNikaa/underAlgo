@@ -2,8 +2,10 @@ import { useState } from "react";
 import { useParams } from "react-router-dom";
 
 import { DRFValidationError } from "../../../../shared/api/errors.ts";
+import ButtonLink from "../../../../shared/components/Button/ButtonLink.tsx";
 import Heading from "../../../../shared/components/Heading/Heading.tsx";
 import Loader from "../../../../shared/components/Loader/Loader.tsx";
+import { PATHS } from "../../../../shared/paths.ts";
 import Animation from "../../components/Animation/Animation.tsx";
 import Badges from "../../components/Badges/Badges.tsx";
 import Code from "../../components/Code/Code.tsx";
@@ -88,6 +90,10 @@ export default function AlgorithmDetailPage() {
           />
         </div>
       </article>
+
+      <div className={styles.bottomBar}>
+        <ButtonLink to={PATHS.algorithm.comments(slug!)}>comments</ButtonLink>
+      </div>
     </main>
   );
 }

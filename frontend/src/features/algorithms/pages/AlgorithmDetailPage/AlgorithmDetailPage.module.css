@@ -17,7 +17,20 @@
   gap: var(--size-6);
 }
 
+.bottomBar {
+  display: flex;
+  gap: var(--size-7);
+  align-items: center;
+  padding: var(--size-3) var(--size-7);
+  background: var(--black);
+  border-top: 1px solid var(--gray);
+}
+
 @media (max-width: 767.98px) {
+  .algorithmDetailPage {
+    margin-bottom: var(--size-9);
+  }
+
   .layout {
     display: flex;
     flex-direction: column;
@@ -41,5 +54,15 @@
 
   .description {
     order: 4;
+  }
+
+  .bottomBar {
+    position: fixed;
+    inset-inline: 0;
+    bottom: 0;
+    z-index: 70;
+    gap: var(--size-6);
+    justify-content: space-around;
+    padding-inline: var(--size-6);
   }
 }

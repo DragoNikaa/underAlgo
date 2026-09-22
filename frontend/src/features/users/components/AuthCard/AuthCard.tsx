@@ -10,7 +10,7 @@ import Button, {
 } from "../../../../shared/components/Button/Button.tsx";
 import Card from "../../../../shared/components/Card/Card.tsx";
 import FormError from "../../../../shared/components/Form/FormError/FormError.tsx";
-import Input from "../../../../shared/components/Form/Input/Input.tsx";
+import Input from "../../../../shared/components/Form/Input.tsx";
 import Heading from "../../../../shared/components/Heading/Heading.tsx";
 import styles from "./AuthCard.module.css";
 import { type Field, type FieldErrors, FIELDS, type Form } from "./fields.ts";

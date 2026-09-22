@@ -1,6 +1,6 @@
 import { DRFValidationError } from "../../../../shared/api/errors.ts";
 import FormError from "../../../../shared/components/Form/FormError/FormError.tsx";
-import Input from "../../../../shared/components/Form/Input/Input.tsx";
+import Input from "../../../../shared/components/Form/Input.tsx";
 import Radio from "../../../../shared/components/Form/Radio.tsx";
 import { getFieldErrors, ParseError } from "./errors.ts";
 import styles from "./TestCases.module.css";

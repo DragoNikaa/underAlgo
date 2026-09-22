@@ -1,4 +1,4 @@
-import type { InputType } from "../../../../shared/components/Form/Input/Input.tsx";
+import type { InputType } from "../../../../shared/components/Form/Input.tsx";
 
 type FieldName = "username" | "email" | "password" | "confirmPassword";
 

@@ -3,7 +3,7 @@ import {
   useQueryClient,
   useSuspenseQuery,
 } from "@tanstack/react-query";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import { PATHS } from "../../shared/paths.ts";
 import {
@@ -26,12 +26,26 @@ export function useSession() {
   });
 }
 
+export function useRequireAuth() {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { data: session } = useSession();
+
+  return async <T>(action: () => Promise<T>) => {
+    if (session) return action();
+
+    navigate(PATHS.user.login, {
+      state: { from: location },
+    });
+  };
+}
+
 export function useSignup() {
-  const handleAuthSuccess = useHandleAuthSuccess();
+  const invalidateQueries = useInvalidateQueries();
 
   return useMutation({
     mutationFn: signup,
-    onSuccess: handleAuthSuccess,
+    onSuccess: invalidateQueries,
   });
 }
 
@@ -43,29 +57,29 @@ export function useProviderSignupData() {
 }
 
 export function useCompleteProviderSignup(email: string) {
-  const handleAuthSuccess = useHandleAuthSuccess();
+  const invalidateQueries = useInvalidateQueries();
 
   return useMutation({
     mutationFn: (username: string) => completeProviderSignup(username, email),
-    onSuccess: handleAuthSuccess,
+    onSuccess: invalidateQueries,
   });
 }
 
 export function useLogin() {
-  const handleAuthSuccess = useHandleAuthSuccess();
+  const invalidateQueries = useInvalidateQueries();
 
   return useMutation({
     mutationFn: login,
-    onSuccess: handleAuthSuccess,
+    onSuccess: invalidateQueries,
   });
 }
 
 export function useLogout() {
-  const queryClient = useQueryClient();
+  const invalidateQueries = useInvalidateQueries();
 
   return useMutation({
     mutationFn: logout,
-    onSuccess: () => queryClient.setQueryData(["session"], null),
+    onSuccess: invalidateQueries,
   });
 }
 
@@ -77,11 +91,11 @@ export function useEmailVerification(key: string) {
 }
 
 export function usePasswordRequest() {
-  const navigateAfterAuth = useNavigateAfterAuth();
+  const navigate = useNavigate();
 
   return useMutation({
     mutationFn: requestPassword,
-    onSuccess: navigateAfterAuth,
+    onSuccess: () => navigate(PATHS.algorithm.list),
   });
 }
 
@@ -93,31 +107,19 @@ export function usePasswordResetKeyValidation(key: string) {
 }
 
 export function usePasswordReset(key: string) {
-  const handleAuthSuccess = useHandleAuthSuccess();
+  const invalidateQueries = useInvalidateQueries();
 
   return useMutation({
     mutationFn: (password: string) => resetPassword(key, password),
-    onSuccess: handleAuthSuccess,
+    onSuccess: invalidateQueries,
   });
 }
 
-function useHandleAuthSuccess() {
+function useInvalidateQueries() {
   const queryClient = useQueryClient();
-  const navigateAfterAuth = useNavigateAfterAuth();
 
-  return async () => {
-    await queryClient.invalidateQueries({
+  return () =>
+    queryClient.invalidateQueries({
       queryKey: ["session"],
     });
-
-    navigateAfterAuth();
-  };
-}
-
-function useNavigateAfterAuth() {
-  const navigate = useNavigate();
-
-  return () => {
-    navigate(PATHS.algorithm.list);
-  };
 }

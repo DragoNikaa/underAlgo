@@ -21,7 +21,7 @@ export const ENDPOINTS = {
   algorithm: {
     list: "/api/algorithms/",
     detail: (slug: string) => `/api/algorithms/${slug}/`,
-    execution: (slug: string) => `/api/algorithms/${slug}/execute/`,
+    execution: (slug: string) => ENDPOINTS.algorithm.detail(slug) + "execute/",
   },
 
   difficulty: {
@@ -30,5 +30,25 @@ export const ENDPOINTS = {
 
   category: {
     list: "/api/categories/",
+  },
+
+  comment: {
+    list: (algorithmSlug: string) =>
+      ENDPOINTS.algorithm.detail(algorithmSlug) + "comments/",
+    create: (algorithmSlug: string) =>
+      ENDPOINTS.algorithm.detail(algorithmSlug) + "comments/",
+    update: (algorithmSlug: string, id: number) =>
+      ENDPOINTS.algorithm.detail(algorithmSlug) + `comments/${id}/`,
+    delete: (algorithmSlug: string, id: number) =>
+      ENDPOINTS.algorithm.detail(algorithmSlug) + `comments/${id}/`,
+    like: (algorithmSlug: string, id: number) =>
+      ENDPOINTS.algorithm.detail(algorithmSlug) + `comments/${id}/like/`,
+
+    replies: {
+      list: (algorithmSlug: string, commentId: number) =>
+        ENDPOINTS.comment.list(algorithmSlug) + `${commentId}/replies/`,
+      create: (algorithmSlug: string, commentId: number) =>
+        ENDPOINTS.comment.create(algorithmSlug) + `${commentId}/replies/`,
+    },
   },
 };

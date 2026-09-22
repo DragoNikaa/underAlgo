@@ -1,4 +1,11 @@
-.commentListPage {
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-right: var(--size-6);
+}
+
+.content {
   margin: 0 var(--size-6) var(--size-6);
 }
 

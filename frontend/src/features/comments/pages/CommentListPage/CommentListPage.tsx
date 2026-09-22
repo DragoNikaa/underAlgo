@@ -1,7 +1,9 @@
 import { useParams, useSearchParams } from "react-router-dom";
 
+import ButtonLink from "../../../../shared/components/Button/ButtonLink.tsx";
 import Heading from "../../../../shared/components/Heading/Heading.tsx";
 import Pagination from "../../../../shared/components/Pagination/Pagination.tsx";
+import { PATHS } from "../../../../shared/paths.ts";
 import { useAlgorithm } from "../../../algorithms/hooks.ts";
 import CreationForm from "../../components/Form/CreationForm.tsx";
 import List from "../../components/List/List.tsx";
@@ -16,9 +18,15 @@ export default function CommentListPage() {
 
   return (
     <main>
-      <Heading>{algorithm.name} – comments</Heading>
+      <div className={styles.header}>
+        <Heading>{algorithm.name} – comments</Heading>
 
-      <div className={styles.commentListPage}>
+        <ButtonLink to={PATHS.algorithm.detail(slug!)} color="red">
+          X
+        </ButtonLink>
+      </div>
+
+      <div className={styles.content}>
         <CreationForm className={styles.form} />
         <List comments={data.results} />
         <Pagination pageInfo={data.page} />

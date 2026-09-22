@@ -12,5 +12,6 @@ export const PATHS = {
   algorithm: {
     list: "/algorithms/",
     detail: (slug: string) => `/algorithms/${slug}/`,
+    comments: (slug: string) => PATHS.algorithm.detail(slug) + "comments/",
   },
 };

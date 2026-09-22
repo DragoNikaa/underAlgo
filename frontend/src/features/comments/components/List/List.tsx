@@ -1,6 +1,6 @@
 import type { Comment } from "../../types/comment.ts";
 import styles from "./List.module.css";
-import ListItem from "./ListItem.tsx";
+import ListItem from "./ListItem/ListItem.tsx";
 
 interface ListProps {
   comments: Comment[];

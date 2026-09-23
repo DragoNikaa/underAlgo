@@ -1,7 +1,7 @@
 import { getCSRFToken } from "./csrf.ts";
 import { ApiError } from "./errors.ts";
 
-const API_URL_ORIGIN: string = import.meta.env.VITE_API_URL_ORIGIN;
+const API_BASE_URL: string = import.meta.env.VITE_API_BASE_URL;
 
 export const apiClient = {
   get<T>(path: string, search?: string, headers?: HeadersInit) {
@@ -55,7 +55,7 @@ async function request<T>(
 }
 
 function buildUrl(path: string, search?: string) {
-  const url = new URL(path, API_URL_ORIGIN);
+  const url = new URL(path, API_BASE_URL);
   if (search) url.search = search;
   return url;
 }

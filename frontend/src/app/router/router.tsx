@@ -7,18 +7,23 @@ import ErrorLayout from "../../layouts/ErrorLayout/ErrorLayout.tsx";
 import MainLayout from "../../layouts/MainLayout/MainLayout.tsx";
 import GuestRoute from "./GuestRoute.tsx";
 
-export const router = createBrowserRouter([
+export const router = createBrowserRouter(
+  [
+    {
+      element: <MainLayout />,
+      errorElement: <ErrorLayout />,
+      children: [
+        ...algorithmRoutes,
+        ...commentRoutes,
+        ...userRoutes,
+        {
+          element: <GuestRoute />,
+          children: [...userGuestRoutes],
+        },
+      ],
+    },
+  ],
   {
-    element: <MainLayout />,
-    errorElement: <ErrorLayout />,
-    children: [
-      ...algorithmRoutes,
-      ...commentRoutes,
-      ...userRoutes,
-      {
-        element: <GuestRoute />,
-        children: [...userGuestRoutes],
-      },
-    ],
+    basename: import.meta.env.BASE_URL,
   },
-]);
+);

@@ -6,7 +6,7 @@ const FRONTEND_BASE_URL: string = import.meta.env.VITE_FRONTEND_BASE_URL;
 
 export function getProviderCallbackUrl(location: Location) {
   const callbackUrl = new URL(
-    PATHS.user.provider.completeSignup,
+    "." + PATHS.user.provider.completeSignup,
     FRONTEND_BASE_URL,
   );
 

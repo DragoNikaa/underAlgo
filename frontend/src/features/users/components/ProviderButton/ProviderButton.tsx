@@ -42,7 +42,11 @@ export default function ProviderButton({
         name="callback_url"
         value={getProviderCallbackUrl(location)}
       />
-      <input type="hidden" name="csrfmiddlewaretoken" value={getCSRFToken()} />
+      <input
+        type="hidden"
+        name="csrfmiddlewaretoken"
+        value={getCSRFToken() ?? ""}
+      />
 
       <button
         type="submit"

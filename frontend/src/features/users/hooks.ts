@@ -5,6 +5,7 @@ import {
 } from "@tanstack/react-query";
 import { useLocation, useNavigate } from "react-router-dom";
 
+import { fetchCSRFToken } from "../../shared/api/csrf.ts";
 import { PATHS } from "../../shared/paths.ts";
 import {
   completeProviderSignup,
@@ -41,11 +42,11 @@ export function useRequireAuth() {
 }
 
 export function useSignup() {
-  const invalidateQueries = useInvalidateQueries();
+  const handleAuthSuccess = useHandleAuthSuccess();
 
   return useMutation({
     mutationFn: signup,
-    onSuccess: invalidateQueries,
+    onSuccess: handleAuthSuccess,
   });
 }
 
@@ -57,29 +58,29 @@ export function useProviderSignupData() {
 }
 
 export function useCompleteProviderSignup(email: string) {
-  const invalidateQueries = useInvalidateQueries();
+  const handleAuthSuccess = useHandleAuthSuccess();
 
   return useMutation({
     mutationFn: (username: string) => completeProviderSignup(username, email),
-    onSuccess: invalidateQueries,
+    onSuccess: handleAuthSuccess,
   });
 }
 
 export function useLogin() {
-  const invalidateQueries = useInvalidateQueries();
+  const handleAuthSuccess = useHandleAuthSuccess();
 
   return useMutation({
     mutationFn: login,
-    onSuccess: invalidateQueries,
+    onSuccess: handleAuthSuccess,
   });
 }
 
 export function useLogout() {
-  const invalidateQueries = useInvalidateQueries();
+  const handleAuthSuccess = useHandleAuthSuccess();
 
   return useMutation({
     mutationFn: logout,
-    onSuccess: invalidateQueries,
+    onSuccess: handleAuthSuccess,
   });
 }
 
@@ -107,19 +108,22 @@ export function usePasswordResetKeyValidation(key: string) {
 }
 
 export function usePasswordReset(key: string) {
-  const invalidateQueries = useInvalidateQueries();
+  const handleAuthSuccess = useHandleAuthSuccess();
 
   return useMutation({
     mutationFn: (password: string) => resetPassword(key, password),
-    onSuccess: invalidateQueries,
+    onSuccess: handleAuthSuccess,
   });
 }
 
-function useInvalidateQueries() {
+export function useHandleAuthSuccess() {
   const queryClient = useQueryClient();
 
-  return () =>
-    queryClient.invalidateQueries({
+  return async () => {
+    await fetchCSRFToken();
+
+    await queryClient.invalidateQueries({
       queryKey: ["session"],
     });
+  };
 }

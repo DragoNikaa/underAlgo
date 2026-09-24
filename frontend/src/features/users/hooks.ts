@@ -35,8 +35,9 @@ export function useRequireAuth() {
   return async <T>(action: () => Promise<T>) => {
     if (session) return action();
 
+    const next = location.pathname + location.search + location.hash;
     navigate(PATHS.user.login, {
-      state: { from: location },
+      state: { next },
     });
   };
 }

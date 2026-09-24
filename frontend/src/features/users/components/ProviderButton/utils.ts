@@ -2,21 +2,18 @@ import type { Location } from "react-router-dom";
 
 import { PATHS } from "../../../../shared/paths.ts";
 
-const FRONTEND_BASE_URL: string = import.meta.env.VITE_FRONTEND_BASE_URL;
+const BASE_URL: string = import.meta.env.BASE_URL;
 
 export function getProviderCallbackUrl(location: Location) {
   const callbackUrl = new URL(
-    "." + PATHS.user.provider.completeSignup,
-    FRONTEND_BASE_URL,
+    PATHS.user.provider.callback.slice(1),
+    window.location.origin + BASE_URL,
   );
 
-  const from = location.state?.from;
+  const next = location.state?.next;
 
-  if (from) {
-    callbackUrl.searchParams.set(
-      "next",
-      from.pathname + from.search + from.hash,
-    );
+  if (next) {
+    callbackUrl.searchParams.set("next", next);
   }
 
   return callbackUrl.toString();

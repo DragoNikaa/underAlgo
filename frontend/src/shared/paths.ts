@@ -5,6 +5,7 @@ export const PATHS = {
     resetPassword: "/reset-password/",
 
     provider: {
+      callback: "/provider-callback/",
       completeSignup: "/complete-signup/",
     },
   },

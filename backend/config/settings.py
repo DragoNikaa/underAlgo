@@ -29,9 +29,26 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = config('DJANGO_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config('DEBUG', cast=bool, default=False)
 
-ALLOWED_HOSTS: list[str] = []
+ALLOWED_HOSTS = [
+    'localhost',
+    '127.0.0.1',
+    'underalgo.eu.pythonanywhere.com',
+]
+
+FRONTEND_BASE_URL = (
+    'http://localhost:5173' if DEBUG
+    else 'https://dragonikaa.github.io/underAlgo'
+)
+
+# ======================================================================================================================
+# Security
+# ======================================================================================================================
+
+SECURE_SSL_REDIRECT = not DEBUG
+
+SECURE_HSTS_SECONDS = 0 if DEBUG else 31536000
 
 # ======================================================================================================================
 # Applications
@@ -169,6 +186,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = BASE_DIR / 'static'
 
 # ======================================================================================================================
 # Django REST framework
@@ -179,11 +197,22 @@ REST_FRAMEWORK = {
 }
 
 # ======================================================================================================================
+# Cookies
+# ======================================================================================================================
+
+CSRF_COOKIE_SECURE = not DEBUG
+CSRF_COOKIE_SAMESITE = 'Lax' if DEBUG else 'None'
+
+SESSION_COOKIE_SECURE = not DEBUG
+SESSION_COOKIE_SAMESITE = 'Lax' if DEBUG else 'None'
+
+# ======================================================================================================================
 # CORS / CSRF
 # ======================================================================================================================
 
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:5173',
+    'https://dragonikaa.github.io',
 ]
 
 CORS_ALLOW_HEADERS = [
@@ -197,6 +226,7 @@ CORS_ALLOW_CREDENTIALS = True
 
 CSRF_TRUSTED_ORIGINS = [
     'http://localhost:5173',
+    'https://dragonikaa.github.io',
 ]
 
 # ======================================================================================================================
@@ -212,26 +242,25 @@ ACCOUNT_SIGNUP_FIELDS = [
 ]
 
 ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True
-
 ACCOUNT_LOGIN_ON_PASSWORD_RESET = True
 
 HEADLESS_ONLY = True
 
 HEADLESS_FRONTEND_URLS = {
     'account_confirm_email':
-        'http://localhost:5173/verify-email/{key}',
+        f'{FRONTEND_BASE_URL}/verify-email/{{key}}',
 
     'account_reset_password':
-        'http://localhost:5173/reset-password',
+        f'{FRONTEND_BASE_URL}/reset-password',
 
     'account_reset_password_from_key':
-        'http://localhost:5173/reset-password/key/{key}',
+        f'{FRONTEND_BASE_URL}/reset-password/key/{{key}}',
 
     'account_signup':
-        'http://localhost:5173/signup',
+        f'{FRONTEND_BASE_URL}/signup',
 
     'socialaccount_login_error':
-        'http://localhost:5173/login',
+        f'{FRONTEND_BASE_URL}/login',
 }
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

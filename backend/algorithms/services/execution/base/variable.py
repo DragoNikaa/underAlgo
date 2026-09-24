@@ -4,7 +4,7 @@ T = TypeVar('T')
 
 
 class Variable(Generic[T]):
-    def __init__(self, name: str, value: T, on_change: Callable[[Variable[Any]], None] | None = None):
+    def __init__(self, name: str, value: T, on_change: 'Callable[[Variable[Any]], None] | None' = None):
         self._name = name
         self._value = value
         self._on_change = on_change

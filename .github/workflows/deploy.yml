@@ -41,8 +41,7 @@ jobs:
       - name: Build
         working-directory: frontend
         env:
-          VITE_API_BASE_URL: ${{ vars.VITE_API_BASE_URL }}
-          VITE_FRONTEND_BASE_URL: ${{ vars.VITE_FRONTEND_BASE_URL }}
+          VITE_API_URL_ORIGIN: ${{ vars.VITE_API_URL_ORIGIN }}
         run: npm run build
 
       - name: Create 404 page

@@ -7,7 +7,7 @@ import styles from "./ProviderButton.module.css";
 import { type AuthProvider, PROVIDERS } from "./providers.ts";
 import { getProviderCallbackUrl } from "./utils.ts";
 
-const API_BASE_URL: string = import.meta.env.VITE_API_BASE_URL;
+const API_URL_ORIGIN: string = import.meta.env.VITE_API_URL_ORIGIN;
 
 type AuthMode = "signup" | "login";
 
@@ -33,7 +33,7 @@ export default function ProviderButton({
   return (
     <form
       method="POST"
-      action={API_BASE_URL + ENDPOINTS.user.provider.redirect}
+      action={API_URL_ORIGIN + ENDPOINTS.user.provider.redirect}
     >
       <input type="hidden" name="provider" value={provider} />
       <input type="hidden" name="process" value={process} />

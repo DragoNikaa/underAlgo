@@ -1,0 +1,41 @@
+[
+  {
+    "pk": 1,
+    "model": "algorithms.algorithm",
+    "fields": {
+      "name": "binary search",
+      "slug": "binary-search",
+      "general_description": "Binary search is an efficient algorithm for finding an element in a sorted array. It repeatedly divides the search range in half, compares the target with the middle element, and eliminates the half that cannot contain the target. This process continues until the target is found, in which case its index is returned, or until the search range becomes empty, indicating that the target is not present in the array.",
+      "input_description": {
+        "numbers": "A non-empty list of integers sorted in non-decreasing order.",
+        "target": "The integer to search for. It may or may not be present in the list."
+      },
+      "output_description": "The index of the target element, or -1 if the target is not present in the array.",
+      "code": [
+        "def binary_search(numbers: list[int], target: int) -> int:",
+        "\tleft = 0",
+        "\tright = len(numbers) - 1",
+        "",
+        "\twhile left <= right:",
+        "\t\tmiddle = (left + right) // 2",
+        "",
+        "\t\tif numbers[middle] == target:",
+        "\t\t\treturn middle",
+        "\t\telif numbers[middle] < target:",
+        "\t\t\tleft = middle + 1",
+        "\t\telse:",
+        "\t\t\tright = middle - 1",
+        "",
+        "\treturn -1"
+      ],
+      "created_at": "2026-07-21T15:00:00Z",
+      "updated_at": "2026-07-21T15:00:00Z",
+      "difficulty": 1,
+      "categories": [
+        1,
+        2,
+        3
+      ]
+    }
+  }
+]

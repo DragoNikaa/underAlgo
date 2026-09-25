@@ -48,8 +48,6 @@ FRONTEND_BASE_URL = (
 
 SECURE_SSL_REDIRECT = not DEBUG
 
-SECURE_HSTS_SECONDS = 0 if DEBUG else 31536000
-
 # ======================================================================================================================
 # Applications
 # ======================================================================================================================
@@ -263,7 +261,30 @@ HEADLESS_FRONTEND_URLS = {
         f'{FRONTEND_BASE_URL}/login',
 }
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# ======================================================================================================================
+# Email
+# ======================================================================================================================
+
+DEFAULT_FROM_EMAIL = config('EMAIL_FROM')
+
+MAILERS = {
+    'default': {
+        'BACKEND': (
+            'django.core.mail.backends.console.EmailBackend' if DEBUG
+            else 'django.core.mail.backends.smtp.EmailBackend'
+        ),
+        'OPTIONS': (
+            {} if DEBUG
+            else {
+                'host': config('EMAIL_HOST'),
+                'port': config('EMAIL_PORT', cast=int),
+                'username': config('EMAIL_HOST_USER'),
+                'password': config('EMAIL_HOST_PASSWORD'),
+                'use_tls': True,
+            }
+        ),
+    },
+}
 
 # ======================================================================================================================
 # Social accounts

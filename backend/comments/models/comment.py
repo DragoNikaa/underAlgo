@@ -8,13 +8,13 @@ from users.models import User
 
 
 class _CommentQuerySet(models.QuerySet['Comment']):
-    def with_counts(self) -> _CommentQuerySet:
+    def with_counts(self) -> '_CommentQuerySet':
         return self.annotate(
             reply_count=Count('replies', distinct=True),
             like_count=Count('likes', distinct=True),
         )
 
-    def with_user_likes(self, user: User) -> _CommentQuerySet:
+    def with_user_likes(self, user: User) -> '_CommentQuerySet':
         return self.annotate(
             liked_by_user=Exists(
                 Comment.likes.through.objects.filter(

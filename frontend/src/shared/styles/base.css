@@ -1,18 +1,35 @@
+@font-face {
+  font-family: "Cascadia Mono";
+  font-style: normal;
+  font-weight: 200 700;
+  src: url("/public/fonts/CascadiaMono-VariableFont_wght.ttf")
+    format("truetype");
+}
+
+@font-face {
+  font-family: "Cascadia Mono";
+  font-style: italic;
+  font-weight: 200 700;
+  src: url("/public/fonts/CascadiaMono-Italic-VariableFont_wght.ttf")
+    format("truetype");
+}
+
 :root {
-  font: 16px monospace;
+  font-family: "Cascadia Mono", monospace;
+  font-size: 15px;
   color: var(--white);
   background: var(--black);
 }
 
 @media (max-width: 1023.98px) {
   :root {
-    font-size: 14px;
+    font-size: 13px;
   }
 }
 
 @media (max-width: 767.98px) {
   :root {
-    font-size: 12px;
+    font-size: 11px;
   }
 }
 
@@ -68,4 +85,8 @@ ul {
 
 pre {
   tab-size: 4;
+}
+
+code {
+  font-family: "Cascadia Mono", monospace;
 }

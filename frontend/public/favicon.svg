@@ -1,6 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="43" height="64" viewBox="0 0 43 64">
+<svg xmlns="http://www.w3.org/2000/svg" width="43" height="65" viewBox="0 0 43 65">
     <defs>
-        <linearGradient id="faviconGradient" gradientUnits="userSpaceOnUse" x1="0" y1="64" x2="43" y2="0">
+        <linearGradient id="faviconGradient" gradientUnits="userSpaceOnUse" x1="0" y1="65" x2="43" y2="0">
             <stop offset="5%" stop-color="#6fbcff"/>
             <stop offset="40%" stop-color="#e378e3"/>
             <stop offset="60%" stop-color="#e378e3"/>
@@ -8,6 +8,10 @@
         </linearGradient>
     </defs>
 
-    <text x="-3" y="63" font-family="monospace" font-size="50" font-weight="bold" fill="url(#faviconGradient)">u</text>
-    <text x="15" y="32" font-family="monospace" font-size="50" font-weight="bold" fill="url(#faviconGradient)">A</text>
+    <path d="M7.788671875 64.98828125C11.206640625 64.98828125 13.6724609375 63.03515625 14.478125 59.51953125H15.2349609375L15.601171875 64.744140625L25.3423828125 64.5V59.12890625L21.7779296875 58.591796875V38.62109375H15.16171875V50.9013671875C15.16171875 56.541015625 13.5748046875 58.7138671875 10.47421875 58.7138671875C8.081640625 58.7138671875 6.665625 57.0537109375 6.665625 54.0751953125V38.62109375H0.0494140625V55.7109375C0.0494140625 61.619140625 2.85703125 64.98828125 7.788671875 64.98828125Z"
+          fill="url(#faviconGradient)"
+    />
+    <path d="M15.00359375 34.7H21.9616015625L23.6705859375 28.1326171875H34.2662890625L35.9752734375 34.7H42.93328125L32.923515625 0.03203125H25.013359375ZM25.208671875 22.1755859375 28.7487109375 8.5037109375H29.1881640625L32.728203125 22.1755859375Z"
+          fill="url(#faviconGradient)"
+    />
 </svg>

@@ -5,7 +5,10 @@ import Search from "./Search.tsx";
 
 export default function Filters() {
   return (
-    <form className={styles.algorithmFilters}>
+    <form
+      onSubmit={(event) => event.preventDefault()}
+      className={styles.algorithmFilters}
+    >
       <Search />
       <Difficulties />
       <Categories />

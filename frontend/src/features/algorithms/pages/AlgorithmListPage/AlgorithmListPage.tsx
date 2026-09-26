@@ -26,7 +26,7 @@ export default function AlgorithmListPage() {
 
         <div className={clsx(styles.drawerButtons, "showMobile")}>
           <Button onClick={() => setOpenDrawer("filters")}>filters</Button>
-          <Button onClick={() => setOpenDrawer("column3")}>column 3</Button>
+          {/*<Button onClick={() => setOpenDrawer("column3")}>column 3</Button>*/}
         </div>
 
         <List algorithms={data.results} />
@@ -38,7 +38,7 @@ export default function AlgorithmListPage() {
         <Filters />
       </aside>
 
-      <aside className={clsx(styles.column3, "showDesktop")}>column 3</aside>
+      {/*<aside className={clsx(styles.column3, "showDesktop")}>column 3</aside>*/}
 
       <div className="showMobile">
         <Drawer

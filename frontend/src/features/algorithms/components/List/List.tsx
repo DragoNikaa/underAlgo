@@ -16,32 +16,40 @@ interface AlgorithmListProps {
 export default function List({ algorithms }: AlgorithmListProps) {
   return (
     <section>
-      <ul className={styles.algorithmList}>
-        {algorithms.map((algorithm) => (
-          <li key={algorithm.slug}>
-            <article>
-              <Card>
-                <Heading as="h2" variant="secondary">
-                  <Link to={PATHS.algorithm.detail(algorithm.slug)}>
-                    {algorithm.name}
-                  </Link>
-                </Heading>
+      {algorithms.length === 0 ? (
+        <Card>
+          <p>
+            The search returned an empty result set. Try adjusting your filters.
+          </p>
+        </Card>
+      ) : (
+        <ul className={styles.algorithmList}>
+          {algorithms.map((algorithm) => (
+            <li key={algorithm.slug}>
+              <article>
+                <Card>
+                  <Heading as="h2" variant="secondary">
+                    <Link to={PATHS.algorithm.detail(algorithm.slug)}>
+                      {algorithm.name}
+                    </Link>
+                  </Heading>
 
-                <p>{truncateText(algorithm.general_description)}</p>
+                  <p>{truncateText(algorithm.general_description)}</p>
 
-                <Badges
-                  difficulty={algorithm.difficulty}
-                  categories={algorithm.categories}
-                />
+                  <Badges
+                    difficulty={algorithm.difficulty}
+                    categories={algorithm.categories}
+                  />
 
-                <ButtonLink to={PATHS.algorithm.detail(algorithm.slug)}>
-                  explore
-                </ButtonLink>
-              </Card>
-            </article>
-          </li>
-        ))}
-      </ul>
+                  <ButtonLink to={PATHS.algorithm.detail(algorithm.slug)}>
+                    explore
+                  </ButtonLink>
+                </Card>
+              </article>
+            </li>
+          ))}
+        </ul>
+      )}
     </section>
   );
 }

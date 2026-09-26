@@ -14,7 +14,7 @@
 .divider::before,
 .divider::after {
   flex: 1;
-  height: 0.8px;
+  height: 1px;
   content: "";
   background: var(--gray);
 }

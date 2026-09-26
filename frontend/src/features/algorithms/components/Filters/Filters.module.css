@@ -17,7 +17,7 @@
 
 @media (min-width: 768px) {
   .categories {
-    max-height: 7em;
+    max-height: 20em;
     padding: 2px;
     overflow-y: auto;
     scrollbar-width: none;

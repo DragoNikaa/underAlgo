@@ -2,15 +2,14 @@
   font-family: "Cascadia Mono";
   font-style: normal;
   font-weight: 200 700;
-  src: url("/public/fonts/CascadiaMono-VariableFont_wght.ttf")
-    format("truetype");
+  src: url("/fonts/CascadiaMono-VariableFont_wght.ttf") format("truetype");
 }
 
 @font-face {
   font-family: "Cascadia Mono";
   font-style: italic;
   font-weight: 200 700;
-  src: url("/public/fonts/CascadiaMono-Italic-VariableFont_wght.ttf")
+  src: url("/fonts/CascadiaMono-Italic-VariableFont_wght.ttf")
     format("truetype");
 }
 

@@ -1,3 +1,4 @@
+import { Play } from "lucide-react";
 import { type SyntheticEvent, useState } from "react";
 
 import { DRFValidationError } from "../../../../shared/api/errors.ts";
@@ -78,7 +79,9 @@ export default function TestCases({
             error={parseError ?? executionError}
           />
 
-          <Button type="submit">execute</Button>
+          <Button type="submit">
+            <Play /> execute
+          </Button>
         </form>
       </Card>
     </section>

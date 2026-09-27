@@ -1,3 +1,4 @@
+import { PenLine, PenOff, Trash, TrashOff } from "lucide-react";
 import { type Dispatch, type SetStateAction, useState } from "react";
 import { useParams } from "react-router-dom";
 
@@ -34,24 +35,30 @@ export default function OwnerActions({
         oval
         color="yellow"
       >
-        {showEditForm ? "cancel editing" : "edit"}
+        {showEditForm ? (
+          <>
+            <PenOff /> cancel editing
+          </>
+        ) : (
+          <>
+            <PenLine /> edit
+          </>
+        )}
       </Button>
 
       {showDeletionConfirmation ? (
         <div className={styles.deletionConfirmation}>
-          <span>Are you sure?</span>
-
+          Are you sure?
           <Button
             onClick={() => deleteComment()}
             disabled={isPending}
             oval
             color="red"
           >
-            yes, delete
+            <Trash /> yes, delete
           </Button>
-
           <Button onClick={() => setShowDeletionConfirmation(false)} oval>
-            no, cancel
+            <TrashOff /> no, cancel
           </Button>
         </div>
       ) : (
@@ -60,7 +67,7 @@ export default function OwnerActions({
           oval
           color="red"
         >
-          delete
+          <Trash /> delete
         </Button>
       )}
     </>

@@ -6,9 +6,10 @@ import styles from "./Button.module.css";
 export type ButtonColor = "blue" | "blueInverse" | "green" | "yellow" | "red";
 
 interface ButtonProps extends ComponentPropsWithoutRef<"button"> {
-  size?: "large";
+  size?: "small" | "large";
   oval?: boolean;
   color?: ButtonColor;
+  iconButton?: boolean;
 }
 
 export default function Button({
@@ -16,6 +17,7 @@ export default function Button({
   size,
   oval = false,
   color,
+  iconButton = false,
   className,
   children,
   ...rest
@@ -27,6 +29,7 @@ export default function Button({
         styles.button,
         size && styles[size],
         oval && styles.oval,
+        iconButton && styles.iconButton,
         color && styles[color],
         className,
       )}

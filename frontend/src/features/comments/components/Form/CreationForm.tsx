@@ -1,3 +1,4 @@
+import { MessageSquareReply, MessageSquareShare } from "lucide-react";
 import { type ComponentPropsWithoutRef, useState } from "react";
 import { useParams } from "react-router-dom";
 
@@ -35,7 +36,17 @@ export default function CreationForm({
         (parentCommentId ? `replyTo${parentCommentId}` : "comment") + "Error"
       }
       placeholder={`Write your ${parentCommentId ? "reply" : "comment"} here…`}
-      buttonLabel={parentCommentId ? "reply" : "comment"}
+      buttonLabel={
+        parentCommentId ? (
+          <>
+            <MessageSquareReply /> reply
+          </>
+        ) : (
+          <>
+            <MessageSquareShare /> comment
+          </>
+        )
+      }
       className={className}
     />
   );

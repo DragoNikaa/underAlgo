@@ -1,3 +1,5 @@
+import { LogOut } from "lucide-react";
+
 import { useLogout } from "../../../../features/users/hooks.ts";
 import Button from "../../../../shared/components/Button/Button.tsx";
 import ButtonLink from "../../../../shared/components/Button/ButtonLink.tsx";
@@ -36,7 +38,7 @@ export default function AuthenticatedNav({
           color="blueInverse"
           className={styles.userNavItem}
         >
-          log out
+          <LogOut /> log out
         </Button>
       </li>
     </ul>

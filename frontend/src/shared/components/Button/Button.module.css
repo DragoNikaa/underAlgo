@@ -4,6 +4,7 @@
   --muted-color: var(--gray-light);
   position: relative;
   display: flex;
+  gap: 0.5rem;
   align-items: center;
   justify-content: center;
   width: fit-content;
@@ -22,6 +23,10 @@
     color 0.25s ease;
 }
 
+.small {
+  font-size: 0.8rem;
+}
+
 .large {
   font-size: 1.2rem;
 }
@@ -30,6 +35,10 @@
   --color: var(--white);
   --background: var(--gray-dark);
   border-radius: 2em;
+}
+
+.iconButton {
+  padding-inline: 0.5em;
 }
 
 .blue {

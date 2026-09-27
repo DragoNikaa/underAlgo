@@ -1,3 +1,4 @@
+import { ArrowLeft, ArrowRight, Undo2 } from "lucide-react";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 
@@ -55,18 +56,18 @@ export default function Animation({
 
         <div className={styles.buttons}>
           <Button onClick={onPrevious} disabled={step <= 0 || isAnimating}>
-            previous
+            <ArrowLeft /> prev
           </Button>
 
           <Button onClick={onNext} disabled={step >= lastStep || isAnimating}>
-            next
+            next <ArrowRight />
           </Button>
 
           <Button
             onClick={() => window.location.reload()}
             className={styles.backButton}
           >
-            &lt; back
+            <Undo2 /> back
           </Button>
         </div>
       </Card>

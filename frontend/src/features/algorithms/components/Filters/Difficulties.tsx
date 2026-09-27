@@ -1,4 +1,5 @@
 import clsx from "clsx";
+import { Eraser } from "lucide-react";
 
 import buttonStyles from "../../../../shared/components/Button/Button.module.css";
 import Button from "../../../../shared/components/Button/Button.tsx";
@@ -53,9 +54,10 @@ export default function Difficulties() {
 
         <Button
           onClick={() => removeParam("difficulty")}
+          size="small"
           className={styles.clearButton}
         >
-          clear
+          <Eraser /> clear
         </Button>
       </Card>
     </fieldset>

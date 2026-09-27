@@ -1,4 +1,5 @@
 import clsx from "clsx";
+import { Eraser } from "lucide-react";
 
 import buttonStyles from "../../../../shared/components/Button/Button.module.css";
 import Button from "../../../../shared/components/Button/Button.tsx";
@@ -43,9 +44,10 @@ export default function Categories() {
 
         <Button
           onClick={() => removeParam("category")}
+          size="small"
           className={styles.clearButton}
         >
-          clear
+          <Eraser /> clear
         </Button>
       </Card>
     </fieldset>

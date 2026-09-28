@@ -1,13 +1,17 @@
+import { ArrowLeft } from "lucide-react";
 import { type SyntheticEvent, useState } from "react";
 
-import { AllauthValidationError } from "../api/errors.ts";
-import AuthCard from "../components/AuthCard/AuthCard.tsx";
+import ButtonLink from "../../../../shared/components/Button/ButtonLink.tsx";
+import { PATHS } from "../../../../shared/paths.ts";
+import { AllauthValidationError } from "../../api/errors.ts";
+import AuthCard from "../../components/AuthCard/AuthCard.tsx";
 import type {
   Field,
   FieldErrors,
   Form,
-} from "../components/AuthCard/fields.ts";
-import { usePasswordRequest } from "../hooks.ts";
+} from "../../components/AuthCard/fields.ts";
+import { usePasswordRequest } from "../../hooks.ts";
+import styles from "./RequestPasswordPage.module.css";
 
 const fields: Field[] = [{ name: "email" }];
 
@@ -38,6 +42,14 @@ export default function RequestPasswordPage() {
       onFormSubmit={handleSubmit}
       isSubmitting={isPending}
       submitButtonLabel="send reset email"
-    />
+    >
+      <ButtonLink
+        to={PATHS.user.login}
+        size="small"
+        className={styles.backButton}
+      >
+        <ArrowLeft /> back to login
+      </ButtonLink>
+    </AuthCard>
   );
 }

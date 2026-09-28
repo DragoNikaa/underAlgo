@@ -43,7 +43,9 @@ export function useRequireAuth() {
 }
 
 export function useSignup() {
-  const handleAuthSuccess = useHandleAuthSuccess();
+  const handleAuthSuccess = useHandleAuthSuccess(
+    PATHS.user.email.verificationSent,
+  );
 
   return useMutation({
     mutationFn: signup,
@@ -93,11 +95,8 @@ export function useEmailVerification(key: string) {
 }
 
 export function usePasswordRequest() {
-  const navigate = useNavigate();
-
   return useMutation({
     mutationFn: requestPassword,
-    onSuccess: () => navigate(PATHS.algorithm.list),
   });
 }
 
@@ -117,10 +116,13 @@ export function usePasswordReset(key: string) {
   });
 }
 
-export function useHandleAuthSuccess() {
+export function useHandleAuthSuccess(navigateTo?: string) {
+  const navigate = useNavigate();
   const queryClient = useQueryClient();
 
   return async () => {
+    if (navigateTo) navigate(navigateTo);
+
     await fetchCSRFToken();
 
     await queryClient.invalidateQueries({

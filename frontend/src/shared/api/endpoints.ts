@@ -1,20 +1,25 @@
+const ALLAUTH_BASE_URL = "/_allauth/browser/v1/auth";
+
 export const ENDPOINTS = {
   csrf: "/api/csrf/",
 
   user: {
-    session: "/_allauth/browser/v1/auth/session",
-    signup: "/_allauth/browser/v1/auth/signup",
-    login: "/_allauth/browser/v1/auth/login",
-    verifyEmail: "/_allauth/browser/v1/auth/email/verify",
+    session: `${ALLAUTH_BASE_URL}/session`,
+    signup: `${ALLAUTH_BASE_URL}/signup`,
+    login: `${ALLAUTH_BASE_URL}/login`,
+
+    email: {
+      verify: `${ALLAUTH_BASE_URL}/email/verify`,
+    },
 
     password: {
-      request: "/_allauth/browser/v1/auth/password/request",
-      reset: "/_allauth/browser/v1/auth/password/reset",
+      request: `${ALLAUTH_BASE_URL}/password/request`,
+      reset: `${ALLAUTH_BASE_URL}/password/reset`,
     },
 
     provider: {
-      redirect: "/_allauth/browser/v1/auth/provider/redirect",
-      signup: "/_allauth/browser/v1/auth/provider/signup",
+      redirect: `${ALLAUTH_BASE_URL}/provider/redirect`,
+      signup: `${ALLAUTH_BASE_URL}/provider/signup`,
     },
   },
 

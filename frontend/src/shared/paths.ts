@@ -2,11 +2,18 @@ export const PATHS = {
   user: {
     signup: "/signup/",
     login: "/login/",
-    resetPassword: "/reset-password/",
+
+    email: {
+      verificationSent: "/email/verify/sent/",
+    },
+
+    password: {
+      reset: "/password/reset/",
+    },
 
     provider: {
-      callback: "/provider-callback/",
-      completeSignup: "/complete-signup/",
+      callback: "/provider/callback/",
+      completeSignup: "/signup/complete/",
     },
   },
 

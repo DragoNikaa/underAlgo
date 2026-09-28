@@ -1,13 +1,16 @@
 import { type SyntheticEvent, useState } from "react";
 
-import { AllauthValidationError } from "../api/errors.ts";
-import AuthCard from "../components/AuthCard/AuthCard.tsx";
+import { AllauthValidationError } from "../../api/errors.ts";
+import AuthForm from "../../components/AuthForm/AuthForm.tsx";
 import type {
   Field,
   FieldErrors,
   Form,
-} from "../components/AuthCard/fields.ts";
-import { useCompleteProviderSignup, useProviderSignupData } from "../hooks.ts";
+} from "../../components/AuthForm/fields.ts";
+import {
+  useCompleteProviderSignup,
+  useProviderSignupData,
+} from "../../hooks.ts";
 
 const fields: Field[] = [
   { name: "username" },
@@ -41,7 +44,7 @@ export default function CompleteSignupPage() {
   }
 
   return (
-    <AuthCard
+    <AuthForm
       heading="complete sign up"
       fields={fields}
       fieldErrors={fieldErrors}

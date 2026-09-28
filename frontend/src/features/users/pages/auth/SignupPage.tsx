@@ -3,16 +3,16 @@ import { type SyntheticEvent, useState } from "react";
 import ButtonLink from "../../../../shared/components/Button/ButtonLink.tsx";
 import { PATHS } from "../../../../shared/paths.ts";
 import { AllauthValidationError } from "../../api/errors.ts";
-import AuthCard from "../../components/AuthCard/AuthCard.tsx";
+import AuthForm from "../../components/AuthForm/AuthForm.tsx";
 import type {
   Field,
   FieldErrors,
   Form,
-} from "../../components/AuthCard/fields.ts";
+} from "../../components/AuthForm/fields.ts";
 import ProviderButton from "../../components/ProviderButton/ProviderButton.tsx";
 import { useSignup } from "../../hooks.ts";
 import { getPasswordMatchError } from "../utils.ts";
-import styles from "./LoginSignupPages.module.css";
+import styles from "./AuthPages.module.css";
 
 const fields: Field[] = [
   { name: "username" },
@@ -51,21 +51,25 @@ export default function SignupPage() {
 
     if (passwordMatchError) return;
 
-    signup({
-      username: form.username!,
-      email: form.email!,
-      password: form.password!,
-    });
-
-    setForm((prev) => ({
-      ...prev,
-      password: "",
-      confirmPassword: "",
-    }));
+    signup(
+      {
+        username: form.username!,
+        email: form.email!,
+        password: form.password!,
+      },
+      {
+        onError: () =>
+          setForm((prev) => ({
+            ...prev,
+            password: "",
+            confirmPassword: "",
+          })),
+      },
+    );
   }
 
   return (
-    <AuthCard
+    <AuthForm
       heading="sign up"
       fields={fields}
       fieldErrors={fieldErrors}
@@ -89,6 +93,6 @@ export default function SignupPage() {
           log in
         </ButtonLink>
       </div>
-    </AuthCard>
+    </AuthForm>
   );
 }

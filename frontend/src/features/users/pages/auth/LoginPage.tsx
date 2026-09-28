@@ -4,15 +4,15 @@ import { Link } from "react-router-dom";
 import ButtonLink from "../../../../shared/components/Button/ButtonLink.tsx";
 import { PATHS } from "../../../../shared/paths.ts";
 import { AllauthValidationError } from "../../api/errors.ts";
-import AuthCard from "../../components/AuthCard/AuthCard.tsx";
+import AuthForm from "../../components/AuthForm/AuthForm.tsx";
 import type {
   Field,
   FieldErrors,
   Form,
-} from "../../components/AuthCard/fields.ts";
+} from "../../components/AuthForm/fields.ts";
 import ProviderButton from "../../components/ProviderButton/ProviderButton.tsx";
 import { useLogin } from "../../hooks.ts";
-import styles from "./LoginSignupPages.module.css";
+import styles from "./AuthPages.module.css";
 
 const fields: Field[] = [{ name: "username" }, { name: "password" }];
 
@@ -35,19 +35,23 @@ export default function LoginPage() {
   function handleSubmit(event: SyntheticEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    login({
-      username: form.username!,
-      password: form.password!,
-    });
-
-    setForm((prev) => ({
-      ...prev,
-      password: "",
-    }));
+    login(
+      {
+        username: form.username!,
+        password: form.password!,
+      },
+      {
+        onError: () =>
+          setForm((prev) => ({
+            ...prev,
+            password: "",
+          })),
+      },
+    );
   }
 
   return (
-    <AuthCard
+    <AuthForm
       heading="log in"
       fields={fields}
       fieldErrors={fieldErrors}
@@ -56,7 +60,10 @@ export default function LoginPage() {
       onFormSubmit={handleSubmit}
       isSubmitting={isPending}
     >
-      <Link to={PATHS.user.resetPassword} className={styles.forgotPasswordLink}>
+      <Link
+        to={PATHS.user.password.reset}
+        className={styles.forgotPasswordLink}
+      >
         forgot password?
       </Link>
 
@@ -74,6 +81,6 @@ export default function LoginPage() {
           sign up
         </ButtonLink>
       </div>
-    </AuthCard>
+    </AuthForm>
   );
 }

@@ -246,13 +246,13 @@ HEADLESS_ONLY = True
 
 HEADLESS_FRONTEND_URLS = {
     'account_confirm_email':
-        f'{FRONTEND_BASE_URL}/verify-email/{{key}}',
+        f'{FRONTEND_BASE_URL}/email/verify/key/{{key}}',
 
     'account_reset_password':
-        f'{FRONTEND_BASE_URL}/reset-password',
+        f'{FRONTEND_BASE_URL}/password/reset',
 
     'account_reset_password_from_key':
-        f'{FRONTEND_BASE_URL}/reset-password/key/{{key}}',
+        f'{FRONTEND_BASE_URL}/password/reset/key/{{key}}',
 
     'account_signup':
         f'{FRONTEND_BASE_URL}/signup',

@@ -1,5 +1,6 @@
 import ButtonLink from "../../../../shared/components/Button/ButtonLink.tsx";
 import { PATHS } from "../../../../shared/paths.ts";
+import { difficultyColors } from "../../config/difficulty-colors.ts";
 import type { Category } from "../../types/category.ts";
 import type { Difficulty } from "../../types/difficulty.ts";
 import styles from "./Badges.module.css";
@@ -10,12 +11,6 @@ interface BadgesProps {
 }
 
 export default function Badges({ difficulty, categories }: BadgesProps) {
-  const difficultyToColor: Record<string, "green" | "yellow" | "red"> = {
-    easy: "green",
-    medium: "yellow",
-    hard: "red",
-  };
-
   return (
     <ul className={styles.algorithmBadges}>
       <li>
@@ -25,7 +20,7 @@ export default function Badges({ difficulty, categories }: BadgesProps) {
             search: `?difficulty=${difficulty.slug}`,
           }}
           oval
-          color={difficultyToColor[difficulty.slug]}
+          color={difficultyColors[difficulty.slug]}
         >
           {difficulty.name}
         </ButtonLink>

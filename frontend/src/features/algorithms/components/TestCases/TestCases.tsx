@@ -18,12 +18,14 @@ export type SelectedTestCase = number | typeof CUSTOM_TEST_CASE;
 interface TestCasesProps {
   testCases: TestCase[];
   execute: (body: Record<string, unknown>) => void;
+  isPending: boolean;
   executionError: DRFValidationError | null;
 }
 
 export default function TestCases({
   testCases,
   execute,
+  isPending,
   executionError,
 }: TestCasesProps) {
   const [selectedTestCase, setSelectedTestCase] = useState<SelectedTestCase>(0);
@@ -79,7 +81,7 @@ export default function TestCases({
             error={parseError ?? executionError}
           />
 
-          <Button type="submit">
+          <Button type="submit" disabled={isPending}>
             <Play /> execute
           </Button>
         </form>

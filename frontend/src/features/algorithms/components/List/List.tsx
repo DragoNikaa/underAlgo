@@ -9,11 +9,11 @@ import type { AlgorithmListItem } from "../../types/algorithm.ts";
 import Badges from "../Badges/Badges.tsx";
 import styles from "./List.module.css";
 
-interface AlgorithmListProps {
+interface ListProps {
   algorithms: AlgorithmListItem[];
 }
 
-export default function List({ algorithms }: AlgorithmListProps) {
+export default function List({ algorithms }: ListProps) {
   return (
     <section>
       {algorithms.length === 0 ? (

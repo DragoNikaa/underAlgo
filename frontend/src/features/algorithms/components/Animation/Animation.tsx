@@ -9,7 +9,7 @@ import { stringify } from "../../../../shared/utils/stringify.ts";
 import { algorithmComponents } from "../../config/algorithm-components.tsx";
 import styles from "./Animation.module.css";
 
-interface AlgorithmAnimationProps {
+interface AnimationProps {
   step: number;
   lastStep: number;
   input: Record<string, unknown>;
@@ -29,7 +29,7 @@ export default function Animation({
   output,
   onPrevious,
   onNext,
-}: AlgorithmAnimationProps) {
+}: AnimationProps) {
   const { slug } = useParams();
   const [isAnimating, setIsAnimating] = useState(false);
   const AlgorithmComponent = algorithmComponents[slug!];

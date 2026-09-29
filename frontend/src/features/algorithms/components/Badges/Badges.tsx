@@ -4,15 +4,12 @@ import type { Category } from "../../types/category.ts";
 import type { Difficulty } from "../../types/difficulty.ts";
 import styles from "./Badges.module.css";
 
-interface AlgorithmBadgesProps {
+interface BadgesProps {
   difficulty: Difficulty;
   categories: Category[];
 }
 
-export default function Badges({
-  difficulty,
-  categories,
-}: AlgorithmBadgesProps) {
+export default function Badges({ difficulty, categories }: BadgesProps) {
   const difficultyToColor: Record<string, "green" | "yellow" | "red"> = {
     easy: "green",
     medium: "yellow",

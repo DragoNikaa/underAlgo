@@ -2,7 +2,7 @@ import Card from "../../../../shared/components/Card/Card.tsx";
 import Heading from "../../../../shared/components/Heading/Heading.tsx";
 import styles from "./Description.module.css";
 
-interface AlgorithmDescriptionProps {
+interface DescriptionProps {
   generalDescription: string;
   inputDescription: Record<string, string>;
   outputDescription: string;
@@ -12,7 +12,7 @@ export default function Description({
   generalDescription,
   inputDescription,
   outputDescription,
-}: AlgorithmDescriptionProps) {
+}: DescriptionProps) {
   return (
     <section>
       <Card>

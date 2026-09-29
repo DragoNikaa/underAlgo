@@ -4,12 +4,12 @@ import hljs from "highlight.js";
 import Card from "../../../../shared/components/Card/Card.tsx";
 import styles from "./Code.module.css";
 
-interface AlgorithmCodeProps {
+interface CodeProps {
   code: string[];
   currentLine?: number;
 }
 
-export default function Code({ code, currentLine }: AlgorithmCodeProps) {
+export default function Code({ code, currentLine }: CodeProps) {
   return (
     <section>
       <Card className={styles.algorithmCode}>

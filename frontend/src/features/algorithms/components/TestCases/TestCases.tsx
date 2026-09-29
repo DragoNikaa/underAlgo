@@ -15,7 +15,7 @@ import { parseBody } from "./utils.ts";
 export const CUSTOM_TEST_CASE = "custom";
 export type SelectedTestCase = number | typeof CUSTOM_TEST_CASE;
 
-interface AlgorithmTestCasesProps {
+interface TestCasesProps {
   testCases: TestCase[];
   execute: (body: Record<string, unknown>) => void;
   executionError: DRFValidationError | null;
@@ -25,7 +25,7 @@ export default function TestCases({
   testCases,
   execute,
   executionError,
-}: AlgorithmTestCasesProps) {
+}: TestCasesProps) {
   const [selectedTestCase, setSelectedTestCase] = useState<SelectedTestCase>(0);
   const [customBody, setCustomBody] = useState<Record<string, string>>({});
   const [parseError, setParseError] = useState<ParseError | null>(null);

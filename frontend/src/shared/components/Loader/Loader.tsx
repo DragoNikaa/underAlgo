@@ -1,26 +1,8 @@
-import clsx from "clsx";
-import { useEffect } from "react";
-
 import styles from "./Loader.module.css";
 
-interface LoaderProps {
-  overlay?: boolean;
-}
-
-export default function Loader({ overlay = false }: LoaderProps) {
-  useEffect(() => {
-    if (!overlay) return;
-
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-
-    return () => {
-      document.body.style.overflow = previousOverflow;
-    };
-  }, [overlay]);
-
+export default function Loader() {
   return (
-    <div className={clsx(styles.wrapper, overlay && styles.overlay)}>
+    <div className={styles.wrapper}>
       <svg viewBox="0 0 100 100" className={styles.loader}>
         <defs>
           <linearGradient

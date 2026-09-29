@@ -5,7 +5,6 @@ import { useParams } from "react-router-dom";
 import { DRFValidationError } from "../../../../shared/api/errors.ts";
 import ButtonLink from "../../../../shared/components/Button/ButtonLink.tsx";
 import Heading from "../../../../shared/components/Heading/Heading.tsx";
-import Loader from "../../../../shared/components/Loader/Loader.tsx";
 import { PATHS } from "../../../../shared/paths.ts";
 import Animation from "../../components/Animation/Animation.tsx";
 import Badges from "../../components/Badges/Badges.tsx";
@@ -38,8 +37,6 @@ export default function AlgorithmDetailPage() {
         <Heading>{algorithm.name}</Heading>
 
         <div className={styles.algorithmDetailPage}>
-          {isPending && <Loader overlay />}
-
           <div className={styles.layout}>
             <div className={styles.column}>
               <div className={styles.animation}>
@@ -47,6 +44,7 @@ export default function AlgorithmDetailPage() {
                   <TestCases
                     testCases={algorithm.test_cases}
                     execute={execute}
+                    isPending={isPending}
                     executionError={error}
                   />
                 ) : (

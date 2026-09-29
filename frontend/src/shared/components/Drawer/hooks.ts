@@ -1,20 +1,22 @@
 import { useEffect } from "react";
 
-export function useLockBodyAndEscape(isOpen: boolean, onClose: () => void) {
+export function useDrawerEffects(isOpen: boolean, onClose: () => void) {
   useEffect(() => {
     if (!isOpen) return;
 
-    const closeOnEscape = (event: KeyboardEvent) => {
-      if (event.key === "Escape") onClose();
+    const closeOnKeydown = (event: KeyboardEvent) => {
+      if (event.key === "Escape" || event.key == "Enter") {
+        onClose();
+      }
     };
 
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
-    window.addEventListener("keydown", closeOnEscape);
+    window.addEventListener("keydown", closeOnKeydown);
 
     return () => {
       document.body.style.overflow = previousOverflow;
-      window.removeEventListener("keydown", closeOnEscape);
+      window.removeEventListener("keydown", closeOnKeydown);
     };
   }, [isOpen, onClose]);
 }

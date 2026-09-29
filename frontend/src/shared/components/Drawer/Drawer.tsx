@@ -4,7 +4,7 @@ import { type ComponentPropsWithoutRef } from "react";
 
 import Button from "../Button/Button.tsx";
 import styles from "./Drawer.module.css";
-import { useLockBodyAndEscape } from "./hooks.ts";
+import { useDrawerEffects } from "./hooks.ts";
 
 interface DrawerProps extends ComponentPropsWithoutRef<"aside"> {
   side: "left" | "right";
@@ -21,7 +21,7 @@ export default function Drawer({
   className,
   children,
 }: DrawerProps) {
-  useLockBodyAndEscape(isOpen, onClose);
+  useDrawerEffects(isOpen, onClose);
 
   return (
     <>
@@ -42,6 +42,7 @@ export default function Drawer({
         >
           <X />
         </Button>
+
         {children}
       </aside>
 

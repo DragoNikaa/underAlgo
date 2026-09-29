@@ -1,4 +1,5 @@
 import clsx from "clsx";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 import { useSearchParamsActions } from "../../hooks/search-params.ts";
 import type { PaginationInfo } from "../../types/pagination.ts";
@@ -25,12 +26,25 @@ export default function Pagination({ pageInfo }: PaginationProps) {
       <div
         className={clsx(styles.buttons, pageInfo.current <= 1 && "invisible")}
       >
-        <Button onClick={() => updatePageParam(1)} oval>
-          &lt;&lt;
+        <Button
+          onClick={() => updatePageParam(1)}
+          aria-label="first page"
+          oval
+          iconButton
+        >
+          <ChevronLeft />
+          <span className={styles.secondChevron}>
+            <ChevronLeft />
+          </span>
         </Button>
 
-        <Button onClick={() => updatePageParam(pageInfo.current - 1)} oval>
-          &lt;
+        <Button
+          onClick={() => updatePageParam(pageInfo.current - 1)}
+          aria-label="previous page"
+          oval
+          iconButton
+        >
+          <ChevronLeft />
         </Button>
       </div>
 
@@ -44,12 +58,25 @@ export default function Pagination({ pageInfo }: PaginationProps) {
           pageInfo.current >= pageInfo.total && "invisible",
         )}
       >
-        <Button onClick={() => updatePageParam(pageInfo.current + 1)} oval>
-          &gt;
+        <Button
+          onClick={() => updatePageParam(pageInfo.current + 1)}
+          aria-label="next page"
+          oval
+          iconButton
+        >
+          <ChevronRight />
         </Button>
 
-        <Button onClick={() => updatePageParam(pageInfo.total)} oval>
-          &gt;&gt;
+        <Button
+          onClick={() => updatePageParam(pageInfo.total)}
+          aria-label="last page"
+          oval
+          iconButton
+        >
+          <ChevronRight />
+          <span className={styles.secondChevron}>
+            <ChevronRight />
+          </span>
         </Button>
       </div>
     </nav>

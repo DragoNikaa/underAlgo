@@ -89,3 +89,9 @@ pre {
 code {
   font-family: "Cascadia Mono", monospace;
 }
+
+svg.lucide {
+  width: 1.5em;
+  height: 1.5em;
+  stroke-width: 0.2em;
+}

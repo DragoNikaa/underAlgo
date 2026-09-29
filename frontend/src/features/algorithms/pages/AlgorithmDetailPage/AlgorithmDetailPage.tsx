@@ -1,3 +1,4 @@
+import { MessagesSquare } from "lucide-react";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 
@@ -92,7 +93,9 @@ export default function AlgorithmDetailPage() {
       </article>
 
       <div className={styles.bottomBar}>
-        <ButtonLink to={PATHS.algorithm.comments(slug!)}>comments</ButtonLink>
+        <ButtonLink to={PATHS.algorithm.comments(slug!)}>
+          <MessagesSquare /> comments
+        </ButtonLink>
       </div>
     </main>
   );

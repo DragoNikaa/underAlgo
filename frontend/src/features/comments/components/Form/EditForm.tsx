@@ -1,3 +1,4 @@
+import { Save } from "lucide-react";
 import { type ComponentPropsWithoutRef, useState } from "react";
 import { useParams } from "react-router-dom";
 
@@ -37,7 +38,11 @@ export default function EditForm({
       error={error}
       errorId={`comment${commentId}Error`}
       placeholder="Edit your comment here…"
-      buttonLabel="save"
+      buttonLabel={
+        <>
+          <Save /> save
+        </>
+      }
       className={className}
     />
   );

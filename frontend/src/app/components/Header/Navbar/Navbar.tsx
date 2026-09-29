@@ -1,3 +1,4 @@
+import { Menu } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
@@ -23,12 +24,19 @@ export default function Navbar() {
         </div>
 
         <div className="showMobile">
-          <Button onClick={() => setIsNavOpen(true)}>☰</Button>
+          <Button
+            onClick={() => setIsNavOpen(true)}
+            aria-label="open menu"
+            iconButton
+          >
+            <Menu />
+          </Button>
 
           <Drawer
             side="right"
             isOpen={isNavOpen}
             onClose={() => setIsNavOpen(false)}
+            name="menu"
           >
             <Nav onNavigate={() => setIsNavOpen(false)} />
           </Drawer>

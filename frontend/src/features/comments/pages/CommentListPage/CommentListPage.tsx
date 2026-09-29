@@ -1,3 +1,4 @@
+import { X } from "lucide-react";
 import { useParams, useSearchParams } from "react-router-dom";
 
 import ButtonLink from "../../../../shared/components/Button/ButtonLink.tsx";
@@ -21,8 +22,13 @@ export default function CommentListPage() {
       <div className={styles.header}>
         <Heading>{algorithm.name} – comments</Heading>
 
-        <ButtonLink to={PATHS.algorithm.detail(slug!)} color="red">
-          X
+        <ButtonLink
+          to={PATHS.algorithm.detail(slug!)}
+          aria-label="close comments"
+          iconButton
+          color="red"
+        >
+          <X />
         </ButtonLink>
       </div>
 

@@ -1,3 +1,4 @@
+import { EyeOff, MessageSquareMore, Reply, ThumbsUp, X } from "lucide-react";
 import type { Dispatch, SetStateAction } from "react";
 import { useParams } from "react-router-dom";
 
@@ -58,7 +59,7 @@ export default function Actions({
           oval
           color="blueInverse"
         >
-          liked
+          <ThumbsUp /> liked
         </Button>
       ) : (
         <Button
@@ -67,7 +68,7 @@ export default function Actions({
           oval
           color="blue"
         >
-          like
+          <ThumbsUp /> like
         </Button>
       )}
 
@@ -75,14 +76,29 @@ export default function Actions({
         <>
           {comment.reply_count > 0 && (
             <Button onClick={() => setShowReplies((show) => !show)} oval>
-              {showReplies
-                ? "hide replies"
-                : `show ${comment.reply_count} ${comment.reply_count === 1 ? "reply" : "replies"}`}
+              {showReplies ? (
+                <>
+                  <EyeOff /> hide replies
+                </>
+              ) : (
+                <>
+                  <MessageSquareMore /> show {comment.reply_count}{" "}
+                  {comment.reply_count === 1 ? "reply" : "replies"}
+                </>
+              )}
             </Button>
           )}
 
           <Button onClick={() => setShowReplyForm((show) => !show)} oval>
-            {showReplyForm && "cancel "}reply
+            {showReplyForm ? (
+              <>
+                <X /> cancel reply
+              </>
+            ) : (
+              <>
+                <Reply /> reply
+              </>
+            )}
           </Button>
         </>
       )}

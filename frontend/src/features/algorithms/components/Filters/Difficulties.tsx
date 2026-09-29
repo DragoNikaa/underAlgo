@@ -1,4 +1,5 @@
 import clsx from "clsx";
+import { Eraser } from "lucide-react";
 
 import buttonStyles from "../../../../shared/components/Button/Button.module.css";
 import Button from "../../../../shared/components/Button/Button.tsx";
@@ -6,18 +7,13 @@ import Card from "../../../../shared/components/Card/Card.tsx";
 import Radio from "../../../../shared/components/Form/Radio.tsx";
 import Heading from "../../../../shared/components/Heading/Heading.tsx";
 import { useSearchParamsActions } from "../../../../shared/hooks/search-params.ts";
+import { difficultyColors } from "../../config/difficulty-colors.ts";
 import { useDifficulties } from "../../hooks.ts";
 import styles from "./Filters.module.css";
 
 export default function Difficulties() {
   const { data: difficulties } = useDifficulties();
   const { params, setParam, removeParam } = useSearchParamsActions();
-
-  const difficultyToColor: Record<string, "green" | "yellow" | "red"> = {
-    easy: "green",
-    medium: "yellow",
-    hard: "red",
-  };
 
   return (
     <fieldset>
@@ -39,7 +35,7 @@ export default function Difficulties() {
               className={clsx(
                 buttonStyles.button,
                 buttonStyles.oval,
-                buttonStyles[difficultyToColor[difficulty.slug]],
+                buttonStyles[difficultyColors[difficulty.slug]],
               )}
             >
               {difficulty.name}
@@ -53,9 +49,10 @@ export default function Difficulties() {
 
         <Button
           onClick={() => removeParam("difficulty")}
+          size="small"
           className={styles.clearButton}
         >
-          clear
+          <Eraser /> clear
         </Button>
       </Card>
     </fieldset>

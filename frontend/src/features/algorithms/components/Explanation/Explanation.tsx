@@ -4,13 +4,11 @@ import Card from "../../../../shared/components/Card/Card.tsx";
 import Heading from "../../../../shared/components/Heading/Heading.tsx";
 import { styleVariables } from "./utils.tsx";
 
-interface AlgorithmExplanationProps {
+interface ExplanationProps {
   explanation: string;
 }
 
-export default function Explanation({
-  explanation,
-}: AlgorithmExplanationProps) {
+export default function Explanation({ explanation }: ExplanationProps) {
   const { slug } = useParams();
 
   return (

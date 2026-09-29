@@ -92,7 +92,7 @@ export async function logout() {
 
 export async function verifyEmail(key: string) {
   try {
-    await apiClient.post<void>(ENDPOINTS.user.verifyEmail, { key });
+    await apiClient.post<void>(ENDPOINTS.user.email.verify, { key });
   } catch (error) {
     if (!isNotAuthenticatedError(error)) {
       throw error;

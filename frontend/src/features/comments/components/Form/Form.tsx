@@ -1,4 +1,8 @@
-import { type ComponentPropsWithoutRef, type SyntheticEvent } from "react";
+import {
+  type ComponentPropsWithoutRef,
+  type ReactNode,
+  type SyntheticEvent,
+} from "react";
 
 import { DRFValidationError } from "../../../../shared/api/errors.ts";
 import Button from "../../../../shared/components/Button/Button.tsx";
@@ -14,7 +18,7 @@ interface FormProps extends ComponentPropsWithoutRef<"form"> {
   error: Error | null;
   errorId: string;
   placeholder: string;
-  buttonLabel: string;
+  buttonLabel: ReactNode;
 }
 
 export default function Form({

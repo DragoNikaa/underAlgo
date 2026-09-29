@@ -1,4 +1,5 @@
 import clsx from "clsx";
+import { X } from "lucide-react";
 import { type ComponentPropsWithoutRef } from "react";
 
 import Button from "../Button/Button.tsx";
@@ -9,12 +10,14 @@ interface DrawerProps extends ComponentPropsWithoutRef<"aside"> {
   side: "left" | "right";
   isOpen: boolean;
   onClose: () => void;
+  name: string;
 }
 
 export default function Drawer({
   side,
   isOpen,
   onClose,
+  name,
   className,
   children,
 }: DrawerProps) {
@@ -30,8 +33,14 @@ export default function Drawer({
           className,
         )}
       >
-        <Button onClick={onClose} color="red" className={styles.closeButton}>
-          X
+        <Button
+          onClick={onClose}
+          aria-label={`close ${name}`}
+          iconButton
+          color="red"
+          className={styles.closeButton}
+        >
+          <X />
         </Button>
         {children}
       </aside>

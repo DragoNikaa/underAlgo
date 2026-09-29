@@ -1,4 +1,5 @@
 import clsx from "clsx";
+import { Funnel } from "lucide-react";
 import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
 
@@ -25,7 +26,9 @@ export default function AlgorithmListPage() {
         <Heading>algorithms</Heading>
 
         <div className={clsx(styles.drawerButtons, "showMobile")}>
-          <Button onClick={() => setOpenDrawer("filters")}>filters</Button>
+          <Button onClick={() => setOpenDrawer("filters")}>
+            <Funnel /> filters
+          </Button>
           {/*<Button onClick={() => setOpenDrawer("column3")}>column 3</Button>*/}
         </div>
 
@@ -45,6 +48,7 @@ export default function AlgorithmListPage() {
           side="left"
           isOpen={openDrawer === "filters"}
           onClose={() => setOpenDrawer(null)}
+          name="filters"
         >
           <Filters />
         </Drawer>
@@ -53,6 +57,7 @@ export default function AlgorithmListPage() {
           side="right"
           isOpen={openDrawer === "column3"}
           onClose={() => setOpenDrawer(null)}
+          name="column3"
         >
           column 3
         </Drawer>

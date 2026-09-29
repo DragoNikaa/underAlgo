@@ -1,8 +1,5 @@
-.authCard {
-  width: 35%;
-  min-width: 290px;
+.card {
   padding-bottom: var(--size-5);
-  margin: var(--size-7) auto;
 }
 
 .heading {

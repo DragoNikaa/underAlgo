@@ -3,9 +3,6 @@ import type { Difficulty } from "./difficulty.ts";
 import type { TestCase } from "./test-case.ts";
 
 export interface AlgorithmListItem {
-  links: {
-    self: string;
-  };
   name: string;
   slug: string;
   general_description: string;
@@ -14,13 +11,6 @@ export interface AlgorithmListItem {
 }
 
 export interface AlgorithmDetail {
-  actions: {
-    execute: {
-      href: string;
-      method: string;
-      fields: string[];
-    };
-  };
   name: string;
   slug: string;
   general_description: string;

@@ -4,9 +4,9 @@ from rest_framework.routers import DefaultRouter
 from algorithms.api import views
 
 router = DefaultRouter()
-router.register('algorithms', views.AlgorithmViewSet)
 router.register('categories', views.CategoryViewSet)
 router.register('difficulties', views.DifficultyViewSet)
+router.register('', views.AlgorithmViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),

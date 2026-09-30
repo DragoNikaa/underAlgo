@@ -22,8 +22,8 @@ export async function postComment(
   try {
     await apiClient.post<void>(
       parentCommentId
-        ? ENDPOINTS.comment.replies.create(algorithmSlug, parentCommentId)
-        : ENDPOINTS.comment.create(algorithmSlug),
+        ? ENDPOINTS.comment.replies(algorithmSlug, parentCommentId)
+        : ENDPOINTS.comment.list(algorithmSlug),
       { body },
     );
   } catch (error) {
@@ -40,7 +40,7 @@ export async function updateComment(
   newBody: string,
 ) {
   try {
-    await apiClient.patch<void>(ENDPOINTS.comment.update(algorithmSlug, id), {
+    await apiClient.patch<void>(ENDPOINTS.comment.detail(algorithmSlug, id), {
       body: newBody,
     });
   } catch (error) {
@@ -52,7 +52,7 @@ export async function updateComment(
 }
 
 export function deleteComment(algorithmSlug: string, id: number) {
-  return apiClient.delete<void>(ENDPOINTS.comment.delete(algorithmSlug, id));
+  return apiClient.delete<void>(ENDPOINTS.comment.detail(algorithmSlug, id));
 }
 
 export function likeComment(algorithmSlug: string, id: number) {
@@ -69,7 +69,7 @@ export function getReplies(
   page: number,
 ) {
   return apiClient.get<PaginatedResponse<Comment>>(
-    ENDPOINTS.comment.replies.list(algorithmSlug, commentId),
+    ENDPOINTS.comment.replies(algorithmSlug, commentId),
     `page=${page}`,
   );
 }

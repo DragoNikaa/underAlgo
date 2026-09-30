@@ -16,7 +16,6 @@ from algorithms.services.execution import ALGORITHMS, BaseAlgorithm
 class AlgorithmViewSet(viewsets.ReadOnlyModelViewSet[Algorithm]):
     queryset = Algorithm.objects.all()
     lookup_field = 'slug'
-    filter_backends = [filters.SearchFilter, DjangoFilterBackend]
     search_fields = [
         'name',
         'general_description',
@@ -24,6 +23,7 @@ class AlgorithmViewSet(viewsets.ReadOnlyModelViewSet[Algorithm]):
         'output_description',
         'code',
     ]
+    filter_backends = [filters.SearchFilter, DjangoFilterBackend]
     filterset_class = AlgorithmFilter
 
     def get_serializer_class(self) -> type[serializers.Serializer[Any]]:

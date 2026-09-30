@@ -4,19 +4,22 @@ export function useDrawerEffects(isOpen: boolean, onClose: () => void) {
   useEffect(() => {
     if (!isOpen) return;
 
-    const closeOnKeydown = (event: KeyboardEvent) => {
-      if (event.key === "Escape" || event.key == "Enter") {
+    const handleKeydown = (event: KeyboardEvent) => {
+      if (event.key === "Escape" || event.key === "Enter") {
+        if (document.activeElement instanceof HTMLElement) {
+          document.activeElement.blur();
+        }
         onClose();
       }
     };
 
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
-    window.addEventListener("keydown", closeOnKeydown);
+    window.addEventListener("keydown", handleKeydown);
 
     return () => {
       document.body.style.overflow = previousOverflow;
-      window.removeEventListener("keydown", closeOnKeydown);
+      window.removeEventListener("keydown", handleKeydown);
     };
   }, [isOpen, onClose]);
 }

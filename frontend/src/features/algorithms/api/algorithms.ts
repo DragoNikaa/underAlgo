@@ -25,11 +25,11 @@ export function getAlgorithm(slug: string) {
 }
 
 export function getDifficulties() {
-  return apiClient.get<Difficulty[]>(ENDPOINTS.difficulty.list);
+  return apiClient.get<Difficulty[]>(ENDPOINTS.algorithm.difficulties);
 }
 
 export function getCategories() {
-  return apiClient.get<Category[]>(ENDPOINTS.category.list);
+  return apiClient.get<Category[]>(ENDPOINTS.algorithm.categories);
 }
 
 export async function executeAlgorithm(
@@ -38,7 +38,7 @@ export async function executeAlgorithm(
 ) {
   try {
     return await apiClient.post<AlgorithmExecution>(
-      ENDPOINTS.algorithm.execution(slug),
+      ENDPOINTS.algorithm.execute(slug),
       body,
     );
   } catch (error) {

@@ -1,5 +1,13 @@
 const ALLAUTH_BASE_URL = "/_allauth/browser/v1/auth";
 
+const algorithmsUrl = "/api/algorithms/";
+const algorithmUrl = (slug: string) => algorithmsUrl + slug + "/";
+
+const commentsUrl = (algorithmSlug: string) =>
+  algorithmUrl(algorithmSlug) + "comments/";
+const commentUrl = (algorithmSlug: string, id: number) =>
+  commentsUrl(algorithmSlug) + id + "/";
+
 export const ENDPOINTS = {
   csrf: "/api/csrf/",
 
@@ -24,36 +32,21 @@ export const ENDPOINTS = {
   },
 
   algorithm: {
-    list: "/api/algorithms/",
-    detail: (slug: string) => `/api/algorithms/${slug}/`,
-    execution: (slug: string) => ENDPOINTS.algorithm.detail(slug) + "execute/",
-  },
+    list: algorithmsUrl,
+    detail: algorithmUrl,
+    execute: (slug: string) => algorithmUrl(slug) + "execute/",
 
-  difficulty: {
-    list: "/api/difficulties/",
-  },
-
-  category: {
-    list: "/api/categories/",
+    difficulties: algorithmsUrl + "difficulties/",
+    categories: algorithmsUrl + "categories/",
   },
 
   comment: {
-    list: (algorithmSlug: string) =>
-      ENDPOINTS.algorithm.detail(algorithmSlug) + "comments/",
-    create: (algorithmSlug: string) =>
-      ENDPOINTS.algorithm.detail(algorithmSlug) + "comments/",
-    update: (algorithmSlug: string, id: number) =>
-      ENDPOINTS.algorithm.detail(algorithmSlug) + `comments/${id}/`,
-    delete: (algorithmSlug: string, id: number) =>
-      ENDPOINTS.algorithm.detail(algorithmSlug) + `comments/${id}/`,
+    list: commentsUrl,
+    detail: commentUrl,
     like: (algorithmSlug: string, id: number) =>
-      ENDPOINTS.algorithm.detail(algorithmSlug) + `comments/${id}/like/`,
+      commentUrl(algorithmSlug, id) + "like/",
 
-    replies: {
-      list: (algorithmSlug: string, commentId: number) =>
-        ENDPOINTS.comment.list(algorithmSlug) + `${commentId}/replies/`,
-      create: (algorithmSlug: string, commentId: number) =>
-        ENDPOINTS.comment.create(algorithmSlug) + `${commentId}/replies/`,
-    },
+    replies: (algorithmSlug: string, commentId: number) =>
+      commentUrl(algorithmSlug, commentId) + "replies/",
   },
 };
